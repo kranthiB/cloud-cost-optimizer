@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+neo4j:
+  uri: bolt://neo4j:7687
+  username: neo4j
+  password: your_password
+
+application:
+  name: CostOptimizer
+  version: 1.0.0
+  environment: production
