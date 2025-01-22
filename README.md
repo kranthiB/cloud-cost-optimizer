@@ -1,8 +1,6 @@
 # Cloud Cost Optimizer
 
-## Demo Video
-
-<video width="600" controls>
+<video width="600" autoplay loop muted playsinline>
   <source src="output.mov" type="video/mp4">
   Your browser does not support the video tag.
 </video>
