@@ -82,7 +82,22 @@ Run the following commands to start the services:
 
 ---
 
-### 4. Access the Application
+### 4. Configure the Database
+
+Once Neo4j is up, access the Neo4j browser at:
+
+[http://localhost:7474/browser/](http://localhost:7474/browser/)
+
+- Log in using the default credentials.
+- Change the password if prompted.
+- Load the Cypher scripts available at the base folder:
+
+  ```cypher
+  :source neo4j.cql
+
+---
+
+### 5. Access the Application
 
 Once all services are running, access the application in your browser at:
 
