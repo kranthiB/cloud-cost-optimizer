@@ -1,7 +1,7 @@
 # Cloud Cost Optimizer
 
 
-![CCO](https://github.com/user-attachments/assets/b663d605-c150-4a82-ae37-38c0f22e0cfe)
+![CCO](https://github.com/user-attachments/assets/1a9f7589-81e2-454e-8d72-c9ef90b5947e)
 
 # Setup
 
