@@ -1,11 +1,6 @@
 # Cloud Cost Optimizer
 
-
-<video width="600" autoplay loop muted playsinline>
-  <source src="https://github.com/kranthiB/cloud-cost-optimizer/tree/main/docs/Output.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
+<iframe src="https://drive.google.com/file/d/1psz7hlJEO8YEsDC4nju1QeQiUCHWqhtu/view" width="640" height="360" allow="autoplay"></iframe>
 
 # Setup
 
