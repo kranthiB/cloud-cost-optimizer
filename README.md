@@ -1,5 +1,15 @@
 # Cloud Cost Optimizer
 
+## Demo Video
+
+<video width="600" controls>
+  <source src="output.mov" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
+# Setup
+
 This project consists of a Spring Boot backend, a frontend, and a Neo4j database. Follow the steps below to build, set up, and run the application.
 
 ## Prerequisites
