@@ -5,10 +5,10 @@ This project consists of a Spring Boot backend, a frontend, and a Neo4j database
 ## Prerequisites
 
 Ensure you have the following installed:
-- **Java** (compatible version for the Spring Boot project)
-- **Maven**
-- **Docker**
-- **Docker Compose**
+- **Java** (Version - 21)
+- **Maven** (Version - 3.9.9)
+- **Docker** (Version - 27.4.0)
+- **Docker Compose** (Version - 2.31.0)
 
 ---
 
