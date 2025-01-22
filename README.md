@@ -1,6 +1,6 @@
 # Cloud Cost Optimizer
 
-<iframe src="https://drive.google.com/file/d/1psz7hlJEO8YEsDC4nju1QeQiUCHWqhtu/view" width="640" height="360" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1psz7hlJEO8YEsDC4nju1QeQiUCHWqhtu/preview" width="640" height="360" allow="autoplay"></iframe>
 
 # Setup
 
