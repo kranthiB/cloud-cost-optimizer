@@ -2,7 +2,7 @@ FROM amazoncorretto:21
 
 WORKDIR /app
 
-COPY cost-optimizer-backend-1.0.0.jar app.jar
+COPY target/cost-optimizer-backend-1.0.0.jar app.jar
 COPY gcp-credentials.json gcp-credentials.json
 
 EXPOSE 8080
