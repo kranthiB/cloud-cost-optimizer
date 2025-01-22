@@ -1,7 +1,7 @@
 # Cloud Cost Optimizer
 
-<video src="https://drive.google.com/file/d/1psz7hlJEO8YEsDC4nju1QeQiUCHWqhtu/preview" autoplay loop muted playsinline>
-</video>
+
+![CCO](https://github.com/user-attachments/assets/b663d605-c150-4a82-ae37-38c0f22e0cfe)
 
 # Setup
 
