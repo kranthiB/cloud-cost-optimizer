@@ -1,7 +1,3 @@
-MATCH (n) DETACH DELETE n;
-MATCH (n)-[r]->(m) RETURN n, r, m;
-
-
 // Create Pipeline
 CREATE (:Pipelines {name: 'IoT-Based Manufacturing Platform', state: 'start'});
 
