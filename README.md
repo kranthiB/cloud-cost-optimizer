@@ -171,3 +171,31 @@ Once all services are running, access the application in your browser at:
 ---
 
 Enjoy using the **Cloud Cost Optimizer**!
+
+
+# Others
+
+## Cloud Services
+| Service Type   | AWS                                                 | Azure                                              | GCP                                              |
+|---------------|---------------------------------------------------|---------------------------------------------------|-------------------------------------------------|
+| Compute       | EC2, Lambda, ECS, EKS, Fargate, Batch            | Virtual Machines, Functions, AKS, App Service, Batch | Compute Engine, Cloud Functions, GKE, App Engine, Cloud Run |
+| Storage       | S3, EBS, EFS, FSx, Glacier                       | Blob Storage, Files, Disks, Archive Storage      | Cloud Storage, Persistent Disk, Filestore, Archive Storage |
+| Database      | RDS, Aurora, DynamoDB, Redshift, DocumentDB, ElastiCache | SQL Database, Cosmos DB, PostgreSQL, MySQL, MariaDB, Synapse, Table Storage | Cloud SQL, Spanner, Bigtable, Firestore, Memorystore, BigQuery |
+| Networking    | VPC, Direct Connect, Route 53, ELB, Transit Gateway | VNet, ExpressRoute, Traffic Manager, Load Balancer | VPC, Cloud Interconnect, Cloud DNS, Load Balancing |
+| Security      | IAM, Cognito, KMS, GuardDuty, Security Hub        | Active Directory, Key Vault, Defender, Sentinel  | IAM, Cloud Identity, KMS, Security Command Center |
+| AI/ML        | SageMaker, Rekognition, Comprehend, Bedrock       | Azure ML, Cognitive Services, Bot Service       | Vertex AI, AutoML, AI Platform, Vision AI, NLP API |
+| Forecasting   | Amazon Forecast                                  | Azure AutoML Forecasting                         | Vertex AI Forecasting |
+| Analytics     | Athena, EMR, Glue, Quicksight                    | Data Factory, Synapse, Power BI                 | BigQuery, Dataflow, Dataproc, Looker |
+| IoT          | IoT Core, IoT Greengrass, SiteWise               | IoT Hub, IoT Edge, Digital Twins                | IoT Core, IoT Edge |
+| DevOps       | CodeBuild, CodePipeline, CodeDeploy              | Azure DevOps, GitHub Actions, Pipelines         | Cloud Build, Artifact Registry, Cloud Deploy |
+| Hybrid       | Outposts, Snowball, Snowcone                     | Azure Arc, Stack HCI                            | Anthos, GKE Enterprise |
+| Serverless   | Lambda, Step Functions, App Runner               | Functions, Logic Apps                           | Cloud Functions, Cloud Run |
+| Containers   | ECS, EKS, Fargate                                | AKS, Container Apps, Service Fabric            | GKE, Cloud Run |
+| Monitoring   | CloudWatch, X-Ray, Managed Grafana               | Azure Monitor, Log Analytics, Managed Grafana  | Cloud Monitoring, Managed Grafana |
+| Messaging    | SQS, SNS, Kinesis, EventBridge, MSK              | Event Grid, Service Bus, Event Hubs, Managed Kafka | Pub/Sub, Eventarc, Kafka |
+| API          | API Gateway, AppSync                             | API Management                                 | API Gateway, Apigee |
+| Quantum      | Braket                                          | Quantum Service                                | Quantum Service |
+| Edge         | Wavelength, Local Zones                          | Azure Edge Zones                               | Google Distributed Cloud Edge |
+| Backup       | Backup, Disaster Recovery                        | Azure Backup, Site Recovery                   | Backup and DR Service |
+| VDI          | WorkSpaces, AppStream                           | Windows Virtual Desktop                       | Cloud Workstations |
+
