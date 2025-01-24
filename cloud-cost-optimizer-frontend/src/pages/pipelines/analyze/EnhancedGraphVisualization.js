@@ -1,19 +1,6 @@
-import React, { useState, useMemo } from 'react';
-import {
-  Box,
-  Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  useTheme,
-  useMediaQuery,
-  IconButton,
-  Card,
-  CardContent,
-  Chip
-} from '@mui/material';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Box, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button, 
+         useTheme, useMediaQuery, IconButton, Card, CardContent, Chip } from '@mui/material';
 import Graph from 'react-graph-vis';
 import CloseIcon from '@mui/icons-material/Close';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -25,6 +12,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
   
   const [selectedElement, setSelectedElement] = useState(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [network, setNetwork] = useState(null);
 
   const processedData = useMemo(() => {
     if (!graphData?.length) return { nodes: [], edges: [] };
@@ -33,17 +21,14 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     const edges = [];
     const regions = new Set();
 
-    // Process nodes and edges
     graphData.forEach((path, index) => {
       const { startNode, endNode, relationshipProperties } = path;
       regions.add(startNode.region || 'Unknown');
       regions.add(endNode.region || 'Unknown');
 
-      // Create unique node IDs
       const startId = `node-${startNode.name}-${startNode.state || ''}-${startNode.region || ''}`;
       const endId = `node-${endNode.name}-${endNode.state || ''}-${endNode.region || ''}`;
 
-      // Add start node if not exists
       if (!nodes.has(startId)) {
         nodes.set(startId, {
           id: startId,
@@ -55,7 +40,6 @@ const EnhancedGraphVisualization = ({ graphData }) => {
         });
       }
 
-      // Add end node if not exists
       if (!nodes.has(endId)) {
         nodes.set(endId, {
           id: endId,
@@ -67,7 +51,6 @@ const EnhancedGraphVisualization = ({ graphData }) => {
         });
       }
 
-      // Create unique edge ID and add edge
       const edgeId = `edge-${startId}-${endId}-${index}`;
       edges.push({
         id: edgeId,
@@ -75,9 +58,22 @@ const EnhancedGraphVisualization = ({ graphData }) => {
         to: endId,
         label: `$${relationshipProperties.cost?.toFixed(2) || '0.00'}`,
         title: JSON.stringify(relationshipProperties),
-        arrows: 'to',
-        color: { color: theme.palette.primary.main },
-        font: { size: isMobile ? 10 : 12 }
+        arrows: {
+          to: {
+            enabled: true,
+            type: 'arrow',
+            scaleFactor: 0.5
+          }
+        },
+        color: {
+          color: theme.palette.primary.main,
+          highlight: theme.palette.primary.dark,
+          hover: theme.palette.primary.light,
+          inherit: false
+        },
+        font: { size: isMobile ? 10 : 12 },
+        length: 250,
+        hidden: false
       });
     });
 
@@ -108,7 +104,12 @@ const EnhancedGraphVisualization = ({ graphData }) => {
         forceDirection: 'horizontal',
         roundness: 0.5
       },
-      width: 2
+      width: 2,
+      shadow: true,
+      smooth: {
+        enabled: true,
+        type: 'continuous'
+      }
     },
     physics: {
       stabilization: {
@@ -129,6 +130,59 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     },
     height: isMobile ? '400px' : isTablet ? '500px' : '600px'
   };
+
+  useEffect(() => {
+    if (network && processedData.edges.length > 0) {
+      const animateRequestFlow = () => {
+        processedData.edges.forEach((edge, index) => {
+          setTimeout(() => {
+            // Create animation for request flow
+            const edgeElement = network.body.edges[edge.id];
+            if (edgeElement) {
+              const startPos = network.getPosition(edge.from);
+              const endPos = network.getPosition(edge.to);
+              
+              // Animate the edge color
+              edgeElement.options.color = {
+                color: theme.palette.success.main,
+                highlight: theme.palette.success.dark,
+                hover: theme.palette.success.light,
+                inherit: false
+              };
+              
+              // Create moving particle effect
+              const duration = 1000;
+              const start = performance.now();
+              
+              const animate = (currentTime) => {
+                const elapsed = currentTime - start;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                if (progress < 1) {
+                  requestAnimationFrame(animate);
+                } else {
+                  // Reset edge color after animation
+                  edgeElement.options.color = {
+                    color: theme.palette.primary.main,
+                    highlight: theme.palette.primary.dark,
+                    hover: theme.palette.primary.light,
+                    inherit: false
+                  };
+                }
+                network.redraw();
+              };
+              
+              requestAnimationFrame(animate);
+            }
+          }, index * 1500); // Stagger animations
+        });
+      };
+
+      // Start animation loop
+      const animationInterval = setInterval(animateRequestFlow, processedData.edges.length * 1500 + 2000);
+      return () => clearInterval(animationInterval);
+    }
+  }, [network, processedData.edges, theme]);
 
   const events = {
     select: ({ nodes, edges }) => {
@@ -216,7 +270,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
         </Card>
       );
     }
-  };
+  }
 
   return (
     <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
@@ -231,7 +285,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
             options={options}
             events={events}
             getNetwork={network => {
-              // Ensure proper initialization
+              setNetwork(network);
               network.stabilize();
             }}
           />
