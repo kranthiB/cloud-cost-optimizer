@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Box, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button, 
+import { Box, Typography, Dialog, DialogTitle, Grid, DialogActions, Button, 
          useTheme, useMediaQuery, IconButton, Card, CardContent, Chip } from '@mui/material';
 import Graph from 'react-graph-vis';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,6 +13,158 @@ const EnhancedGraphVisualization = ({ graphData }) => {
   const [selectedElement, setSelectedElement] = useState(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [network, setNetwork] = useState(null);
+
+  const DetailCard = ({ label, value }) => {
+    const theme = useTheme();
+  
+    const formatValue = (val) => {
+      if (val === null || val === undefined) return '—';
+  
+      if (typeof val === 'boolean') {
+        return (
+          <Chip 
+            label={val ? 'Yes' : 'No'} 
+            color={val ? 'success' : 'default'} 
+            size="small"
+            sx={{ fontWeight: 500 }}
+          />
+        );
+      }
+  
+      if (typeof val === 'number') {
+        return val.toLocaleString();
+      }
+  
+      if (typeof val === 'object') {
+        if (Array.isArray(val)) {
+          return (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+              {val.map((item, index) => (
+                <Chip 
+                  key={index}
+                  label={item.toString()}
+                  size="small"
+                  variant="outlined"
+                />
+              ))}
+            </Box>
+          );
+        }
+  
+        return (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+            {Object.entries(val).map(([k, v], index) => (
+              <Chip 
+                key={k}
+                label={`${k}: ${v}`}
+                size="small"
+                variant="outlined"
+              />
+            ))}
+          </Box>
+        );
+      }
+  
+      return val.toString();
+    };
+  
+    const formatLabel = (text) => {
+      return text
+        .split(/(?=[A-Z])|_|-/)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+    };
+  
+    return (
+      <Card 
+        variant="outlined" 
+        sx={{ 
+          mb: 2,
+          backgroundColor: 'background.paper',
+          transition: 'all 0.2s ease',
+          '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+            transform: 'translateY(-2px)'
+          }
+        }}
+      >
+        <CardContent sx={{ 
+          p: 2, 
+          '&:last-child': { pb: 2 },
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1
+        }}>
+          <Grid container spacing={2} alignItems="flex-start">
+            <Grid item xs={12} sm={4}>
+              <Typography 
+                variant="subtitle2" 
+                color="text.secondary"
+                sx={{ 
+                  fontWeight: 500,
+                  letterSpacing: '0.01em'
+                }}
+              >
+                {formatLabel(label)}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'flex-start',
+                wordBreak: 'break-word'
+              }}>
+                {formatValue(value)}
+              </Box>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+    );
+  };
+  
+  const EnhancedDialogContent = ({ selectedElement }) => {
+    if (!selectedElement) return null;
+    
+    const details = JSON.parse(selectedElement.title);
+  
+    return (
+      <Box sx={{ p: 3 }}>
+        <Box sx={{ mb: 3 }}>
+          <Typography 
+            variant="h6" 
+            sx={{ 
+              color: 'text.primary',
+              fontWeight: 600,
+              mb: 1
+            }}
+          >
+            {selectedElement.label ? `Node: ${details.name || selectedElement.label}` : 'Connection Details'}
+          </Typography>
+          {details.type && (
+            <Chip 
+              label={details.type}
+              size="small"
+              color="primary"
+              sx={{ fontWeight: 500 }}
+            />
+          )}
+        </Box>
+  
+        <Box sx={{ mt: 3 }}>
+          {Object.entries(details)
+            .filter(([key]) => key !== 'name' && key !== 'type')
+            .map(([key, value]) => (
+              <DetailCard 
+                key={key}
+                label={key}
+                value={value}
+              />
+            ))}
+        </Box>
+      </Box>
+    );
+  };
 
   const processedData = useMemo(() => {
     if (!graphData?.length) return { nodes: [], edges: [] };
@@ -219,22 +371,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
           </IconButton>
         </Box>
       </DialogTitle>
-      <DialogContent dividers>
-        {selectedElement && (
-          <Box sx={{ py: 2 }}>
-            {Object.entries(JSON.parse(selectedElement.title)).map(([key, value]) => (
-              <Box key={key} sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" color="textSecondary">
-                  {key.charAt(0).toUpperCase() + key.slice(1)}
-                </Typography>
-                <Typography variant="body1">
-                  {typeof value === 'object' ? JSON.stringify(value) : value}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
-        )}
-      </DialogContent>
+      <EnhancedDialogContent selectedElement={selectedElement} />
       <DialogActions>
         <Button onClick={() => setIsDetailsOpen(false)} color="primary">
           Close
