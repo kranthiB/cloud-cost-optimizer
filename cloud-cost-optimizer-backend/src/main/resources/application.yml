@@ -4,9 +4,9 @@ server:
     context-path: /api/v1
 
 neo4j:
-  uri: bolt://neo4j:7687
-  username: neo4j
-  password: your_password
+  uri: ${SPRING_NEO4J_URI}
+  username: ${SPRING_NEO4J_AUTHENTICATION_USERNAME}
+  password: ${SPRING_NEO4J_AUTHENTICATION_PASSWORD}
 
 application:
   name: CostOptimizer

@@ -197,7 +197,7 @@ const GlobalFinanceDataProcessingPlatform = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Paper sx={{ p: 3, width: '100%', textAlign: 'center' }}>
-            <ComputeGraphs />
+            <ComputeGraphs pipelineName="Global Finance Data Processing Platform" />
           </Paper>
         </AccordionDetails>
       </Accordion>

@@ -208,7 +208,7 @@ const EcommercePersonalizationPlatform = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Paper sx={{ p: 3, width: '100%', textAlign: 'center' }}>
-            <ComputeGraphs />
+            <ComputeGraphs pipelineName="Ecommerce Personalization Platform" />
           </Paper>
         </AccordionDetails>
       </Accordion>

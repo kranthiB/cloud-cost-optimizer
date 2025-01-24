@@ -1,0 +1,347 @@
+// **AWS IoT Core Calculations**
+
+// us-east-1
+connectivity_cost 
+	number of minutes per month * 0.00000008 * number of devices
+	100000 * 0.00000008 * 21900 = 175.2	
+messaging_cost
+	total billable messages = messages per month x  billable message(s) x  no.of devices 
+		5 KB per message / 5 KB message increment = 1 message(s)
+		RoundUp (1) = 1 billable message(s)
+		100000 * 1 * 100000 = 10,00,00,00,000
+	1,000,000,000  x 0.000001  = 1,000
+	4,000,000,000 x 0.0000008 = 3,200
+	5,000,000,000 x 0.0000007 = 3,500
+	Total 
+		1000 + 3200 + 3500 = 7,700
+deviceShadow_cost
+	 operations per month x billable operation(s) x 0.00000125 USD x no.of devices 
+		5 KB per record / 1 KB record increment = 5 record(s)
+		RoundUp (5) = 5 billable operation(s)
+	240 * 5 * 0.00000125 * 100000 = 150
+
+registry_cost
+	 requests per month x billable request(s) x 0.00000125 USD 
+		5 KB per record / 1 KB record increment = 5 record(s)
+		RoundUp (5) = 5 billable request(s)
+	1000 * 5 * 0.00000125 = 0.00625
+rules_engine_cost
+	Total Rules
+		 rule(s) executed per month x  billable message(s) 
+			5 KB per message / 5 KB message increment = 1 message(s)
+			RoundUp (1) = 1 billable message(s)
+		100 * 1 = 100
+	Total Actions
+		action(s) triggered per rule x rule(s) executed per month x billable message(s)
+		5 * 100 * 1 = 500
+	Rules cost =  Rules per month x 0.00000015 USD x  no.of devices
+		100 * 0.00000015 * 100000 = 1.5
+	Actions cost =  Actions per month x 0.00000015 USD x no.of devices
+		500 * 0.00000015 * 100000 = 7.5
+	1.5 + 7.5 = 9
+	
+device_locations_cost
+	 device location updates x 0.001 USD
+		device location updates = no.of devices x  device location update(s)
+		100000 * 10 = 10,00,000
+	 10,00,000 * 0.001 = 1,000
+
+// ap-south-1
+connectivity_cost 
+	number of minutes per month * 0.000000092 * number of devices
+	100000 * 0.000000092 * 21900 = 201.48	
+messaging_cost
+	total billable messages = messages per month x  billable message(s) x  no.of devices 
+		5 KB per message / 5 KB message increment = 1 message(s)
+		RoundUp (1) = 1 billable message(s)
+		100000 * 1 * 100000 = 10,00,00,00,000
+	1,000,000,000  x 0.00000105  = 1,050
+	4,000,000,000 x 0.00000084 = 3,360
+	5,000,000,000 x 0.00000074 = 3,700
+	Total 
+		1050 + 3360 + 3700 = 8,110
+deviceShadow_cost
+	 operations per month x billable operation(s) x 0.00000131  USD x no.of devices 
+		5 KB per record / 1 KB record increment = 5 record(s)
+		RoundUp (5) = 5 billable operation(s)
+	240 * 5 * 0.00000131 * 100000 = 157.2
+
+registry_cost
+	 requests per month x billable request(s) x 0.00000131 USD 
+		5 KB per record / 1 KB record increment = 5 record(s)
+		RoundUp (5) = 5 billable request(s)
+	1000 * 5 * 0.00000131  = 0.00655
+rules_engine_cost
+	Total Rules
+		 rule(s) executed per month x  billable message(s) 
+			5 KB per message / 5 KB message increment = 1 message(s)
+			RoundUp (1) = 1 billable message(s)
+		100 * 1 = 100
+	Total Actions
+		action(s) triggered per rule x rule(s) executed per month x billable message(s)
+		5 * 100 * 1 = 500
+	Rules cost =  Rules per month x 0.000000158  USD x  no.of devices
+		100 * 0.000000158  * 100000 = 1.58
+	Actions cost =  Actions per month x 0.000000158 USD x no.of devices
+		500 * 0.000000158 * 100000 = 7.9
+	1.58 + 7.9 = 9.48
+	
+    device_locations_cost = 0
+
+// eu-west-2
+connectivity_cost 
+	number of minutes per month * 0.000000096 * number of devices
+	100000 * 0.000000096 * 21900 = 210.24	
+messaging_cost
+	total billable messages = messages per month x  billable message(s) x  no.of devices 
+		5 KB per message / 5 KB message increment = 1 message(s)
+		RoundUp (1) = 1 billable message(s)
+		100000 * 1 * 100000 = 10,00,00,00,000
+	1,000,000,000  x 0.0000012  = 1,200
+	4,000,000,000 x 0.00000096 = 3,840
+	5,000,000,000 x 0.00000084 = 4,200
+	Total 
+		1200 + 3840 + 4200 = 9,240
+deviceShadow_cost
+	 operations per month x billable operation(s) x 0.0000015  USD x no.of devices 
+		5 KB per record / 1 KB record increment = 5 record(s)
+		RoundUp (5) = 5 billable operation(s)
+	240 * 5 * 0.0000015 * 100000 = 180
+
+registry_cost
+	 requests per month x billable request(s) x 0.0000015 USD 
+		5 KB per record / 1 KB record increment = 5 record(s)
+		RoundUp (5) = 5 billable request(s)
+	1000 * 5 * 0.0000015  = 0.0075
+rules_engine_cost
+	Total Rules
+		 rule(s) executed per month x  billable message(s) 
+			5 KB per message / 5 KB message increment = 1 message(s)
+			RoundUp (1) = 1 billable message(s)
+		100 * 1 = 100
+	Total Actions
+		action(s) triggered per rule x rule(s) executed per month x billable message(s)
+		5 * 100 * 1 = 500
+	Rules cost =  Rules per month x 0.000000158  USD x  no.of devices
+		100 * 0.00000018  * 100000 = 1.8
+	Actions cost =  Actions per month x 0.000000158 USD x no.of devices
+		500 * 0.00000018 * 100000 = 9
+	1.8+ 9 = 10.8
+	
+    device_locations_cost = 0
+
+// ** Kinesis Data Streams **
+
+// Shards calculations
+	Record Size (KB to MB)
+		average record size / 1024 KB
+		5 / 1024 = 0.00488
+	Baseline data volume per month(MB) 
+		baseline records per sec  * seconds in a month * record size
+		5000 * 2628000 *  0.00488 = 6,41,23,200
+	Baseline data volume per month(GB)
+		Baseline data volume per month(MB)  / 1024 MB
+		  6,41,23,200/ 1024 = 62,620.313
+	Baseline data ingress rate
+		Record size * baseline records per sec
+		0.00488  * 5000 = 24.4
+	Peak data ingress rate
+		Record size * peak records per sec
+		0.00488 * 10000 = 48.8
+	shards needed for peak ingress
+		Peak data ingress rate / 1 MB per second per shard ingress capacity
+		48.8 / 1 = 48.8
+	Baseline data egress rate
+		Baseline data ingress rate * consumer applications 
+		24.4 * 3 = 73.2
+	Peak data egress rate
+		Peak data ingress rate * consumer applications 
+		48.8 * 3 = 146.4
+	shards needed for peak egress
+		Peak data egress rate / 2 MB per second per shard egress capacity
+		146.4 / 2 = 73.2
+	shards needed for peak records
+		peak records per sec / 1000 factor for records per shard
+		10000 / 1000 = 10
+	Number of shards
+		Max (shards needed for peak ingress, shards needed for peak egress, shards needed for peak records, 1 minimum shard)
+		Max (48.4, 73.2, 10, 1) = 73.2
+	Shards Buffer
+		Number of shards * 0.5 buffer factor
+		73.25 * 0.5 = 36.625
+	Number of Shard including buffer
+		RoundUp(Number of shards + Shards Buffer)
+		RoundUp(73.2 + 36.625) = 110
+	Shards Hours per month
+		Number of Shard including buffer * 730 hours per month
+		110 * 730 = 80,300
+
+//us-east-1
+	Shard hours per month cost
+		Shards Hours per month * 0.015
+		80300 * 0.015 = 1,204.5
+	PUT Payload Units per month cost
+		PUT Payload Units fraction
+			Round(Avg Record Size / 25 Payload Unit factor)
+			RoundUp(5 / 25) =1
+		PUT Payload Units per month
+			PUT Payload Units fraction * baseline records per sec * 2628000 seconds in a month
+			1 * 5000 * 2628000 = 13,14,00,00,000
+		PUT Payload Units per month * 0.000000014
+		 13,14,00,00,000 *  0.000000014 = 183.96
+	Extended data retention cost
+		Shard hours per month * 0.02 
+		80300 * 0.02 = 1,606
+	Enhanced fan-out consumer-shard hours cost
+		Enhanced fan-out consumers * Shard hours per month * 0.015
+		1 *  80300 * 0.015 = 1,204.5
+	Enhanced fan-out data retrievals cost
+		Enhanced fan-out consumers * Baseline data per month * 0.013
+		1 *  62,620.313 * 0.013 = 814.0641
+
+// ap-south-1
+	Shard hours per month cost
+		Shards Hours per month * 0.0175
+		80300 * 0.0175 = 1,405.25
+	PUT Payload Units per month cost
+		PUT Payload Units fraction
+			Round(Avg Record Size / 25 Payload Unit factor)
+			RoundUp(5 / 25) =1
+		PUT Payload Units per month
+			PUT Payload Units fraction * baseline records per sec * 2628000 seconds in a month
+			1 * 5000 * 2628000 = 13,14,00,00,000
+		PUT Payload Units per month * 0.0000000185
+		 13,14,00,00,000 * 0.0000000185 = 243.09
+	Extended data retention cost
+		Shard hours per month * 0.0238
+		80300 * 0.0238 = 1,911.14
+	Enhanced fan-out consumer-shard hours cost
+		Enhanced fan-out consumers * Shard hours per month * 0.0175
+		1 *  80300 * 0.0175 = 1,405.25
+	Enhanced fan-out data retrievals cost
+		Enhanced fan-out consumers * Baseline data per month * 0.0152
+		1 *  62,620.313 * 0.0152 = 951.829
+
+// eu-west-2
+	Shard hours per month cost
+		Shards Hours per month * 0.0179
+		80300 * 0.0179 = 1,437.37
+	PUT Payload Units per month cost
+		PUT Payload Units fraction
+			Round(Avg Record Size / 25 Payload Unit factor)
+			RoundUp(5 / 25) =1
+		PUT Payload Units per month
+			PUT Payload Units fraction * baseline records per sec * 2628000 seconds in a month
+			1 * 5000 * 2628000 = 13,14,00,00,000
+		PUT Payload Units per month * 0.0000000173
+		 13,14,00,00,000 * 0.0000000173 = 227.322
+	Extended data retention cost
+		Shard hours per month * 0.0242
+		80300 * 0.0242 = 1,943.26
+	Enhanced fan-out consumer-shard hours cost
+		Enhanced fan-out consumers * Shard hours per month * 0.0179
+		1 *  80300 * 0.0179 = 1,437.37
+	Enhanced fan-out data retrievals cost
+		Enhanced fan-out consumers * Baseline data per month * 0.0155
+		1 *  62,620.313 * 0.0155 = 970.615
+
+// **Amazon MSK**
+
+//us-east-1
+	MSK broker instance charges
+		noOfKafkaBrokers * 1.68 USD hourly x 730 hours in a month
+		5 * 1.68 * 730 = 6,132
+	Storage cost 
+		noOfKafkaBrokers * storagePerBroker x 0.10
+		5 * 1024 * 0.10 = 512
+	Throughput cost
+		broker nodes x desiredProvisionedStorageThroughputMiBps x 0.08 USD per month
+		5 * 250 * 0.08 = 100
+	Multi VPC Private Connectivity cost
+		total monthly cost for private connectivity
+			authentication scheme(s) x 0.0225 USD per hour x 730 hours in a month 
+			1 * 0.0225 * 730 = 16.425
+		total monthly cost for data processed for private connectivity
+			dataProcessedForMultiVPC GB per month x 0.006 USD per GB
+			62000 * 0.006 = 372
+		16.425 + 372 = 388.425
+	Data Transfer Cost
+		Total GB
+				dataTransferIntraRegion TB per month x 1024 GB in a TB
+					6 * 1024 = 6,144
+		Intra Region
+			(Total GB x 0.01 USD per GB outbound) + (Total GB x 0.01 USD per GB inbound)
+			6144 * 0.01 + 6144 * 0.01 = 122.88
+		outbound
+			Total GB x 0.09 USD per GB
+			6144 * 0.09 = 552.96	
+		122.88 + 552.96 = 675.84
+
+	Total Cost
+		6132 + 512 + 100 + 388.425 + 675.84 = 7,808.265	
+
+//ap-south-1
+	MSK broker instance charges
+		noOfKafkaBrokers * 1.768 USD hourly x 730 hours in a month
+		5 * 1.768 * 730 = 6,453.2
+	Storage cost 
+		noOfKafkaBrokers * storagePerBroker x 0.114
+		5 * 1024 * 0.114 = 583.68
+	Throughput cost
+		broker nodes x desiredProvisionedStorageThroughputMiBps x 0.0912 USD per month
+		5 * 250 * 0.0912 = 114
+	Multi VPC Private Connectivity cost
+		total monthly cost for private connectivity
+			authentication scheme(s) x 0.0239 USD per hour x 730 hours in a month 
+			1 * 0.0239 * 730 = 17.447
+		total monthly cost for data processed for private connectivity
+			dataProcessedForMultiVPC GB per month x 0.006 USD per GB
+			62000 * 0.006 = 372
+		17.447 + 372 = 389.447
+	Data Transfer Cost
+		Total GB
+				dataTransferIntraRegion TB per month x 1024 GB in a TB
+					6 * 1024 = 6,144
+		Intra Region
+			(Total GB x 0.01 USD per GB outbound) + (Total GB x 0.01 USD per GB inbound)
+			6144 * 0.01 + 6144 * 0.01 = 122.88
+		outbound
+			Total GB x 0.1093 USD per GB
+			6144 * 0.1093 = 671.539	
+		122.88 + 671.539 = 794.419
+
+	Total Cost
+		6453.2 + 583.68 + 114 + 389.447 + 794.419 = 8,334.746	
+
+//eu-west-2
+	MSK broker instance charges
+		noOfKafkaBrokers * 1.943 USD hourly x 730 hours in a month
+		5 * 1.943 * 730 = 7,091.95
+	Storage cost 
+		noOfKafkaBrokers * storagePerBroker x 0.116
+		5 * 1024 * 0.116 = 593.92
+	Throughput cost
+		broker nodes x desiredProvisionedStorageThroughputMiBps x 0.0928 USD per month
+		5 * 250 * 0.0928 = 116
+	Multi VPC Private Connectivity cost
+		total monthly cost for private connectivity
+			authentication scheme(s) x 0.02646 USD per hour x 730 hours in a month 
+			1 * 0.02646 * 730 = 19.316
+		total monthly cost for data processed for private connectivity
+			dataProcessedForMultiVPC GB per month x 0.006 USD per GB
+			62000 * 0.006 = 372
+		19.316 + 372 = 391.316
+	Data Transfer Cost
+		Total GB
+				dataTransferIntraRegion TB per month x 1024 GB in a TB
+					6 * 1024 = 6,144
+		Intra Region
+			(Total GB x 0.01 USD per GB outbound) + (Total GB x 0.01 USD per GB inbound)
+			6144 * 0.01 + 6144 * 0.01 = 122.88
+		outbound
+			Total GB x 0.09 USD per GB
+			6144 * 0.09 = 552.96	
+		122.88 + 552.96 = 675.84
+
+	Total Cost
+		7091.95 + 593.92 + 116 + 391.316 + 675.84 = 8,869.026	

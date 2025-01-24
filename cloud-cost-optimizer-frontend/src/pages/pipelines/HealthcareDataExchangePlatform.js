@@ -202,7 +202,7 @@ const HealthcareDataExchangePlatform = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Paper sx={{ p: 3, width: '100%', textAlign: 'center' }}>
-            <ComputeGraphs />
+            <ComputeGraphs pipelineName="Healthcare Data Exchange Platform" />
           </Paper>
         </AccordionDetails>
       </Accordion>

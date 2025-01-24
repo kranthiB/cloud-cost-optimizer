@@ -49,6 +49,7 @@ const iotArchitecture = [
 
 const IoTBasedManufacturingAnalyticsPlatform = () => {
   const [expanded, setExpanded] = useState('approach');
+  const [subExpanded, setSubExpanded] = useState(null);
   const [mermaidRendered, setMermaidRendered] = useState(true);
 
   useEffect(() => {
@@ -66,6 +67,10 @@ const IoTBasedManufacturingAnalyticsPlatform = () => {
 
   const handleExpand = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : null);
+  };
+
+  const handleSubExpand = (panel) => (event, isExpanded) => {
+    setSubExpanded(isExpanded ? panel : null);
   };
 
   return (
@@ -196,6 +201,226 @@ const IoTBasedManufacturingAnalyticsPlatform = () => {
                 class Sensors,EF,ES sensors
               `}
             </div>
+
+            {/* AWS Implementation */}
+            <Accordion expanded={subExpanded === 'core-processing'} onChange={handleSubExpand('core-processing')} sx={{ mt: 2 }}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="h6" fontWeight="bold">AWS</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Paper sx={{ p: 3, width: '100%' }}>
+                  <div className="mermaid">
+                    {`
+                    flowchart LR
+                      subgraph External[External Systems]
+                          Sensors[fa:fa-sensor IoT Sensors]
+                          ExtApps[fa:fa-cloud External Applications]
+                      end
+
+                      subgraph AWS Cloud
+                          subgraph Ingestion[Data Ingestion Layer]
+                              direction TB
+                              IotCore[AWS IoT Core]
+                              KDS[Kinesis Data Streams]
+                              MSK[Amazon MSK]
+                          end
+                          
+                          subgraph Processing[Real-time Processing Layer]
+                              direction TB
+                              subgraph Stream["Stream Processing"]
+                                  Lambda[AWS Lambda]
+                                  KDA[Kinesis Data Analytics]
+                                  EMRStream[EMR - Spark Streaming]
+                              end
+                              
+                              subgraph Analytics["Predictive Analytics"]
+                                  SAGE[SageMaker]
+                                  FCST[Amazon Forecast]
+                              end
+                          end
+
+                          subgraph Storage[Data Storage Layer]
+                              S3Lake[(S3 Data Lake)]
+                              DDB[(DynamoDB)]
+                              RS[(Redshift)]
+                          end
+
+                          subgraph Optimization[Process Optimization Layer]
+                              direction TB
+                              IoTA[IoT Analytics]
+                              StepF[Step Functions]
+                              Glue[AWS Glue]
+                          end
+
+                          subgraph ML[Machine Learning Layer]
+                              direction TB
+                              SAGET[SageMaker Training]
+                              DataBrew[Glue DataBrew]
+                              EMRML[EMR ML]
+                              EC2GPU[EC2 with GPUs]
+                          end
+
+                          subgraph Visualization[Visualization Layer]
+                              QS[QuickSight]
+                              Grafana[Managed Grafana]
+                          end
+                      end
+
+                      %% External Connections
+                      Sensors --> IotCore
+                      ExtApps --> KDS
+                      
+                      %% Ingestion Layer Connections
+                      IotCore --> KDS
+                      IotCore --> MSK
+                      
+                      %% Processing Layer Connections
+                      KDS --> Lambda
+                      KDS --> KDA
+                      MSK --> EMRStream
+                      
+                      %% Storage Connections
+                      Lambda --> S3Lake
+                      KDA --> S3Lake
+                      EMRStream --> S3Lake
+                      Lambda --> DDB
+                      
+                      %% Analytics & Optimization
+                      S3Lake --> IoTA
+                      IoTA --> SAGE
+                      SAGE --> FCST
+                      
+                      %% ML Training Flow
+                      S3Lake --> DataBrew
+                      DataBrew --> SAGET
+                      DataBrew --> EMRML
+                      DataBrew --> EC2GPU
+                      
+                      %% Process Optimization
+                      IoTA --> StepF
+                      StepF --> Glue
+                      
+                      %% Visualization Layer
+                      S3Lake --> QS
+                      DDB --> QS
+                      RS --> QS
+                      IoTA --> Grafana
+
+                      classDef external fill:#e6e6e6,stroke:#666,stroke-width:2px
+                      classDef aws fill:#FF9900,stroke:#232F3E,color:white
+                      classDef storage fill:#3F8624,stroke:#232F3E,color:white
+                      classDef compute fill:#D86613,stroke:#232F3E,color:white
+                      classDef analytics fill:#CC2264,stroke:#232F3E,color:white
+                      classDef ml fill:#01A88D,stroke:#232F3E,color:white
+                      
+                      class External,Sensors,ExtApps external
+                      class IotCore,KDS,MSK,Lambda,KDA,EMRStream aws
+                      class S3Lake,DDB,RS storage
+                      class SAGE,FCST,IoTA,StepF,Glue analytics
+                      class SAGET,DataBrew,EMRML,EC2GPU ml
+                    `}
+                  </div>
+
+                  {/* Non-Functional Requirements Section */}
+                  <Box sx={{ mt: 4 }}>
+                    <Typography variant="h6" fontWeight="bold" align="center" gutterBottom>
+                      🔹 Non-Functional Requirements (NFRs)
+                    </Typography>
+
+                    <Grid container spacing={3} sx={{ mt: 2 }}>
+
+                      {/* Performance Requirements */}
+                      <Grid item xs={12} md={6}>
+                        <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
+                          <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
+                            🚀 Performance Requirements
+                          </Typography>
+                          <Box sx={{ textAlign: "left" }}>
+                            <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
+                              <li>Process <strong>100,000 IoT messages/sec</strong> with <strong>&lt;2s latency</strong>.</li>
+                              <li><strong>Kinesis Data Streams</strong> scale to 2x peak loads.</li>
+                              <li><strong>MSK clusters</strong> support <strong>1TB/hour</strong> of incoming data.</li>
+                              <li><strong>Lambda</strong> functions complete processing within <strong>500ms (p95)</strong>.</li>
+                              <li><strong>EMR streaming</strong> ensures a max <strong>5-minute delay</strong>.</li>
+                            </ul>
+                          </Box>
+                        </Box>
+                      </Grid>
+
+                      {/* Scalability Requirements */}
+                      <Grid item xs={12} md={6}>
+                        <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
+                          <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
+                            📈 Scalability Requirements
+                          </Typography>
+                          <Box sx={{ textAlign: "left" }}>
+                            <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
+                              <li>Auto-scale to handle <strong>2x annual growth</strong> in device count.</li>
+                              <li><strong>EMR clusters</strong> scale dynamically from <strong>3 to 50 nodes</strong>.</li>
+                              <li><strong>S3 Data Lake</strong> supports <strong>5PB+ storage</strong> with efficient querying.</li>
+                              <li>Support <strong>50% YoY data growth</strong> with 5-year retention.</li>
+                            </ul>
+                          </Box>
+                        </Box>
+                      </Grid>
+
+                      {/* Reliability Requirements */}
+                      <Grid item xs={12} md={6}>
+                        <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
+                          <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
+                            🛡️ Reliability Requirements
+                          </Typography>
+                          <Box sx={{ textAlign: "left" }}>
+                            <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
+                              <li>Maintain <strong>99.95% uptime</strong> with Multi-AZ deployments.</li>
+                              <li><strong>RPO: 5 minutes</strong>, <strong>RTO: 30 minutes</strong> for failovers.</li>
+                              <li>No single point of failure, automatic failover mechanisms.</li>
+                              <li>Data replicated across <strong>3 Availability Zones</strong> for redundancy.</li>
+                            </ul>
+                          </Box>
+                        </Box>
+                      </Grid>
+
+                      {/* Security Requirements */}
+                      <Grid item xs={12} md={6}>
+                        <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
+                          <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
+                            🔒 Security Requirements
+                          </Typography>
+                          <Box sx={{ textAlign: "left" }}>
+                            <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
+                              <li>Encrypt data at rest with <strong>AWS KMS</strong>, annual key rotation.</li>
+                              <li>Secure data in transit with <strong>TLS 1.3</strong>.</li>
+                              <li>Strict IAM policies enforce <strong>least privilege access</strong>.</li>
+                              <li><strong>MFA required</strong> for human access, key rotation every 90 days.</li>
+                            </ul>
+                          </Box>
+                        </Box>
+                      </Grid>
+
+                      {/* Maintainability Requirements */}
+                      <Grid item xs={12} md={6}>
+                        <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
+                          <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
+                            ⚙️ Maintainability Requirements
+                          </Typography>
+                          <Box sx={{ textAlign: "left" }}>
+                            <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
+                              <li>Infrastructure as code via <strong>AWS CDK/CloudFormation</strong>.</li>
+                              <li>Automated deployment pipelines with <strong>rollback</strong> capabilities.</li>
+                              <li>Real-time monitoring via <strong>AWS X-Ray</strong> and <strong>CloudWatch Dashboards</strong>.</li>
+                              <li>Logs retained for <strong>90 days</strong> with real-time alerting.</li>
+                            </ul>
+                          </Box>
+                        </Box>
+                      </Grid>
+                      
+                    </Grid>
+                  </Box>
+                </Paper>
+              </AccordionDetails>
+            </Accordion>
+
           </Paper>
         </AccordionDetails>
       </Accordion>
@@ -207,7 +432,7 @@ const IoTBasedManufacturingAnalyticsPlatform = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Paper sx={{ p: 3, width: '100%', textAlign: 'center' }}>
-            <ComputeGraphs />
+            <ComputeGraphs pipelineName="IoT-Based Manufacturing Platform" />
           </Paper>
         </AccordionDetails>
       </Accordion>
@@ -216,3 +441,4 @@ const IoTBasedManufacturingAnalyticsPlatform = () => {
 };
 
 export default IoTBasedManufacturingAnalyticsPlatform;
+

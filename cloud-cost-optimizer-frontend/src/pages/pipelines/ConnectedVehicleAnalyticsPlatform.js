@@ -207,7 +207,7 @@ const ConnectedVehicleAnalyticsPlatform = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Paper sx={{ p: 3, width: '100%', textAlign: 'center' }}>
-            <ComputeGraphs />
+            <ComputeGraphs pipelineName="Connected Vehicle Analytics Platform" />
           </Paper>
         </AccordionDetails>
       </Accordion>

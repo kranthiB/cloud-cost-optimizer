@@ -251,7 +251,7 @@ Once Neo4j is up, access the Neo4j browser at:
 - Load the Cypher scripts available at the base folder:
 
   ```cypher
-  :source neo4j.cql
+  :source iot-based-manufacturing-platform.cql
 
 ---
 

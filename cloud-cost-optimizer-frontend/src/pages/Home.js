@@ -63,17 +63,68 @@ const Home = () => {
         </Paper>
       </Box>
 
-      {/* Cloud Resource Cost Modeling */}
+      {/* Cost Modeling */}
       <Box sx={{ mt: 4 }}>
         <Typography variant="h5" fontWeight="bold" gutterBottom>
-          💰 Cloud Resource Cost Modeling
+          📊 Cost Modeling Framework
         </Typography>
-        <Paper sx={{ p: 3, bgcolor: '#e8f5e9', borderRadius: 2, boxShadow: 1 }}>
+
+        {/* Resource Cost */}
+        <Paper sx={{ p: 3, bgcolor: '#e8f5e9', borderRadius: 2, boxShadow: 1, mb: 2 }}>
+          <Typography variant="h6" gutterBottom>
+            🧮 Resource Cost Components
+          </Typography>
           <Typography variant="body1">
             The <Typography component="span" fontWeight="bold">total resource cost</Typography> is calculated as:
           </Typography>
-          <Typography variant="body1" fontWeight="bold">
-            <Latex>{`$C_r = C_{compute} + C_{storage} + C_{network}$`}</Latex>
+          <Typography variant="body1" fontWeight="bold" sx={{ my: 2 }}>
+            <Latex>{`$C_r = C_{compute} + C_{storage} + C_{network} + C_{others}$`}</Latex>
+          </Typography>
+        </Paper>
+
+        {/* QoS Components */}
+        <Paper sx={{ p: 3, bgcolor: '#fff3e0', borderRadius: 2, boxShadow: 1, mb: 2 }}>
+          <Typography variant="h6" gutterBottom>
+            📊 Quality of Service (QoS) Components
+          </Typography>
+          <Typography variant="body1">
+            The QoS model incorporates latency, availability, and data transfer efficiency:
+          </Typography>
+          <Typography variant="body1" fontWeight="bold" sx={{ my: 2 }}>
+            <Latex>{`$f(CER_l|CER_a|CER_d) = \\frac{Cost}{(1-(l_{ij}a_{ij}d_{ij}) \\times N)} \\times w_{(l|a|d)}$`}</Latex>
+          </Typography>
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            Where:
+          </Typography>
+          <ul>
+            <li><Typography variant="body1"><b>l</b>: latency factor</Typography></li>
+            <li><Typography variant="body1"><b>a</b>: availability metric</Typography></li>
+            <li><Typography variant="body1"><b>d</b>: durability</Typography></li>
+            <li><Typography variant="body1"><b>w</b>: respective weight factors</Typography></li>
+            <li><Typography variant="body1"><b>N</b>: normalization factor</Typography></li>
+          </ul>
+          
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            The total QoS function combines these components:
+          </Typography>
+          <Typography variant="body1" fontWeight="bold" sx={{ my: 2 }}>
+            <Latex>{`$f(QoS)_{ij} = f(CER_l)_{ij} + f(CER_a)_{ij} + f(CER_d)_{ij}$`}</Latex>
+          </Typography>
+          <Typography variant="body1">
+            This composite function helps evaluate and optimize the overall service quality across cloud resources.
+          </Typography>
+        </Paper>
+
+        {/* Edge Cost */}
+        <Paper sx={{ p: 3, bgcolor: '#ede7f6', borderRadius: 2, boxShadow: 1 }}>
+          <Typography variant="h6" gutterBottom>
+            📈 Total Edge Cost Function
+          </Typography>
+          <Typography variant="body1">
+            Finally, the total edge cost is calculated by combining infrastructure costs with QoS factors:
+          </Typography>
+          <Typography variant="body1" fontWeight="bold" sx={{ my: 2 }}>
+            <Latex>{`$e_{ij} = C_r + f(QoS)_{ij}$`}</Latex>
           </Typography>
         </Paper>
       </Box>
@@ -84,48 +135,137 @@ const Home = () => {
           🏆 Optimization Techniques & Their Mathematical Models
         </Typography>
         
-        {/* Shortest Path Algorithm */}
+        {/* Algorithm Section */}
         <Paper sx={{ p: 3, bgcolor: '#fbe9e7', borderRadius: 2, boxShadow: 1 }}>
-          <Typography variant="h6">🛤️ Shortest Path Algorithm</Typography>
-          <Typography variant="body1">
-            Determines the <b>most cost-effective path</b> between cloud resources.
+          <Typography variant="h6" gutterBottom>
+            🛤️ Dijkstra's Algorithm for Cloud Cost Optimization
           </Typography>
-          <Typography variant="body1" fontWeight="bold">
-            <Latex>{`$d(v) = \\min_{u \\in V} (d(u) + w(u, v))$`}</Latex>
+          
+          <Typography variant="body1" gutterBottom>
+            The algorithm finds the optimal path between cloud resources by minimizing total cost:
           </Typography>
-        </Paper>
 
-        {/* Workload Partitioning */}
-        <Paper sx={{ p: 3, bgcolor: '#ede7f6', borderRadius: 2, boxShadow: 1, mt: 2 }}>
-          <Typography variant="h6">🔄 Workload Partitioning</Typography>
-          <Typography variant="body1">
-            Optimizes workload distribution across cloud regions.
-          </Typography>
-          <Typography variant="body1" fontWeight="bold">
-            <Latex>{`$W = \\sum_{i=1}^{n} W_i, \\quad \\min \\sum_{i=1}^{n} C(W_i)$`}</Latex>
-          </Typography>
-        </Paper>
+          {/* Initial Distance Formula */}
+          <Box sx={{ my: 2, pl: 2 }}>
+            <Typography variant="body1" fontWeight="bold">
+              <Latex>{"$d(v) = \\begin{cases} 0 & \\text{if } v = s \\\\ \\infty & \\text{otherwise} \\end{cases}$"}</Latex>
+            </Typography>
+          </Box>
 
-        {/* Auto-Scaling with MDP */}
-        <Paper sx={{ p: 3, bgcolor: '#e3f2fd', borderRadius: 2, boxShadow: 1, mt: 2 }}>
-          <Typography variant="h6">📈 Auto-Scaling with Markov Decision Process (MDP)</Typography>
-          <Typography variant="body1">
-            Dynamically adjusts cloud resources based on demand.
+          <Typography variant="body1" gutterBottom>
+            For each iteration, the distance to vertex v is updated:
           </Typography>
-          <Typography variant="body1" fontWeight="bold">
-            <Latex>{`$P(s' | s, a) = \\sum_{r} P(s' | s, a, r) P(r | s, a)$`}</Latex>
+
+          {/* Distance Update Formula */}
+          <Box sx={{ my: 2, pl: 2 }}>
+            <Typography variant="body1" fontWeight="bold">
+              <Latex>{"$d(v) = \\min(d(v), d(u) + e(u,v))$"}</Latex>
+            </Typography>
+          </Box>
+
+          <Typography variant="body1" gutterBottom>
+            The edge cost e(u,v) between resources u and v is defined as:
           </Typography>
+
+          {/* Edge Cost Formula */}
+          <Box sx={{ my: 2, pl: 2 }}>
+            <Typography variant="body1" fontWeight="bold">
+              <Latex>{"$e(u,v) = C_r + f(\\text{QoS})_{uv}$"}</Latex>
+            </Typography>
+          </Box>
+
+          {/* Variable Definitions */}
+          <Typography variant="body1" sx={{ mt: 3 }}>
+            Where:
+          </Typography>
+          <Box sx={{ pl: 2 }}>
+            <Typography variant="body1">
+              • s: source vertex (starting resource)
+            </Typography>
+            <Typography variant="body1">
+              • d(v): shortest path cost to vertex v
+            </Typography>
+            <Typography variant="body1">
+              • e(u,v): edge cost between vertices u and v
+            </Typography>
+            <Typography variant="body1">
+              • C<sub>r</sub>: total resource cost
+            </Typography>
+            <Typography variant="body1">
+              • f(QoS)<sub>uv</sub>: Quality of Service cost between u and v
+            </Typography>
+          </Box>
         </Paper>
 
         {/* Multi-Cloud Optimization */}
         <Paper sx={{ p: 3, bgcolor: '#dcedc8', borderRadius: 2, boxShadow: 1, mt: 2 }}>
-          <Typography variant="h6">☁️ Multi-Cloud Optimization</Typography>
-          <Typography variant="body1">
-            Uses <b>Linear Programming</b> to determine the <b>optimal cloud provider</b>.
+          <Typography variant="h6" gutterBottom>
+            ☁️ Multi-Cloud Resource Optimization
           </Typography>
-          <Typography variant="body1" fontWeight="bold">
-            <Latex>{`$\\min \\sum_{i} C_i x_i$`}</Latex>
+          <Typography variant="body1" gutterBottom>
+            The multi-cloud optimization problem is formulated as a linear programming model to determine the optimal resource allocation across different cloud providers:
           </Typography>
+          {/* Objective Function */}
+          <Box sx={{ my: 2, pl: 2,}}>
+            <Typography variant="body1" gutterBottom>
+              Minimize total cost:
+            </Typography>
+            <Typography variant="body1" fontWeight="bold">
+              <Latex>{"$\\min Z = \\sum_{i=1}^{n} \\sum_{j=1}^{m} C_{ij}x_{ij}$"}</Latex>
+            </Typography>
+          </Box>
+          {/* Constraints */}
+          <Box sx={{ my: 3, pl: 2 }}>
+            <Typography variant="body1" gutterBottom>
+              Subject to constraints:
+            </Typography>
+            
+            <Typography variant="body1" fontWeight="bold">
+              <Latex>{"$\\sum_{j=1}^{m} x_{ij} \\geq D_i \\quad \\forall i$"}</Latex>
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 2 }}>
+              (Resource demand satisfaction)
+            </Typography>
+
+            <Typography variant="body1" fontWeight="bold">
+              <Latex>{"$\\sum_{i=1}^{n} x_{ij} \\leq K_j \\quad \\forall j$"}</Latex>
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 2 }}>
+              (Provider capacity limits)
+            </Typography>
+
+            <Typography variant="body1" fontWeight="bold">
+              <Latex>{"$x_{ij} \\geq 0 \\quad \\forall i,j$"}</Latex>
+            </Typography>
+            <Typography variant="body1">
+              (Non-negativity constraint)
+            </Typography>
+          </Box>
+
+          {/* Variable Definitions */}
+          <Typography variant="body1" sx={{ mt: 3 }}>
+            Where:
+          </Typography>
+          <Box sx={{ pl: 2 }}>
+            <Typography variant="body1">
+              • C<sub>ij</sub>: Cost of resource i from provider j
+            </Typography>
+            <Typography variant="body1">
+              • x<sub>ij</sub>: Amount of resource i allocated to provider j
+            </Typography>
+            <Typography variant="body1">
+              • D<sub>i</sub>: Demand for resource i
+            </Typography>
+            <Typography variant="body1">
+              • K<sub>j</sub>: Capacity limit of provider j
+            </Typography>
+            <Typography variant="body1">
+              • n: Number of resource types
+            </Typography>
+            <Typography variant="body1">
+              • m: Number of cloud providers
+            </Typography>
+          </Box>
         </Paper>
       </Box>
 

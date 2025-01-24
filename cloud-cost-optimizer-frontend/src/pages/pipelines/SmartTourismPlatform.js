@@ -211,7 +211,7 @@ const SmartTourismPlatform = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Paper sx={{ p: 3, width: '100%', textAlign: 'center' }}>
-            <ComputeGraphs />
+            <ComputeGraphs pipelineName="Smart Tourism Platform" />
           </Paper>
         </AccordionDetails>
       </Accordion>

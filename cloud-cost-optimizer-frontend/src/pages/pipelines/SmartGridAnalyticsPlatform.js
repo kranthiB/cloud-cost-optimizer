@@ -211,7 +211,7 @@ const SmartGridAnalyticsPlatform = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Paper sx={{ p: 3, width: '100%', textAlign: 'center' }}>
-            <ComputeGraphs />
+            <ComputeGraphs pipelineName="Smart Grid Analytics Platform" />
           </Paper>
         </AccordionDetails>
       </Accordion>
