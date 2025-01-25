@@ -648,3 +648,131 @@ Read Settings
 			8,592.36 USD monthly cost of WCU-hours not covered by reserved capacity + 167.53 USD monthly cost of reserved capacity = 8,759.89 USD monthly write cost
 		Upfront write cost
 			1,500.00 reserved capacity WCUs x 1.78 USD upfront reserved capacity WCU cost = 2,670.00 upfront write reserved capacity cost
+
+
+// **Amazon S3**
+
+Mode - Standard
+storage - 10
+storage Unit - TB per month
+
+write requests - 20000000
+
+read requests - 6000000000
+
+datareturned on select value - 10
+data returned on select Unit - TB per Month
+
+data scanned value - 10
+data scanned unit - TB per month
+
+inbound transfer from - Internet
+inbound transfer amount - 10
+inbount transfer amount unit - TB per month
+
+outbout transfer to - All other regions
+outbound transfer amount - 10
+outbound transfer amount unit - TB per month
+
+
+// US east -1
+	Standard Cost
+		Unit conversions
+			S3 Standard storage: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+			Data returned by S3 Select: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+			Data scanned by S3 Select: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+		Pricing calculations
+			Tiered price for: 10,240 GB
+			10,240 GB x 0.025 USD = 256.00 USD
+		Total tier cost 
+			256.00 USD (S3 Standard storage cost)
+		PUT requests cost
+			20,000,000 PUT requests for S3 Standard Storage x 0.000005 USD per request = 100.00 USD (S3 Standard PUT requests cost)
+		GET requests cost
+			6,000,000,000 GET requests in a month x 0.0000004 USD per request = 2,400.00 USD (S3 Standard GET requests cost)
+		select returned cost
+			10,240 GB x 0.0009 USD = 9.216 USD (S3 select returned cost)
+		select scanned cost
+			10,240 GB x 0.0025 USD = 25.60 USD (S3 select scanned cost)
+		monthly cost 
+			256 USD + 2,400.00 USD + 100.00 USD + 9.216 USD + 25.60 USD = 2,790.82 USD (Total S3 Standard Storage, data requests, S3 select cost)
+		S3 Standard cost (upfront): 0.00 USD
+	Data Transfer Cost
+		Unit conversions
+			Inbound:
+				Internet: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+			Outbound:
+				All other regions: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+		Pricing calculations
+			Inbound:
+				Internet: 10240 GB x 0 USD per GB = 0.00 USD
+			Outbound:
+				All other regions: 10240 GB x 0.02 USD per GB = 204.80 USD
+		Data Transfer cost (monthly): 204.80 USD
+
+// ap-south-1
+	Standard Cost
+		Unit conversions
+			S3 Standard storage: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+			Data returned by S3 Select: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+			Data scanned by S3 Select: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+		Pricing calculations
+			Tiered price for: 10,240 GB
+		Total tier cost
+		10,240 GB x 0.025 USD = 256.00 USD
+		PUT requests cost
+			20,000,000 PUT requests for S3 Standard Storage x 0.000005 USD per request = 100.00 USD (S3 Standard PUT requests cost)
+		GET requests cost
+			6,000,000,000 GET requests in a month x 0.0000004 USD per request = 2,400.00 USD (S3 Standard GET requests cost)
+		select returned cost
+			10,240 GB x 0.0009 USD = 9.216 USD (S3 select returned cost)
+		select scanned cost
+			10,240 GB x 0.0025 USD = 25.60 USD (S3 select scanned cost)
+		Standard cost (monthly)
+			256 USD + 2,400.00 USD + 100.00 USD + 9.216 USD + 25.60 USD = 2,790.82 USD (Total S3 Standard Storage, data requests, S3 select cost)
+		S3 Standard cost (upfront): 0.00 USD
+	Data Transfer Cost
+		Unit conversions
+			Inbound:
+				Internet: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+			Outbound:
+				All other regions: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+		Pricing calculations
+			Inbound:
+				Internet: 10240 GB x 0 USD per GB = 0.00 USD
+			Outbound:
+				All other regions: 10240 GB x 0.086 USD per GB = 880.64 USD
+		Data Transfer cost (monthly): 880.64 USD
+// eu-west-2
+	Standard Cost
+		Unit conversions
+			S3 Standard storage: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+			Data returned by S3 Select: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+			Data scanned by S3 Select: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+		Pricing calculations
+			Tiered price for: 10,240 GB
+		Total tier cost
+			10,240 GB x 0.024 USD = 245.76 USD
+		PUT requests cost
+			20,000,000 PUT requests for S3 Standard Storage x 0.0000053 USD per request = 106.00 USD (S3 Standard PUT requests cost)
+		GET requests cost
+			6,000,000,000 GET requests in a month x 0.00000042 USD per request = 2,520.00 USD (S3 Standard GET requests cost)
+		select returned cost
+			10,240 GB x 0.0008 USD = 8.192 USD (S3 select returned cost)
+		select scanned cost
+			10,240 GB x 0.00225 USD = 23.04 USD (S3 select scanned cost)
+		Standard cost (monthly)
+			245.76 USD + 2,520.00 USD + 106.00 USD + 8.192 USD + 23.04 USD = 2,902.99 USD (Total S3 Standard Storage, data requests, S3 select cost)
+		S3 Standard cost (upfront): 0.00 USD
+	Data Transfer Cost
+		Unit conversions
+			Inbound:
+				Internet: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+			Outbound:
+				All other regions: 10 TB per month x 1024 GB in a TB = 10240 GB per month
+		Pricing calculations
+			Inbound:
+				Internet: 10240 GB x 0 USD per GB = 0.00 USD
+			Outbound:
+				All other regions: 10240 GB x 0.02 USD per GB = 204.80 USD
+		Data Transfer cost (monthly): 204.80 USD

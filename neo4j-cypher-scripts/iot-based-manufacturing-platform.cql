@@ -949,6 +949,204 @@ CREATE (a)-[:COST_EFFECTIVE_RATIO {
     currency: 'USD'
 }]->(d);
 
+// Create S3
+CREATE (:Storage {
+    // Basic Information
+    name: 'S3',
+    csp: 'AWS',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'us-east-1',
+    mode: 'Standard',
+    
+    // Data Transfer Configuration
+    inboundDataTransfer_From: 'Internet',
+    inboundDataTransfer_Amount: 10,
+    inboundDataTransfer_AmountUnit: 'TB per Month',
+    outboundDataTransfer_To: 'Internet',
+    outboundDataTransfer_Amount: 10,
+    outboundDataTransfer_AmountUnit: 'TB per Month',
+
+
+    // Standard Configuration
+    standard_storage: 50,
+    standard_StorageUnit: 'TB per Month',
+    standard_writeRequests: 20000000,
+    standard_readRequests: 6000000000,
+    standard_dataReturnedValue: 10,
+    standard_dataReturnedUnit: 'TB per Month',
+    standard_dataScannedValue: 10,
+    standard_dataScannedUnit: 'TB per Month'
+
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (d:Database {
+        name: 'DynamoDB',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'us-east-1'
+    }),
+    (s:Storage {
+        name: 'S3',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'us-east-1'
+    })
+CREATE (d)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 2967.97,
+    
+    // Data Transfer Cost
+    dataTransfer_cost: 204.80,
+    dataTransfer_outBoundTransferCost: 204.80,
+    dataTransfer_inBoundTransferCost: 0,
+
+    // Standard Cost
+    standard_tierCost: 256.00,
+    standard_writesCost: 100.00,
+    standard_readsCost: 2400.00,
+    standard_selectReturnedCost: 9.216,
+    standard_selectScannedCost: 25.60,
+    standard_upfrontCost: 0,
+    standard_cost: 2790.82,
+    
+    // Currency
+    currency: 'USD'
+}]->(s);
+
+// Create S3
+CREATE (:Storage {
+    // Basic Information
+    name: 'S3',
+    csp: 'AWS',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'ap-south-1',
+    mode: 'Standard',
+    
+    // Data Transfer Configuration
+    inboundDataTransfer_From: 'Internet',
+    inboundDataTransfer_Amount: 10,
+    inboundDataTransfer_AmountUnit: 'TB per Month',
+    outboundDataTransfer_To: 'Internet',
+    outboundDataTransfer_Amount: 10,
+    outboundDataTransfer_AmountUnit: 'TB per Month',
+
+
+    // Standard Configuration
+    standard_storage: 50,
+    standard_StorageUnit: 'TB per Month',
+    standard_writeRequests: 20000000,
+    standard_readRequests: 6000000000,
+    standard_dataReturnedValue: 10,
+    standard_dataReturnedUnit: 'TB per Month',
+    standard_dataScannedValue: 10,
+    standard_dataScannedUnit: 'TB per Month'
+
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (d:Database {
+        name: 'DynamoDB',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'ap-south-1'
+    }),
+    (s:Storage {
+        name: 'S3',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'ap-south-1'
+    })
+CREATE (d)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 3671.46,
+    
+    // Data Transfer Cost
+    dataTransfer_cost: 880.64,
+    dataTransfer_outBoundTransferCost: 880.64,
+    dataTransfer_inBoundTransferCost: 0,
+
+    // Standard Cost
+    standard_tierCost: 256.00,
+    standard_writesCost: 100.00,
+    standard_readsCost: 2400.00,
+    standard_selectReturnedCost: 9.216,
+    standard_selectScannedCost: 25.60,
+    standard_upfrontCost: 0,
+    standard_cost: 2790.82,
+    
+    // Currency
+    currency: 'USD'
+}]->(s);
+
+// Create S3
+CREATE (:Storage {
+    // Basic Information
+    name: 'S3',
+    csp: 'AWS',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'eu-west-2',
+    mode: 'Standard',
+    
+    // Data Transfer Configuration
+    inboundDataTransfer_From: 'Internet',
+    inboundDataTransfer_Amount: 10,
+    inboundDataTransfer_AmountUnit: 'TB per Month',
+    outboundDataTransfer_To: 'Internet',
+    outboundDataTransfer_Amount: 10,
+    outboundDataTransfer_AmountUnit: 'TB per Month',
+
+
+    // Standard Configuration
+    standard_storage: 50,
+    standard_StorageUnit: 'TB per Month',
+    standard_writeRequests: 20000000,
+    standard_readRequests: 6000000000,
+    standard_dataReturnedValue: 10,
+    standard_dataReturnedUnit: 'TB per Month',
+    standard_dataScannedValue: 10,
+    standard_dataScannedUnit: 'TB per Month'
+
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (d:Database {
+        name: 'DynamoDB',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'eu-west-2'
+    }),
+    (s:Storage {
+        name: 'S3',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'eu-west-2'
+    })
+CREATE (d)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 3107.79,
+    
+    // Data Transfer Cost
+    dataTransfer_cost: 204.80,
+    dataTransfer_outBoundTransferCost: 204.80,
+    dataTransfer_inBoundTransferCost: 0,
+
+    // Standard Cost
+    standard_tierCost: 245.76,
+    standard_writesCost: 106.00,
+    standard_readsCost: 2520.00,
+    standard_selectReturnedCost: 8.192,
+    standard_selectScannedCost: 23.04,
+    standard_upfrontCost: 0,
+    standard_cost: 2902.99,
+    
+    // Currency
+    currency: 'USD'
+}]->(s);
+
 // Create End Pipeline Node
 CREATE (:Pipelines {
     name: 'IoT-Based Manufacturing Platform',
@@ -959,8 +1157,8 @@ CREATE (:Pipelines {
 WITH ['us-east-1', 'ap-south-1', 'eu-west-2'] as regions
 UNWIND regions as region
 MATCH 
-    (d:Database {
-        name: 'DynamoDB',
+    (s:Storage {
+        name: 'S3',
         csp: 'AWS',
         pipeline: 'IoT-Based Manufacturing Platform',
         region: region
@@ -969,6 +1167,6 @@ MATCH
         name: 'IoT-Based Manufacturing Platform',
         state: 'end'
     })
-CREATE (d)-[:COST_EFFECTIVE_RATIO {
+CREATE (s)-[:COST_EFFECTIVE_RATIO {
     cost: 0
 }]->(p);
