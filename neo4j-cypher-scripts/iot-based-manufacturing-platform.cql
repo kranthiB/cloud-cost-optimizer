@@ -707,6 +707,247 @@ CREATE (mm)-[:COST_EFFECTIVE_RATIO {
     currency: 'USD'
 }]->(a);
 
+// Create DynamoDB
+CREATE (:Database {
+    // Basic Information
+    name: 'DynamoDB',
+    csp: 'AWS',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'us-east-1',
+    mode: 'provisioned',
+    tableClass: 'Standard',
+    
+    // DataStorage Configuration
+    dataStorage_size: 10,
+    dataStorage_sizeUnit: 'TB',
+    dataStorage_avgItemSize: 5,
+    dataStorage_avgItemSizeUnit: 'KB',
+
+    // Write Settings
+    writeSettings_percentageOfNonTransactionalWrites: 50,
+    writeSettings_percentageOfTransactionalWrites: 50,
+    writeSettings_baselineWriteRateValue: 1000,
+    writeSettings_baselineWriteRateUnit: 'Per Second',
+    writeSettings_peakWriteRateValue: 4000,
+    writeSettings_peakWriteRateUnit: 'Per Second',
+    writeSettings_durationOfPeakWriteValue: 300,
+    writeSettings_durationOfPeakWriteUnit: 'Hours per Month',
+    writeSettings_percentageOfBaselineWritesCoveredByReservedCapacity: 20,
+    writeSettings_writeReservedCapacityTerm: '1 year',
+
+    // Read Settings
+    readSettings_eventualConsistentPercentage: 0,
+    readSettings_stronglyConsistentPercentage: 100,
+    readSettings_transactionalPercentage: 0,
+    readSettings_baselineReadRateValue: 10000,
+    readSettings_baselineReadRateUnit: 'Per Second',
+    readSettings_peakReadRateValue: 40000,
+    readSettings_peakReadRateUnit: 'Per Second',
+    readSettings_durationOfPeakReadValue: 72,
+    readSettings_durationOfPeakReadUnit: 'Hours per Month',
+    readSettings_percentageOfBaselineReadsCoveredByReservedCapacity: 20,
+    readSettings_readReservedCapacityTerm: '1 year'
+
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (a:Analytics {
+        name: 'EMR',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'us-east-1'
+    }),
+    (d:Database {
+        name: 'DynamoDB',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'us-east-1'
+    })
+CREATE (a)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 15537.66,
+    
+    // Data Storage Cost
+    dataStorage_cost: 2560,
+
+    // Read Cost
+    read_upfrontCost: 1200,
+    read_monthlyCostForNonReservedCapacity: 2080,
+    read_montlyCostForReservedCapacity: 73,
+    read_montlyCost: 2153,
+
+    // Write Cost
+    write_upfrontCost: 2250,
+    write_monthlyCostForNonReservedCapacity: 7234.5,
+    write_montlyCostForReservedCapacity: 140.16,
+    write_montlyCost: 7374.66,
+    
+    // Currency
+    currency: 'USD'
+}]->(d);
+
+
+// Create DynamoDB
+CREATE (:Database {
+    // Basic Information
+    name: 'DynamoDB',
+    csp: 'AWS',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'ap-south-1',
+    mode: 'provisioned',
+    tableClass: 'Standard',
+    
+    // DataStorage Configuration
+    dataStorage_size: 10,
+    dataStorage_sizeUnit: 'TB',
+    dataStorage_avgItemSize: 5,
+    dataStorage_avgItemSizeUnit: 'KB',
+
+    // Write Settings
+    writeSettings_percentageOfNonTransactionalWrites: 50,
+    writeSettings_percentageOfTransactionalWrites: 50,
+    writeSettings_baselineWriteRateValue: 1000,
+    writeSettings_baselineWriteRateUnit: 'Per Second',
+    writeSettings_peakWriteRateValue: 4000,
+    writeSettings_peakWriteRateUnit: 'Per Second',
+    writeSettings_durationOfPeakWriteValue: 300,
+    writeSettings_durationOfPeakWriteUnit: 'Hours per Month',
+    writeSettings_percentageOfBaselineWritesCoveredByReservedCapacity: 20,
+    writeSettings_writeReservedCapacityTerm: '1 year',
+
+    // Read Settings
+    readSettings_eventualConsistentPercentage: 0,
+    readSettings_stronglyConsistentPercentage: 100,
+    readSettings_transactionalPercentage: 0,
+    readSettings_baselineReadRateValue: 10000,
+    readSettings_baselineReadRateUnit: 'Per Second',
+    readSettings_peakReadRateValue: 40000,
+    readSettings_peakReadRateUnit: 'Per Second',
+    readSettings_durationOfPeakReadValue: 72,
+    readSettings_durationOfPeakReadUnit: 'Hours per Month',
+    readSettings_percentageOfBaselineReadsCoveredByReservedCapacity: 20,
+    readSettings_readReservedCapacityTerm: '1 year'
+
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (a:Analytics {
+        name: 'EMR',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'ap-south-1'
+    }),
+    (d:Database {
+        name: 'DynamoDB',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'ap-south-1'
+    })
+CREATE (a)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 17700.15,
+    
+    // Data Storage Cost
+    dataStorage_cost: 2918.40,
+
+    // Read Cost
+    read_upfrontCost: 1368,
+    read_monthlyCostForNonReservedCapacity: 2368,
+    read_montlyCostForReservedCapacity: 84.68,
+    read_montlyCost: 2452.68,
+
+    // Write Cost
+    write_upfrontCost: 2565,
+    write_monthlyCostForNonReservedCapacity: 8236.20,
+    write_montlyCostForReservedCapacity: 159.87,
+    write_montlyCost: 8396.07,
+    
+    // Currency
+    currency: 'USD'
+}]->(d);
+
+
+// Create DynamoDB
+CREATE (:Database {
+    // Basic Information
+    name: 'DynamoDB',
+    csp: 'AWS',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'eu-west-2',
+    mode: 'provisioned',
+    tableClass: 'Standard',
+    
+    // DataStorage Configuration
+    dataStorage_size: 10,
+    dataStorage_sizeUnit: 'TB',
+    dataStorage_avgItemSize: 5,
+    dataStorage_avgItemSizeUnit: 'KB',
+
+    // Write Settings
+    writeSettings_percentageOfNonTransactionalWrites: 50,
+    writeSettings_percentageOfTransactionalWrites: 50,
+    writeSettings_baselineWriteRateValue: 1000,
+    writeSettings_baselineWriteRateUnit: 'Per Second',
+    writeSettings_peakWriteRateValue: 4000,
+    writeSettings_peakWriteRateUnit: 'Per Second',
+    writeSettings_durationOfPeakWriteValue: 300,
+    writeSettings_durationOfPeakWriteUnit: 'Hours per Month',
+    writeSettings_percentageOfBaselineWritesCoveredByReservedCapacity: 20,
+    writeSettings_writeReservedCapacityTerm: '1 year',
+
+    // Read Settings
+    readSettings_eventualConsistentPercentage: 0,
+    readSettings_stronglyConsistentPercentage: 100,
+    readSettings_transactionalPercentage: 0,
+    readSettings_baselineReadRateValue: 10000,
+    readSettings_baselineReadRateUnit: 'Per Second',
+    readSettings_peakReadRateValue: 40000,
+    readSettings_peakReadRateUnit: 'Per Second',
+    readSettings_durationOfPeakReadValue: 72,
+    readSettings_durationOfPeakReadUnit: 'Hours per Month',
+    readSettings_percentageOfBaselineReadsCoveredByReservedCapacity: 20,
+    readSettings_readReservedCapacityTerm: '1 year'
+
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (a:Analytics {
+        name: 'EMR',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'eu-west-2'
+    }),
+    (d:Database {
+        name: 'DynamoDB',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'eu-west-2'
+    })
+CREATE (a)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 18457.63,
+    
+    // Data Storage Cost
+    dataStorage_cost: 3042.82,
+
+    // Read Cost
+    read_upfrontCost: 1424,
+    read_monthlyCostForNonReservedCapacity: 2470.40,
+    read_montlyCostForReservedCapacity: 90.52,
+    read_montlyCost: 2560.92,
+
+    // Write Cost
+    write_upfrontCost: 2670,
+    write_monthlyCostForNonReservedCapacity: 8592.36,
+    write_montlyCostForReservedCapacity: 167.53,
+    write_montlyCost: 8759.89,
+    
+    // Currency
+    currency: 'USD'
+}]->(d);
 
 // Create End Pipeline Node
 CREATE (:Pipelines {
@@ -718,8 +959,8 @@ CREATE (:Pipelines {
 WITH ['us-east-1', 'ap-south-1', 'eu-west-2'] as regions
 UNWIND regions as region
 MATCH 
-    (a:Analytics {
-        name: 'EMR',
+    (d:Database {
+        name: 'DynamoDB',
         csp: 'AWS',
         pipeline: 'IoT-Based Manufacturing Platform',
         region: region
@@ -728,6 +969,6 @@ MATCH
         name: 'IoT-Based Manufacturing Platform',
         state: 'end'
     })
-CREATE (a)-[:COST_EFFECTIVE_RATIO {
+CREATE (d)-[:COST_EFFECTIVE_RATIO {
     cost: 0
 }]->(p);

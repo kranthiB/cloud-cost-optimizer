@@ -386,3 +386,265 @@ Utilization = 100%
 		4 * 1.1504 * (100 / 100) * 730 = 3359.168
 	Total Cost
 		839.792 + 3359.168 = 4198.96
+
+
+// **Amazon DynamoDB**
+
+Mode - Provisioned
+Table Class - Standard
+
+Data Storage 
+	size - 10 TB
+	sizeUnit - TB
+	Avergate ITem size - 5
+	Average item size unit - KB
+
+Write Settings
+	% of Non-transactional writes - 50
+	% of Transactional writes - 50
+	baseLineWriteRate value = 1000
+	baseLineWriteRate unit - per second
+	peak write rate value - 4000
+	peak write rate unit - per second
+	duration of peak write value - 300
+	duration of peak write unit - hours per month
+	% of baseline writes coverd by reserved capacity - 20
+	write reserved capacity term - 1 year
+
+Read Settings
+	eventual consistent percentage - 0
+	strongly consistent percentage - 100
+	transactional percentage - 0
+	base line read rate value - 10000
+	base line read rate unit - per second
+	peak read rate value - 40000
+	peak read rate unit - per second
+	duration of peak read value - 72
+	duration of peak read unit - hours per months
+	% of baseline reads coverd by reserved capacity - 20
+	read reserverd capacity term - 1 year
+
+// us-east-1
+	Data Storage Cost
+		Data Storage In GB  = Data Storage Size * 1024 = 10240
+		Data Storage In GB * 0.25 USD 
+		10240 * 0.25 = 2560.00
+	Write Cost
+		Unit conversions
+			Percentage of Non-transactional writes: 50 / 100 = 0.5
+			Percentage of Transactional writes: 50 / 100 = 0.5
+			Percentage of baseline writes covered by reserved capacity: 20 / 100 = 0.2
+		Pricing calculations
+			5 KB average item size / 1 KB = 5.00 unrounded WCUs needed per item
+			RoundUp (5.000000000) = 5 WCUs needed per item
+			1,000 baseline write rate x 0.50 non-transactional portion x 1 WCU non-transactional write x 5 WCUs needed per item = 2,500.00 baseline WCUs for non-transactional writes
+			1,000 baseline write rate x 0.50 transactional portion x 2 WCU for transactional write x 5 WCUs needed per item = 5,000.00 baseline WCUs for transactional writes
+			2,500.00 baseline WCUs for non-transactional writes + 5,000.00 baseline WCUs for transactional writes = 7,500.00 total baseline WCUs
+			7,500.00 total baseline WCUs x 0.20 covered reserved capacity = 1,500.00 reserved capacity WCUs - step 1
+			1,500.00 reserved capacity WCUs - step 1 / 100 = 15.00 blocks of 100 reserved capacity WCUs - step 2
+			RoundUp (15.00) = 15 blocks of 100 reserved capacity WCUs - step 3
+			15 blocks of 100 reserved capacity WCUs - step 3 x 100 = 1,500.00 reserved capacity WCUs
+			7,500.00 total baseline WCUs - 1,500.00 reserved capacity WCUs = 6,000.00 provisioned baseline WCUs not covered by reserved capacity - step 1
+			Max (6000.00 , 0 ) = 6,000.00 provisioned baseline WCUs not covered by reserved capacity - step 2
+			RoundUp (6000.00) = 6000 provisioned baseline WCUs not covered by reserved capacity
+			730 hours in a month - 300 peak hours per month = 430.00 baseline hours
+			430.00 baseline hours x 6,000 provisioned baseline WCUs not covered by reserved capacity = 2,580,000.00 unrounded total baseline WCU-hours per month not covered by reserved capacity
+			RoundUp (2580000.00) = 2580000 total baseline WCU-hours per month not covered by reserved capacity
+			4,000 peak write rate x 0.50 non-transactional portion x 1 WCU for non-transactional write x 5 WCUs needed per item = 10,000.00 WCUs for non-transactional peak writes
+			4,000 peak write rate x 0.50 transactional portion x 2 WCU for transactional write x 5 WCUs needed per item = 20,000.00 WCUs for transactional peak writes
+			10,000.00 WCUs for non-transactional peak writes + 20,000.00 WCUs for transactional peak writes = 30,000.00 total WCUs for peak writes
+			30,000.00 total WCUs for peak writes - 1,500.00 reserved capacity WCUs = 28,500.00 provisioned peak WCUs not covered by reserved capacity - step 1
+			Max (28500.00 , 0 ) = 28,500.00 provisioned peak WCUs not covered by reserved capacity - step 2
+			RoundUp (28500.00) = 28500 provisioned peak WCUs not covered by reserved capacity
+			28,500 provisioned peak WCUs not covered by reserved capacity x 300 peak hours = 8,550,000.00 total peak WCU-hours per month not covered by reserved capacity
+			2,580,000.00 unrounded total baseline WCU-hours per month not covered by reserved capacity + 8,550,000.00 total peak WCU-hours per month not covered by reserved capacity = 11,130,000.00 unrounded total WCU-hours per month not covered by reserved capacity
+			RoundUp (11130000.00) = 11130000 total WCU-hours per month not covered by reserved capacity
+		Monthly write cost (monthly): 7,374.66 USD
+			monthly cost of WCU-hours not covered by reserved capacity
+				11,130,000.00 total WCU-hours not covered by reserved capacity x 0.00065 USD provisioned WCU-hour 
+					7,234.50 USD monthly cost of WCU-hours not covered by reserved capacity
+			monthly cost of reserved capacity
+				1,500.00 reserved capacity WCUs x 0.000128 USD reserved capacity WCU hourly cost x 730 
+					140.16 USD monthly cost of reserved capacity
+			monthly write cost
+				7,234.50 USD monthly cost of WCU-hours not covered by reserved capacity + 140.16 USD monthly cost of reserved capacity 
+					7,374.66 USD monthly write cost
+
+		Upfront write cost (upfront): 2,250.00 USD
+			1,500.00 reserved capacity WCUs x 1.50 USD upfront reserved capacity WCU cost
+				2,250.00 upfront write reserved capacity cost
+	read cost
+		Unit conversions
+			Eventually consistent percentage: 0 / 100 = 0
+			Strongly consistent percentage: 100 / 100 = 1
+			Transactional percentage: 0 / 100 = 0
+			Percentage of baseline reads covered by reserved capacity: 20 / 100 = 0.2
+		Pricing calculations
+			5 KB average item size / 4 KB = 1.25 unrounded RCUs needed per item
+			RoundUp (1.250000000) = 2 RCUs needed per item
+			10,000 baseline read rate x 0 eventually consistent portion x 0.5 RCU for eventually consistent read x 2 RCUs needed per item = 0.00 baseline RCUs for eventually consistent reads
+			10,000 baseline read rate x 1 strongly consistent portion x 1 RCU for strongly consistent read x 2 RCUs needed per item = 20,000.00 baseline RCUs for strongly consistent reads
+			10,000 baseline read rate x 0 transactional portion x 2 RCU for transactional read x 2 RCUs needed per item = 0.00 baseline RCUs for transactional reads
+			0.00 baseline RCUs for eventually consistent reads + 20,000.00 baseline RCUs for strongly consistent reads + 0.00 baseline RCUs for transactional reads = 20,000.00 total baseline RCUs
+			20,000.00 total baseline RCUs x 0.20 covered reserved capacity = 4,000.00 reserved capacity RCUs - step 1
+			4,000.00 reserved capacity RCUs - step 1 / 100 = 40.00 blocks of 100 reserved capacity RCUs - step 2
+			RoundUp (40.00) = 40 blocks of 100 reserved capacity RCUs - step 3
+			40 blocks of 100 reserved capacity RCUs - step 3 x 100 = 4,000.00 reserved capacity RCUs
+			20,000.00 total baseline RCUs - 4,000.00 reserved capacity RCUs = 16,000.00 provisioned baseline RCUs not covered by reserved capacity - step 1
+			Max (16000.00 , 0 ) = 16,000.00 provisioned baseline RCUs not covered by reserved capacity - step 2
+			RoundUp (16000.00) = 16000 provisioned baseline RCUs not covered by reserved capacity
+			730 hours in a month - 72 peak hours per month = 658.00 baseline hours
+			658.00 baseline hours x 16,000 provisioned baseline RCUs not covered by reserved capacity = 10,528,000.00 total baseline RCU-hours per month not covered by reserved capacity
+			40,000 peak read rate x 0 eventually consistent portion x 0.5 RCU for eventually consistent read x 2 RCUs needed per item = 0.00 RCUs for eventually consistent peak reads
+			40,000 peak read rate x 1 strongly consistent portion x 1 RCU for strongly consistent read x 2 RCUs needed per item = 80,000.00 RCUs for strongly consistent peak reads
+			40,000 peak read rate x 0 transactional portion x 2 RCU for transactional read x 2 RCUs needed per item = 0.00 RCUs for transactional peak reads
+			0.00 RCUs for eventually consistent peak reads + 80,000.00 RCUs for strongly consistent peak reads + 0.00 RCUs for transactional peak reads = 80,000.00 total RCUs for peak reads
+			80,000.00 total RCUs for peak reads - 4,000.00 reserved capacity RCUs = 76,000.00 provisioned peak RCUs not covered by reserved capacity - step 1
+			Max (76000.00 , 0 ) = 76,000.00 provisioned peak RCUs not covered by reserved capacity - step 2
+			RoundUp (76000.00) = 76000 provisioned peak RCUs not covered by reserved capacity
+			76,000 provisioned peak RCUs not covered by reserved capacity x 72 peak hours = 5,472,000.00 total peak RCU-hours per month not covered by reserved capacity
+			10,528,000.00 total baseline RCU-hours per month not covered by reserved capacity + 5,472,000.00 total peak RCU-hours per month not covered by reserved capacity = 16,000,000.00 total RCU-hours not covered by reserved capacity
+		monthly cost of RCU-hours not covered by reserved capacity
+			16,000,000.00 total RCU-hours not covered by reserved capacity x 0.00013 USD provisioned RCU-hour 
+				2,080.00 USD monthly cost of RCU-hours not covered by reserved capacity
+		monthly cost of reserved capacity
+			4,000.00 reserved capacity RCUs x 0.000025 USD reserved capacity RCU hourly cost x 730 hours in a month
+				73.00 USD monthly cost of reserved capacity
+		monthly read cost
+			2,080.00 USD monthly cost of RCU-hours not covered by reserved capacity + 73.00 USD monthly cost of reserved capacity 
+				2,153.00 USD monthly read cost
+		Upfront read cost (upfront)	
+			4,000.00 reserved capacity RCUs x 0.30 USD upfront reserved capacity RCU cost
+				1,200.00 USD upfront read reserved capacity cost
+
+//ap-south-1
+	Data Storage Cost
+		Unit conversions
+			Data storage size: 10 TB x 1024 GB in a TB = 10240 GB
+		Pricing calculations
+			10,240 GB x 0.285 USD = 2,918.40 USD (Data storage cost)
+		DynamoDB data storage cost (monthly): 2,918.40 USD
+
+	Write Cost
+		Unit conversions
+			Percentage of Non-transactional writes: 50 / 100 = 0.5
+			Percentage of Transactional writes: 50 / 100 = 0.5
+			Percentage of baseline writes covered by reserved capacity: 20 / 100 = 0.2
+		Pricing calculations
+			5 KB average item size / 1 KB = 5.00 unrounded WCUs needed per item
+			RoundUp (5.000000000) = 5 WCUs needed per item
+			1,000 baseline write rate x 0.50 non-transactional portion x 1 WCU non-transactional write x 5 WCUs needed per item = 2,500.00 baseline WCUs for non-transactional writes
+			1,000 baseline write rate x 0.50 transactional portion x 2 WCU for transactional write x 5 WCUs needed per item = 5,000.00 baseline WCUs for transactional writes
+			2,500.00 baseline WCUs for non-transactional writes + 5,000.00 baseline WCUs for transactional writes = 7,500.00 total baseline WCUs
+			7,500.00 total baseline WCUs x 0.20 covered reserved capacity = 1,500.00 reserved capacity WCUs - step 1
+			1,500.00 reserved capacity WCUs - step 1 / 100 = 15.00 blocks of 100 reserved capacity WCUs - step 2
+			RoundUp (15.00) = 15 blocks of 100 reserved capacity WCUs - step 3
+			15 blocks of 100 reserved capacity WCUs - step 3 x 100 = 1,500.00 reserved capacity WCUs
+			7,500.00 total baseline WCUs - 1,500.00 reserved capacity WCUs = 6,000.00 provisioned baseline WCUs not covered by reserved capacity - step 1
+			Max (6000.00 , 0 ) = 6,000.00 provisioned baseline WCUs not covered by reserved capacity - step 2
+			RoundUp (6000.00) = 6000 provisioned baseline WCUs not covered by reserved capacity
+			730 hours in a month - 300 peak hours per month = 430.00 baseline hours
+			430.00 baseline hours x 6,000 provisioned baseline WCUs not covered by reserved capacity = 2,580,000.00 unrounded total baseline WCU-hours per month not covered by reserved capacity
+			RoundUp (2580000.00) = 2580000 total baseline WCU-hours per month not covered by reserved capacity
+			4,000 peak write rate x 0.50 non-transactional portion x 1 WCU for non-transactional write x 5 WCUs needed per item = 10,000.00 WCUs for non-transactional peak writes
+			4,000 peak write rate x 0.50 transactional portion x 2 WCU for transactional write x 5 WCUs needed per item = 20,000.00 WCUs for transactional peak writes
+			10,000.00 WCUs for non-transactional peak writes + 20,000.00 WCUs for transactional peak writes = 30,000.00 total WCUs for peak writes
+			30,000.00 total WCUs for peak writes - 1,500.00 reserved capacity WCUs = 28,500.00 provisioned peak WCUs not covered by reserved capacity - step 1
+			Max (28500.00 , 0 ) = 28,500.00 provisioned peak WCUs not covered by reserved capacity - step 2
+			RoundUp (28500.00) = 28500 provisioned peak WCUs not covered by reserved capacity
+			28,500 provisioned peak WCUs not covered by reserved capacity x 300 peak hours = 8,550,000.00 total peak WCU-hours per month not covered by reserved capacity
+			2,580,000.00 unrounded total baseline WCU-hours per month not covered by reserved capacity + 8,550,000.00 total peak WCU-hours per month not covered by reserved capacity = 11,130,000.00 unrounded total WCU-hours per month not covered by reserved capacity
+			RoundUp (11130000.00) = 11130000 total WCU-hours per month not covered by reserved capacity
+		monthly cost of WCU-hours not covered by reserved capacity
+			11,130,000.00 total WCU-hours not covered by reserved capacity x 0.00074 USD provisioned WCU-hour = 8,236.20 USD monthly cost of WCU-hours not covered by reserved capacity
+		monthly cost of reserved capacity
+			1,500.00 reserved capacity WCUs x 0.000146 USD reserved capacity WCU hourly cost x 730 = 159.87 USD monthly cost of reserved capacity
+		Monthly write cost	
+			8,236.20 USD monthly cost of WCU-hours not covered by reserved capacity + 159.87 USD monthly cost of reserved capacity = 8,396.07 USD monthly write cost
+		Upfront write cost
+			1,500.00 reserved capacity WCUs x 1.71 USD upfront reserved capacity WCU cost = 2,565.00 upfront write reserved capacity cost
+
+//eu-west-2
+	Data Storage Cost
+		Unit conversions
+			Data storage size: 10 TB x 1024 GB in a TB = 10240 GB
+		Pricing calculations
+			10,240 GB x 0.29715 USD = 3,042.82 USD (Data storage cost)
+		DynamoDB data storage cost (monthly): 3,042.82 USD
+	Read Cost
+		Unit conversions
+			Eventually consistent percentage: 0 / 100 = 0
+			Strongly consistent percentage: 100 / 100 = 1
+			Transactional percentage: 0 / 100 = 0
+			Percentage of baseline reads covered by reserved capacity: 20 / 100 = 0.2
+		Pricing calculations
+			5 KB average item size / 4 KB = 1.25 unrounded RCUs needed per item
+			RoundUp (1.250000000) = 2 RCUs needed per item
+			10,000 baseline read rate x 0 eventually consistent portion x 0.5 RCU for eventually consistent read x 2 RCUs needed per item = 0.00 baseline RCUs for eventually consistent reads
+			10,000 baseline read rate x 1 strongly consistent portion x 1 RCU for strongly consistent read x 2 RCUs needed per item = 20,000.00 baseline RCUs for strongly consistent reads
+			10,000 baseline read rate x 0 transactional portion x 2 RCU for transactional read x 2 RCUs needed per item = 0.00 baseline RCUs for transactional reads
+			0.00 baseline RCUs for eventually consistent reads + 20,000.00 baseline RCUs for strongly consistent reads + 0.00 baseline RCUs for transactional reads = 20,000.00 total baseline RCUs
+			20,000.00 total baseline RCUs x 0.20 covered reserved capacity = 4,000.00 reserved capacity RCUs - step 1
+			4,000.00 reserved capacity RCUs - step 1 / 100 = 40.00 blocks of 100 reserved capacity RCUs - step 2
+			RoundUp (40.00) = 40 blocks of 100 reserved capacity RCUs - step 3
+			40 blocks of 100 reserved capacity RCUs - step 3 x 100 = 4,000.00 reserved capacity RCUs
+			20,000.00 total baseline RCUs - 4,000.00 reserved capacity RCUs = 16,000.00 provisioned baseline RCUs not covered by reserved capacity - step 1
+			Max (16000.00 , 0 ) = 16,000.00 provisioned baseline RCUs not covered by reserved capacity - step 2
+			RoundUp (16000.00) = 16000 provisioned baseline RCUs not covered by reserved capacity
+			730 hours in a month - 72 peak hours per month = 658.00 baseline hours
+			658.00 baseline hours x 16,000 provisioned baseline RCUs not covered by reserved capacity = 10,528,000.00 total baseline RCU-hours per month not covered by reserved capacity
+			40,000 peak read rate x 0 eventually consistent portion x 0.5 RCU for eventually consistent read x 2 RCUs needed per item = 0.00 RCUs for eventually consistent peak reads
+			40,000 peak read rate x 1 strongly consistent portion x 1 RCU for strongly consistent read x 2 RCUs needed per item = 80,000.00 RCUs for strongly consistent peak reads
+			40,000 peak read rate x 0 transactional portion x 2 RCU for transactional read x 2 RCUs needed per item = 0.00 RCUs for transactional peak reads
+			0.00 RCUs for eventually consistent peak reads + 80,000.00 RCUs for strongly consistent peak reads + 0.00 RCUs for transactional peak reads = 80,000.00 total RCUs for peak reads
+			80,000.00 total RCUs for peak reads - 4,000.00 reserved capacity RCUs = 76,000.00 provisioned peak RCUs not covered by reserved capacity - step 1
+			Max (76000.00 , 0 ) = 76,000.00 provisioned peak RCUs not covered by reserved capacity - step 2
+			RoundUp (76000.00) = 76000 provisioned peak RCUs not covered by reserved capacity
+			76,000 provisioned peak RCUs not covered by reserved capacity x 72 peak hours = 5,472,000.00 total peak RCU-hours per month not covered by reserved capacity
+			10,528,000.00 total baseline RCU-hours per month not covered by reserved capacity + 5,472,000.00 total peak RCU-hours per month not covered by reserved capacity = 16,000,000.00 total RCU-hours not covered by reserved capacity
+		monthly cost of RCU-hours not covered by reserved capacity
+			16,000,000.00 total RCU-hours not covered by reserved capacity x 0.0001544 USD provisioned RCU-hour = 2,470.40 USD monthly cost of RCU-hours not covered by reserved capacity
+		monthly cost of reserved capacity
+			4,000.00 reserved capacity RCUs x 0.000031 USD reserved capacity RCU hourly cost x 730 hours in a month = 90.52 USD monthly cost of reserved capacity
+		Monthly read cost 
+			2,470.40 USD monthly cost of RCU-hours not covered by reserved capacity + 90.52 USD monthly cost of reserved capacity = 2,560.92 USD monthly read cost
+		Upfront read cost
+			4,000.00 reserved capacity RCUs x 0.356 USD upfront reserved capacity RCU cost = 1,424.00 USD upfront read reserved capacity cost
+	Write Cost
+		Unit conversions
+			Percentage of Non-transactional writes: 50 / 100 = 0.5
+			Percentage of Transactional writes: 50 / 100 = 0.5
+			Percentage of baseline writes covered by reserved capacity: 20 / 100 = 0.2
+		Pricing calculations
+			5 KB average item size / 1 KB = 5.00 unrounded WCUs needed per item
+			RoundUp (5.000000000) = 5 WCUs needed per item
+			1,000 baseline write rate x 0.50 non-transactional portion x 1 WCU non-transactional write x 5 WCUs needed per item = 2,500.00 baseline WCUs for non-transactional writes
+			1,000 baseline write rate x 0.50 transactional portion x 2 WCU for transactional write x 5 WCUs needed per item = 5,000.00 baseline WCUs for transactional writes
+			2,500.00 baseline WCUs for non-transactional writes + 5,000.00 baseline WCUs for transactional writes = 7,500.00 total baseline WCUs
+			7,500.00 total baseline WCUs x 0.20 covered reserved capacity = 1,500.00 reserved capacity WCUs - step 1
+			1,500.00 reserved capacity WCUs - step 1 / 100 = 15.00 blocks of 100 reserved capacity WCUs - step 2
+			RoundUp (15.00) = 15 blocks of 100 reserved capacity WCUs - step 3
+			15 blocks of 100 reserved capacity WCUs - step 3 x 100 = 1,500.00 reserved capacity WCUs
+			7,500.00 total baseline WCUs - 1,500.00 reserved capacity WCUs = 6,000.00 provisioned baseline WCUs not covered by reserved capacity - step 1
+			Max (6000.00 , 0 ) = 6,000.00 provisioned baseline WCUs not covered by reserved capacity - step 2
+			RoundUp (6000.00) = 6000 provisioned baseline WCUs not covered by reserved capacity
+			730 hours in a month - 300 peak hours per month = 430.00 baseline hours
+			430.00 baseline hours x 6,000 provisioned baseline WCUs not covered by reserved capacity = 2,580,000.00 unrounded total baseline WCU-hours per month not covered by reserved capacity
+			RoundUp (2580000.00) = 2580000 total baseline WCU-hours per month not covered by reserved capacity
+			4,000 peak write rate x 0.50 non-transactional portion x 1 WCU for non-transactional write x 5 WCUs needed per item = 10,000.00 WCUs for non-transactional peak writes
+			4,000 peak write rate x 0.50 transactional portion x 2 WCU for transactional write x 5 WCUs needed per item = 20,000.00 WCUs for transactional peak writes
+			10,000.00 WCUs for non-transactional peak writes + 20,000.00 WCUs for transactional peak writes = 30,000.00 total WCUs for peak writes
+			30,000.00 total WCUs for peak writes - 1,500.00 reserved capacity WCUs = 28,500.00 provisioned peak WCUs not covered by reserved capacity - step 1
+			Max (28500.00 , 0 ) = 28,500.00 provisioned peak WCUs not covered by reserved capacity - step 2
+			RoundUp (28500.00) = 28500 provisioned peak WCUs not covered by reserved capacity
+			28,500 provisioned peak WCUs not covered by reserved capacity x 300 peak hours = 8,550,000.00 total peak WCU-hours per month not covered by reserved capacity
+			2,580,000.00 unrounded total baseline WCU-hours per month not covered by reserved capacity + 8,550,000.00 total peak WCU-hours per month not covered by reserved capacity = 11,130,000.00 unrounded total WCU-hours per month not covered by reserved capacity
+			RoundUp (11130000.00) = 11130000 total WCU-hours per month not covered by reserved capacity
+		monthly cost of WCU-hours not covered by reserved capacity
+			11,130,000.00 total WCU-hours not covered by reserved capacity x 0.000772 USD provisioned WCU-hour = 8,592.36 USD monthly cost of WCU-hours not covered by reserved capacity
+		monthly cost of reserved capacity
+			1,500.00 reserved capacity WCUs x 0.000153 USD reserved capacity WCU hourly cost x 730 = 167.53 USD monthly cost of reserved capacity
+		monthly write cost
+			8,592.36 USD monthly cost of WCU-hours not covered by reserved capacity + 167.53 USD monthly cost of reserved capacity = 8,759.89 USD monthly write cost
+		Upfront write cost
+			1,500.00 reserved capacity WCUs x 1.78 USD upfront reserved capacity WCU cost = 2,670.00 upfront write reserved capacity cost
