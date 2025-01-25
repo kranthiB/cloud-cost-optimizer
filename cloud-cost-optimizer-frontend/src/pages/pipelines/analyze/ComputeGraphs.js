@@ -24,8 +24,8 @@ const ComputeGraphs = ({ pipelineName, cloudProvider }) => {
     const fetchData = async () => {
       try {
         const [graphResponse, costResponse] = await Promise.all([
-          fetch(`${API_BASE_URL}/api/v1/pipelines/${pipelineName}/graph`),
-          fetch(`${API_BASE_URL}/api/v1/pipelines/${pipelineName}/cost`)
+          fetch(`${API_BASE_URL}/api/v1/pipelines/${pipelineName}/graph?cloudProvider=${cloudProvider}`),
+          fetch(`${API_BASE_URL}/api/v1/pipelines/${pipelineName}/cost?cloudProvider=${cloudProvider}`)
         ]);
 
         if (!graphResponse.ok || !costResponse.ok) {

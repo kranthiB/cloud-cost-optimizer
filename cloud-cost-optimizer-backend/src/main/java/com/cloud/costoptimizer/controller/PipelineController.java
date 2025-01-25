@@ -25,11 +25,13 @@ public class PipelineController {
 
 
     @GetMapping("/{pipelineName}/shortest-path")
-    public ResponseEntity<ShortestPathResponse> getShortestPath(@PathVariable String pipelineName) {
+    public ResponseEntity<ShortestPathResponse> getShortestPath(
+            @PathVariable String pipelineName,
+            @RequestParam String cloudProvider) {
         String query = """
             MATCH 
-                (start:Pipelines {name: $pipelineName, state: 'start'}),
-                (end:Pipelines {name: $pipelineName, state: 'end'})
+                (start:Pipelines {name: $pipelineName, csp: $cloudProvider, state: 'start'}),
+                (end:Pipelines {name: $pipelineName, csp: $cloudProvider, state: 'end'})
             CALL apoc.algo.dijkstra(start, end, 'COST_EFFECTIVE_RATIO', 'cost') 
             YIELD path, weight
             RETURN 
@@ -52,6 +54,7 @@ public class PipelineController {
 
         return neo4jClient.query(query)
                 .bind(pipelineName).to("pipelineName")
+                .bind(cloudProvider).to("cloudProvider")
                 .fetchAs(ShortestPathResponse.class)
                 .mappedBy((TypeSystem typeSystem, Record record) -> {
                     Map<String, Object> pathInfo = record.get("pathInfo").asMap();
@@ -69,10 +72,12 @@ public class PipelineController {
     }
 
     @GetMapping("/{pipelineName}/cost")
-    public ResponseEntity<List<CostDetails>> getPipelineCost(@PathVariable String pipelineName) {
+    public ResponseEntity<List<CostDetails>> getPipelineCost(
+            @PathVariable String pipelineName,
+            @RequestParam String cloudProvider) {
         String query = """
-            MATCH path = (start:Pipelines {name: $pipelineName, state: 'start'})
-                -[r:COST_EFFECTIVE_RATIO*]->(end:Pipelines {name: $pipelineName, state: 'end'})
+            MATCH path = (start:Pipelines {name: $pipelineName, csp: $cloudProvider, state: 'start'})
+                -[r:COST_EFFECTIVE_RATIO*]->(end:Pipelines {name: $pipelineName, csp: $cloudProvider, state: 'end'})
             WITH path,
                 [node IN nodes(path) | {
                     name: node.name, 
@@ -99,6 +104,7 @@ public class PipelineController {
 
         List<CostDetails> result = neo4jClient.query(query)
                 .bind(pipelineName).to("pipelineName")
+                .bind(cloudProvider).to("cloudProvider")
                 .fetchAs(CostDetails.class)
                 .mappedBy((TypeSystem typeSystem, Record record) -> {
                     Double totalCost = record.get("TotalCost").asDouble();
@@ -124,10 +130,12 @@ public class PipelineController {
     }
 
     @GetMapping("/{pipelineName}/graph")
-    public List<Map<String, Object>> getPipelineGraph(@PathVariable String pipelineName) {
+    public List<Map<String, Object>> getPipelineGraph(
+            @PathVariable String pipelineName,
+            @RequestParam String cloudProvider) {
         String cypherQuery = """
-        MATCH (start:Pipelines {name: $pipelineName, state: 'start'}),
-              (end:Pipelines {name: $pipelineName, state: 'end'}),
+        MATCH (start:Pipelines {name: $pipelineName, csp: $cloudProvider, state: 'start'}),
+              (end:Pipelines {name: $pipelineName, csp: $cloudProvider, state: 'end'}),
               path = (start)-[*]->(end)
         UNWIND relationships(path) as r
         WITH DISTINCT startNode(r) as n, r, endNode(r) as m  
@@ -136,6 +144,7 @@ public class PipelineController {
 
         return neo4jClient.query(cypherQuery)
                 .bind(pipelineName).to("pipelineName")
+                .bind(cloudProvider).to("cloudProvider")
                 .fetch()
                 .all().stream().toList();
     }
