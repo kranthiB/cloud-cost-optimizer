@@ -1,11 +1,13 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { Box, Typography, Dialog, DialogTitle, Grid, DialogActions, Button, 
-         useTheme, useMediaQuery, IconButton, Card, CardContent, Chip } from '@mui/material';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { 
+  Box, Typography, Dialog, DialogTitle, Grid, DialogActions, Button, 
+  useTheme, useMediaQuery, IconButton, Card, CardContent, Chip 
+} from '@mui/material';
 import Graph from 'react-graph-vis';
 import CloseIcon from '@mui/icons-material/Close';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import ZoomInIcon from '@mui/icons-material/ZoomIn';
-import ZoomOutIcon from '@mui/icons-material/ZoomOut';
+import ZoomInIcon from '@mui/icons-material/ZoomOut';
+import ZoomOutIcon from '@mui/icons-material/ZoomIn';
 
 const EnhancedGraphVisualization = ({ graphData }) => {
   const theme = useTheme();
@@ -15,6 +17,10 @@ const EnhancedGraphVisualization = ({ graphData }) => {
   const [selectedElement, setSelectedElement] = useState(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [network, setNetwork] = useState(null);
+
+  // Keep references for animation
+  const particlesRef = useRef([]); 
+  const animationFrameRef = useRef(null);
 
   const handleZoom = (zoomIn) => {
     if (network) {
@@ -54,7 +60,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
         }}
         aria-label="Zoom in"
       >
-        <ZoomInIcon />
+        <ZoomOutIcon />
       </IconButton>
       <IconButton
         onClick={() => handleZoom(false)}
@@ -67,12 +73,11 @@ const EnhancedGraphVisualization = ({ graphData }) => {
         }}
         aria-label="Zoom out"
       >
-        <ZoomOutIcon />
+        <ZoomInIcon />
       </IconButton>
     </Box>
   );
 
-  // [Previous DetailCard component code remains the same]
   const DetailCard = ({ label, value }) => {
     const theme = useTheme();
   
@@ -182,7 +187,6 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     );
   };
 
-  // [Previous EnhancedDialogContent component code remains the same]
   const EnhancedDialogContent = ({ selectedElement }) => {
     if (!selectedElement) return null;
     
@@ -226,7 +230,6 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     );
   };
 
-  // [Previous processedData code remains the same]
   const processedData = useMemo(() => {
     if (!graphData?.length) return { nodes: [], edges: [] };
 
@@ -297,7 +300,6 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     };
   }, [graphData, isMobile, theme]);
 
-  // [Previous options object remains the same]
   const options = {
     nodes: {
       shape: 'dot',
@@ -320,6 +322,8 @@ const EnhancedGraphVisualization = ({ graphData }) => {
       },
       width: 2,
       shadow: true,
+      // This line ensures the edges are drawn continuously (for style).
+      // Actual "moving flow" is implemented below in afterDrawing.
       smooth: {
         enabled: true,
         type: 'continuous'
@@ -345,59 +349,122 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     height: isMobile ? '400px' : isTablet ? '500px' : '600px'
   };
 
-  // [Previous useEffect and events code remains the same]
-  useEffect(() => {
-    if (network && processedData.edges.length > 0) {
-      const animateRequestFlow = () => {
-        processedData.edges.forEach((edge, index) => {
-          setTimeout(() => {
-            // Create animation for request flow
-            const edgeElement = network.body.edges[edge.id];
-            if (edgeElement) {
-              const startPos = network.getPosition(edge.from);
-              const endPos = network.getPosition(edge.to);
-              
-              // Animate the edge color
-              edgeElement.options.color = {
-                color: theme.palette.success.main,
-                highlight: theme.palette.success.dark,
-                hover: theme.palette.success.light,
-                inherit: false
-              };
-              
-              // Create moving particle effect
-              const duration = 1000;
-              const start = performance.now();
-              
-              const animate = (currentTime) => {
-                const elapsed = currentTime - start;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                if (progress < 1) {
-                  requestAnimationFrame(animate);
-                } else {
-                  // Reset edge color after animation
-                  edgeElement.options.color = {
-                    color: theme.palette.primary.main,
-                    highlight: theme.palette.primary.dark,
-                    hover: theme.palette.primary.light,
-                    inherit: false
-                  };
-                }
-                network.redraw();
-              };
-              
-              requestAnimationFrame(animate);
-            }
-          }, index * 1500); // Stagger animations
+  /**
+   * Initialize "flow particles" for each edge.
+   */
+  const initParticles = (net, edges) => {
+    const particles = [];
+    edges.forEach((edge) => {
+      // Create multiple particles per edge, or just 1.  
+      // Adjust for more/less flow.
+      for (let i = 0; i < 3; i++) {
+        particles.push({
+          edgeId: edge.id,
+          progress: Math.random(),     // 0..1 for current position along edge
+          speed: 0.002 + Math.random() * 0.002, // speed of particle
         });
-      };
+      }
+    });
+    particlesRef.current = particles;
+  };
 
-      // Start animation loop
-      const animationInterval = setInterval(animateRequestFlow, processedData.edges.length * 1500 + 2000);
-      return () => clearInterval(animationInterval);
+  /**
+   * Animate particles by incrementing position and redrawing network.
+   */
+  const animateParticles = () => {
+    if (!network) return;
+
+    // Update each particle's position
+    particlesRef.current.forEach((p) => {
+      p.progress += p.speed;
+      if (p.progress > 1) {
+        p.progress = 0;  // loop around
+      }
+    });
+
+    // Force a redraw so afterDrawing callback is triggered
+    network.redraw();
+
+    // Schedule next frame
+    animationFrameRef.current = requestAnimationFrame(animateParticles);
+  };
+
+  /**
+   * This is where we actually draw the particles after the network is drawn.
+   */
+  const handleAfterDrawing = (ctx) => {
+    const net = network;
+    if (!net) return;
+
+    // For each particle, we get the edge, then compute the pixel coords
+    particlesRef.current.forEach((p) => {
+      const edgeObj = net.body.edges[p.edgeId];
+      if (!edgeObj) return;
+
+      const { from, to } = edgeObj;
+      // fromPoint / toPoint are the node positions in canvas space
+      const fromPoint = net.getPosition(from.id);
+      const toPoint = net.getPosition(to.id);
+      if (!fromPoint || !toPoint) return;
+
+      // Convert them to canvas coordinates
+      const fromCanvas = net.canvasToDOM({
+        x: fromPoint.x,
+        y: fromPoint.y
+      });
+      const toCanvas = net.canvasToDOM({
+        x: toPoint.x,
+        y: toPoint.y
+      });
+
+      // Current progress along the line
+      const x = fromCanvas.x + (toCanvas.x - fromCanvas.x) * p.progress;
+      const y = fromCanvas.y + (toCanvas.y - fromCanvas.y) * p.progress;
+
+      // Draw the particle as a small circle
+      ctx.beginPath();
+      ctx.fillStyle = theme.palette.success.main; // color of flow
+      ctx.arc(x, y, 5, 0, 2 * Math.PI); // size = 5
+      ctx.fill();
+    });
+  };
+
+  /**
+   * Set up the network instance: 
+   *   - Attach afterDrawing
+   *   - Initialize & start the particle animation
+   */
+  const handleGetNetwork = (net) => {
+    setNetwork(net);
+    net.stabilize();
+
+    // If we re-init, remove old listeners & stop animation
+    net.off("afterDrawing");
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
     }
-  }, [network, processedData.edges, theme]);
+
+    // Attach the drawing callback
+    net.on("afterDrawing", (ctx) => {
+      handleAfterDrawing(ctx);
+    });
+
+    // Initialize particles, then start animating
+    initParticles(net, processedData.edges);
+    animationFrameRef.current = requestAnimationFrame(animateParticles);
+  };
+
+  // Clean up listeners & animations on unmount
+  useEffect(() => {
+    return () => {
+      if (network) {
+        network.off("afterDrawing");
+      }
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [network]);
 
   const events = {
     select: ({ nodes, edges }) => {
@@ -411,7 +478,6 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     }
   };
 
-  // [Previous renderDetailsDialog function remains the same]
   const renderDetailsDialog = () => (
     <Dialog
       open={isDetailsOpen}
@@ -444,7 +510,6 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     </Dialog>
   );
 
-  // [Previous renderLegend function remains the same]
   const renderLegend = () => {
     if (processedData.regions && processedData.regions.length !== 0) {
       const validRegions = processedData.regions.filter(region => region !== 'Unknown');
@@ -486,10 +551,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
             graph={processedData}
             options={options}
             events={events}
-            getNetwork={network => {
-              setNetwork(network);
-              network.stabilize();
-            }}
+            getNetwork={handleGetNetwork}
           />
           <ZoomControls />
         </CardContent>
@@ -509,3 +571,4 @@ const EnhancedGraphVisualization = ({ graphData }) => {
 };
 
 export default EnhancedGraphVisualization;
+
