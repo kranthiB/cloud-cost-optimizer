@@ -1147,6 +1147,169 @@ CREATE (d)-[:COST_EFFECTIVE_RATIO {
     currency: 'USD'
 }]->(s);
 
+
+// Create Redshift
+CREATE (:Database {
+    // Basic Information
+    name: 'Redshift',
+    csp: 'AWS',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'us-east-1',
+    numberOfNodes: 5,
+    utilizationPercentage: 100,
+    instanceType: 'dc2.8xlarge',
+    pricingModel: 'OnDemand',
+    
+    // Storage Configuration
+    storage_additionalBackup: 10,
+    storage_additionalBackupUnit: 'TB',
+    storage_dataScanned: 10,
+    storage_dataScannedUnit: 'TB',
+    storage_managed: 10,
+    storage_managedUnit: 'TB',
+    storage_dataTransferInto: 10,
+    storage_dataTransferIntoUnit: 'TB'
+
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (s:Storage {
+        name: 'S3',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'us-east-1'
+    }),
+    (d:Database {
+        name: 'Redshift',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'us-east-1'
+    })
+CREATE (s)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 18256.08,
+    
+    // Storage Cost
+    storage_instanceCost: 17520.00,
+    storage_backupCost: 235.52,
+    storage_upfrontCost: 0,
+    storage_spectrumCost: 50.00,
+    storage_managedCost: 245.76,
+    storage_dataTransferCost: 204.80,
+    
+    // Currency
+    currency: 'USD'
+}]->(d);
+
+// Create Redshift
+CREATE (:Database {
+    // Basic Information
+    name: 'Redshift',
+    csp: 'AWS',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'ap-south-1',
+    numberOfNodes: 5,
+    utilizationPercentage: 100,
+    instanceType: 'dc2.8xlarge',
+    pricingModel: 'OnDemand',
+    
+    // Storage Configuration
+    storage_additionalBackup: 10,
+    storage_additionalBackupUnit: 'TB',
+    storage_dataScanned: 10,
+    storage_dataScannedUnit: 'TB',
+    storage_managed: 10,
+    storage_managedUnit: 'TB',
+    storage_dataTransferInto: 10,
+    storage_dataTransferIntoUnit: 'TB'
+
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (s:Storage {
+        name: 'S3',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'ap-south-1'
+    }),
+    (d:Database {
+        name: 'Redshift',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'ap-south-1'
+    })
+CREATE (s)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 23718.90,
+    
+    // Storage Cost
+    storage_instanceCost: 22265.00,
+    storage_backupCost: 256.00,
+    storage_upfrontCost: 0,
+    storage_spectrumCost: 50.00,
+    storage_managedCost: 267.26,
+    storage_dataTransferCost: 880.64,
+    
+    // Currency
+    currency: 'USD'
+}]->(d);
+
+// Create Redshift
+CREATE (:Database {
+    // Basic Information
+    name: 'Redshift',
+    csp: 'AWS',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'eu-west-2',
+    numberOfNodes: 5,
+    utilizationPercentage: 100,
+    instanceType: 'dc2.8xlarge',
+    pricingModel: 'OnDemand',
+    
+    // Storage Configuration
+    storage_additionalBackup: 10,
+    storage_additionalBackupUnit: 'TB',
+    storage_dataScanned: 10,
+    storage_dataScannedUnit: 'TB',
+    storage_managed: 10,
+    storage_managedUnit: 'TB',
+    storage_dataTransferInto: 10,
+    storage_dataTransferIntoUnit: 'TB'
+
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (s:Storage {
+        name: 'S3',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'eu-west-2'
+    }),
+    (d:Database {
+        name: 'Redshift',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'eu-west-2'
+    })
+CREATE (s)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 22218.56,
+    
+    // Storage Cost
+    storage_instanceCost: 21462.00,
+    storage_backupCost: 245.76,
+    storage_upfrontCost: 0,
+    storage_spectrumCost: 50.00,
+    storage_managedCost: 256,
+    storage_dataTransferCost: 204.80,
+    
+    // Currency
+    currency: 'USD'
+}]->(d);
+
 // Create End Pipeline Node
 CREATE (:Pipelines {
     name: 'IoT-Based Manufacturing Platform',
@@ -1157,8 +1320,8 @@ CREATE (:Pipelines {
 WITH ['us-east-1', 'ap-south-1', 'eu-west-2'] as regions
 UNWIND regions as region
 MATCH 
-    (s:Storage {
-        name: 'S3',
+    (d:Database {
+        name: 'Redshift',
         csp: 'AWS',
         pipeline: 'IoT-Based Manufacturing Platform',
         region: region
@@ -1167,6 +1330,6 @@ MATCH
         name: 'IoT-Based Manufacturing Platform',
         state: 'end'
     })
-CREATE (s)-[:COST_EFFECTIVE_RATIO {
+CREATE (d)-[:COST_EFFECTIVE_RATIO {
     cost: 0
 }]->(p);

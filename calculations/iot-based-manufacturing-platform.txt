@@ -776,3 +776,96 @@ outbound transfer amount unit - TB per month
 			Outbound:
 				All other regions: 10240 GB x 0.02 USD per GB = 204.80 USD
 		Data Transfer cost (monthly): 204.80 USD
+
+
+// **Amazon Redshift**
+
+Number of nodes - 5
+instance type - dc2.8xlarge
+utilization - 100%
+
+pricing model - 'OnDemand'
+
+additional backup storage value - 10
+additional backup storage unit - TB
+
+data scanned value - 10
+
+data scanned unit - TB
+
+managed storage size - 10
+managed storage unit - TB
+
+Data transafer into value - 10
+data transfer into unit - TB
+
+// us-east-1
+	Redshift instance cost (monthly)
+		5 instance(s) x 4.8 USD hourly x (100 / 100 Utilized/Month) x 730 hours in a month = 17520.0000 USD
+	Redshift instance cost (upfront): 0.00 USD
+	Additional backup storage cost
+		Unit conversions
+			Additional backup storage: 10 TB x 1024 GB in a TB = 10240 GB
+		Pricing calculations
+			Tiered price for: 10,240 GB
+			10,240 GB x 0.023 USD = 235.52 USD
+		Total tier cost = 235.52 USD (Additional backup storage cost)
+	Redshift Spectrum cost
+		10 TB x 5.00 USD = 50.00 USD (Redshift Spectrum cost)
+	Redshift Managed Storage cost
+		Unit conversions
+			Managed storage size: 10 TB x 1024 GB in a TB = 10240 GB
+		Pricing calculations
+			10,240 GB x 0.024 USD = 245.76 USD (Redshift managed storage cost)
+	Data transfer cost
+		Unit conversions
+			Data Transfer In To: 10 TB x 1024 GB in a TB = 10240 GB
+		Pricing calculations
+			10,240 GB x 0.02 Price for data transfers in to = 204.80 USD (Redshift Data Transfer In To cost)
+//ap-south-1
+	Redshift instance cost (monthly)
+		5 instance(s) x 6.1 USD hourly x (100 / 100 Utilized/Month) x 730 hours in a month = 22265.0000 USD
+	Redshift instance cost (upfront): 0.00 USD
+	Additional backup storage cost
+		Unit conversions
+			Additional backup storage: 10 TB x 1024 GB in a TB = 10240 GB
+		Pricing calculations
+			Tiered price for: 10,240 GB
+			10,240 GB x 0.025 USD = 256.00 USD
+		Total tier cost = 256.00 USD (Additional backup storage cost)
+	Redshift Spectrum cost
+		10 TB x 5.00 USD = 50.00 USD (Redshift Spectrum cost)
+	Redshift Managed Storage cost
+		Unit conversions
+			Managed storage size: 10 TB x 1024 GB in a TB = 10240 GB
+		Pricing calculations
+		10,240 GB x 0.0261 USD = 267.26 USD (Redshift managed storage cost)
+	Data transfer cost
+		Unit conversions
+			Data Transfer In To: 10 TB x 1024 GB in a TB = 10240 GB
+		Pricing calculations
+		10,240 GB x 0.086 Price for data transfers in to = 880.64 USD (Redshift Data Transfer In To costData
+
+
+//eu-west-2
+	Redshift instance cost (monthly)
+		5 instance(s) x 5.88 USD hourly x (100 / 100 Utilized/Month) x 730 hours in a month = 21462.0000 USD
+	Redshift instance cost (upfront): 0.00 USD
+	Additional backup storage cost
+		Unit conversions
+			Additional backup storage: 10 TB x 1024 GB in a TB = 10240 GB
+		Pricing calculations
+			Tiered price for: 10,240 GB
+			10,240 GB x 0.024 USD = 245.76 
+	Redshift Spectrum cost
+		10 TB x 5.00 USD = 50.00 USD (Redshift Spectrum cost)
+	Redshift Managed Storage cost
+		Unit conversions
+			Managed storage size: 10 TB x 1024 GB in a TB = 10240 GB
+		Pricing calculations
+			10,240 GB x 0.025 USD = 256.00 USD (Redshift managed storage cost)
+	Data transfer cost
+		Unit conversions
+			Data Transfer In To: 10 TB x 1024 GB in a TB = 10240 GB
+		Pricing calculations
+			10,240 GB x 0.02 Price for data transfers in to = 204.80 USD (Redshift Data Transfer In To cost)
