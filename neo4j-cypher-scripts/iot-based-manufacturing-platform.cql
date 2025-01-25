@@ -571,7 +571,142 @@ CREATE (mk)-[:COST_EFFECTIVE_RATIO {
 }]->(mm);
 
 
-// End Pipeline
+// Create EMR Node
+CREATE (:Analytics {
+    // Basic Information
+    name: 'EMR',
+    csp: 'AWS',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'us-east-1',
+    
+    // Master Node Configuration
+    noOfMasterNodes: 1,
+    masterNodesInstanceType: 'g6.12x large',
+    masterNodesUtilization: '100%',
+    
+    // Core Nodes Configuration
+    noOfCoreNodes: 4,
+    coreNodesInstanceType: 'g6.12x large',
+    coreNodesUtilization: '100%'
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (mm:Messaging {
+        name: 'MSK',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'us-east-1'
+    }),
+    (a:Analytics {
+        name: 'EMR',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'us-east-1'
+    })
+CREATE (mm)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 4198.96,
+    
+    // Cost Breakdown
+    masterNodes_cost: 839.792,
+    coreNodes_cost: 3359.168,
+    
+    // Currency
+    currency: 'USD'
+}]->(a);
+
+
+// Create EMR Node
+CREATE (:Analytics {
+    // Basic Information
+    name: 'EMR',
+    csp: 'AWS',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'ap-south-1',
+    
+    // Master Node Configuration
+    noOfMasterNodes: 1,
+    masterNodesInstanceType: 'g6.12x large',
+    masterNodesUtilization: '100%',
+    
+    // Core Nodes Configuration
+    noOfCoreNodes: 4,
+    coreNodesInstanceType: 'g6.12x large',
+    coreNodesUtilization: '100%'
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (mm:Messaging {
+        name: 'MSK',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'ap-south-1'
+    }),
+    (a:Analytics {
+        name: 'EMR',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'ap-south-1'
+    })
+CREATE (mm)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 4198.96,
+    
+    // Cost Breakdown
+    masterNodes_cost: 839.792,
+    coreNodes_cost: 3359.168,
+    
+    // Currency
+    currency: 'USD'
+}]->(a);
+
+// Create EMR Node
+CREATE (:Analytics {
+    // Basic Information
+    name: 'EMR',
+    csp: 'AWS',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'eu-west-2',
+    
+    // Master Node Configuration
+    noOfMasterNodes: 1,
+    masterNodesInstanceType: 'g6.12x large',
+    masterNodesUtilization: '100%',
+    
+    // Core Nodes Configuration
+    noOfCoreNodes: 4,
+    coreNodesInstanceType: 'g6.12x large',
+    coreNodesUtilization: '100%'
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (mm:Messaging {
+        name: 'MSK',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'eu-west-2'
+    }),
+    (a:Analytics {
+        name: 'EMR',
+        csp: 'AWS',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'eu-west-2'
+    })
+CREATE (mm)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 4198.96,
+    
+    // Cost Breakdown
+    masterNodes_cost: 839.792,
+    coreNodes_cost: 3359.168,
+    
+    // Currency
+    currency: 'USD'
+}]->(a);
+
 
 // Create End Pipeline Node
 CREATE (:Pipelines {
@@ -583,8 +718,8 @@ CREATE (:Pipelines {
 WITH ['us-east-1', 'ap-south-1', 'eu-west-2'] as regions
 UNWIND regions as region
 MATCH 
-    (mm:Messaging {
-        name: 'MSK',
+    (a:Analytics {
+        name: 'EMR',
         csp: 'AWS',
         pipeline: 'IoT-Based Manufacturing Platform',
         region: region
@@ -593,6 +728,6 @@ MATCH
         name: 'IoT-Based Manufacturing Platform',
         state: 'end'
     })
-CREATE (mm)-[:COST_EFFECTIVE_RATIO {
+CREATE (a)-[:COST_EFFECTIVE_RATIO {
     cost: 0
 }]->(p);

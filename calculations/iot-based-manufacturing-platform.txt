@@ -345,3 +345,44 @@ rules_engine_cost
 
 	Total Cost
 		7091.95 + 593.92 + 116 + 391.316 + 675.84 = 8,869.026	
+
+// **Amazon EMR**
+
+Number of master nodes = 1
+Instance Type = g6.12x large
+Utilization = 100%
+
+Number of core EMR nodes = 1
+Instance Type = g6.12x large
+Utilization = 100%
+
+
+// us-east-1
+	Master Node Cost
+		number of master nodes * 1.1504 USD hourly * ( utlization / 100 utilized / month) * 730 hours in a month
+		1 * 1.1504 * (100 / 100) * 730 = 839.792
+	Core Nodes Cost
+		number of core nodes * 1.1504 USD hourly * ( utlization / 100 utilized / month) * 730 hours in a month
+		4 * 1.1504 * (100 / 100) * 730 = 3359.168
+	Total Cost
+		839.792 + 3359.168 = 4198.96
+
+// ap-south-1
+	Master Node Cost
+		number of master nodes * 1.1504 USD hourly * ( utlization / 100 utilized / month) * 730 hours in a month
+		1 * 1.1504 * (100 / 100) * 730 = 839.792
+	Core Nodes Cost
+		number of core nodes * 1.1504 USD hourly * ( utlization / 100 utilized / month) * 730 hours in a month
+		4 * 1.1504 * (100 / 100) * 730 = 3359.168
+	Total Cost
+		839.792 + 3359.168 = 4198.96
+
+// eu-west-2
+	Master Node Cost
+		number of master nodes * 1.1504 USD hourly * ( utlization / 100 utilized / month) * 730 hours in a month
+		1 * 1.1504 * (100 / 100) * 730 = 839.792
+	Core Nodes Cost
+		number of core nodes * 1.1504 USD hourly * ( utlization / 100 utilized / month) * 730 hours in a month
+		4 * 1.1504 * (100 / 100) * 730 = 3359.168
+	Total Cost
+		839.792 + 3359.168 = 4198.96
