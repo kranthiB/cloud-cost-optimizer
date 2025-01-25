@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Box, Paper, Typography, Grid, Card, CardContent, CircularProgress, Alert } from '@mui/material';
-import { Info } from '@mui/icons-material';
+import { Box, Paper, Typography, Grid, Card, CardContent, CircularProgress, Alert, Collapse, IconButton } from '@mui/material';
+import { Info, ExpandMore, ExpandLess } from '@mui/icons-material';
 import EnhancedGraphVisualization from './EnhancedGraphVisualization';
 import {
   BarChart, Bar, XAxis, YAxis, LabelList, Cell, LineChart, Line, 
@@ -9,11 +9,12 @@ import {
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
-const ComputeGraphs = ({ pipelineName }) => {
+const ComputeGraphs = ({ pipelineName, cloudProvider }) => {
   const [graphData, setGraphData] = useState(null);
   const [costData, setCostData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [computeGraphExpanded, setComputeGraphExpanded] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,23 +61,41 @@ const ComputeGraphs = ({ pipelineName }) => {
     );
   }
 
+  const handleToggle = () => {
+    setComputeGraphExpanded((prev) => !prev);
+  };
+  
+
   return (
     <Box sx={{ width: '100%', mt: 2 }}>
       <Paper elevation={2} sx={{ p: 3 }}>
         <Box display="flex" alignItems="center" gap={1} mb={3}>
-          <Info color="primary" />
-          <Typography variant="h5">
-            Infrastructure Graph for {pipelineName}
-          </Typography>
-        </Box>
-        
-        {/* Enhanced Graph Visualization */}
-        <Box mb={4}>
-          <EnhancedGraphVisualization graphData={graphData} />
+        <Typography 
+          variant="h5" 
+          sx={{ 
+            flexGrow: 1, 
+            fontWeight: 'bold', 
+            letterSpacing: 0.5, 
+            color: 'primary.main', 
+            textTransform: 'capitalize'
+          }}
+        >
+          {cloudProvider} Infrastructure Overview
+        </Typography>
+          <IconButton onClick={handleToggle} color="primary">
+            {computeGraphExpanded ? <ExpandLess /> : <ExpandMore />}
+          </IconButton>
         </Box>
 
-        {/* Cost Comparison Table */}
-        <CostComparisonTable data={costData} />
+        <Collapse in={computeGraphExpanded}>
+          {/* Enhanced Graph Visualization */}
+          <Box mb={4}>
+            <EnhancedGraphVisualization graphData={graphData} cloudProvider={cloudProvider} />
+          </Box>
+
+          {/* Cost Comparison Table */}
+          <CostComparisonTable data={costData} />
+        </Collapse>
       </Paper>
     </Box>
   );

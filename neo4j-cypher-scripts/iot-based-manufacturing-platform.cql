@@ -1,5 +1,5 @@
 // Create Pipeline
-CREATE (:Pipelines {name: 'IoT-Based Manufacturing Platform', state: 'start'});
+CREATE (:Pipelines {name: 'IoT-Based Manufacturing Platform', csp: 'AWS', state: 'start'});
 
 // Data Ingestion Layer - AWS IoT Core
 CREATE (:IoT {
@@ -1313,6 +1313,7 @@ CREATE (s)-[:COST_EFFECTIVE_RATIO {
 // Create End Pipeline Node
 CREATE (:Pipelines {
     name: 'IoT-Based Manufacturing Platform',
+    csp: 'AWS',
     state: 'end'
 });
 

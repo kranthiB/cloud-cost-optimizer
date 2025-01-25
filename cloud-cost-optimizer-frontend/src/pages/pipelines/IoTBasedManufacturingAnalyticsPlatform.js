@@ -201,9 +201,10 @@ const IoTBasedManufacturingAnalyticsPlatform = () => {
                 class Sensors,EF,ES sensors
               `}
             </div>
-
+            
+            <NonFunctionalRequirements />
             {/* AWS Implementation */}
-            <Accordion expanded={subExpanded === 'core-processing'} onChange={handleSubExpand('core-processing')} sx={{ mt: 2 }}>
+            <Accordion expanded={subExpanded === 'aws-core-processing'} onChange={handleSubExpand('aws-core-processing')} sx={{ mt: 2 }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="h6" fontWeight="bold">AWS</Typography>
               </AccordionSummary>
@@ -320,103 +321,271 @@ const IoTBasedManufacturingAnalyticsPlatform = () => {
                       class SAGET,DataBrew,EMRML,EC2GPU ml
                     `}
                   </div>
+                </Paper>
+              </AccordionDetails>
+            </Accordion>
 
-                  {/* Non-Functional Requirements Section */}
-                  <Box sx={{ mt: 4 }}>
-                    <Typography variant="h6" fontWeight="bold" align="center" gutterBottom>
-                      🔹 Non-Functional Requirements (NFRs)
-                    </Typography>
+            {/* Azure Implementation */}
+            <Accordion expanded={subExpanded === 'azure-core-processing'} onChange={handleSubExpand('azure-core-processing')} sx={{ mt: 2 }}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="h6" fontWeight="bold">Azure</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Paper sx={{ p: 3, width: '100%' }}>
+                  <div className="mermaid">
+                    {`
+                    flowchart LR
+                      subgraph External[External Systems]
+                          Sensors[fa:fa-sensor IoT Sensors]
+                          ExtApps[fa:fa-cloud External Applications]
+                      end
 
-                    <Grid container spacing={3} sx={{ mt: 2 }}>
+                      subgraph Azure[Azure Cloud]
+                          subgraph Ingestion[Data Ingestion Layer]
+                              direction TB
+                              IoTHub[Azure IoT Hub]
+                              EventHub[Event Hubs]
+                              EventHNS[Event Hubs Namespace]
+                          end
+                          
+                          subgraph Processing[Real-time Processing Layer]
+                              direction TB
+                              subgraph Stream["Stream Processing"]
+                                  Functions[Azure Functions]
+                                  ASA[Azure Stream Analytics]
+                                  Databricks[Azure Databricks Streaming]
+                              end
+                              
+                              subgraph Analytics["Predictive Analytics"]
+                                  AML[Azure Machine Learning]
+                                  Synapse[Azure Synapse Analytics]
+                              end
+                          end
 
-                      {/* Performance Requirements */}
-                      <Grid item xs={12} md={6}>
-                        <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
-                          <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
-                            🚀 Performance Requirements
-                          </Typography>
-                          <Box sx={{ textAlign: "left" }}>
-                            <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
-                              <li>Process <strong>100,000 IoT messages/sec</strong> with <strong>&lt;2s latency</strong>.</li>
-                              <li><strong>Kinesis Data Streams</strong> scale to 2x peak loads.</li>
-                              <li><strong>MSK clusters</strong> support <strong>1TB/hour</strong> of incoming data.</li>
-                              <li><strong>Lambda</strong> functions complete processing within <strong>500ms (p95)</strong>.</li>
-                              <li><strong>EMR streaming</strong> ensures a max <strong>5-minute delay</strong>.</li>
-                            </ul>
-                          </Box>
-                        </Box>
-                      </Grid>
+                          subgraph Storage[Data Storage Layer]
+                              DataLake[(Data Lake Storage Gen2)]
+                              Cosmos[(Cosmos DB)]
+                              SQLDW[(Synapse SQL Pool)]
+                          end
 
-                      {/* Scalability Requirements */}
-                      <Grid item xs={12} md={6}>
-                        <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
-                          <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
-                            📈 Scalability Requirements
-                          </Typography>
-                          <Box sx={{ textAlign: "left" }}>
-                            <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
-                              <li>Auto-scale to handle <strong>2x annual growth</strong> in device count.</li>
-                              <li><strong>EMR clusters</strong> scale dynamically from <strong>3 to 50 nodes</strong>.</li>
-                              <li><strong>S3 Data Lake</strong> supports <strong>5PB+ storage</strong> with efficient querying.</li>
-                              <li>Support <strong>50% YoY data growth</strong> with 5-year retention.</li>
-                            </ul>
-                          </Box>
-                        </Box>
-                      </Grid>
+                          subgraph Optimization[Process Optimization Layer]
+                              direction TB
+                              StreamA[Stream Analytics Jobs]
+                              LogicApp[Logic Apps]
+                              ADF[Data Factory]
+                          end
 
-                      {/* Reliability Requirements */}
-                      <Grid item xs={12} md={6}>
-                        <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
-                          <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
-                            🛡️ Reliability Requirements
-                          </Typography>
-                          <Box sx={{ textAlign: "left" }}>
-                            <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
-                              <li>Maintain <strong>99.95% uptime</strong> with Multi-AZ deployments.</li>
-                              <li><strong>RPO: 5 minutes</strong>, <strong>RTO: 30 minutes</strong> for failovers.</li>
-                              <li>No single point of failure, automatic failover mechanisms.</li>
-                              <li>Data replicated across <strong>3 Availability Zones</strong> for redundancy.</li>
-                            </ul>
-                          </Box>
-                        </Box>
-                      </Grid>
+                          subgraph ML[Machine Learning Layer]
+                              direction TB
+                              AMLT[AML Training Compute]
+                              DataPrep[Data Factory Data Flows]
+                              DatabricksML[Databricks ML]
+                              VMGPU[VM with GPUs]
+                          end
 
-                      {/* Security Requirements */}
-                      <Grid item xs={12} md={6}>
-                        <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
-                          <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
-                            🔒 Security Requirements
-                          </Typography>
-                          <Box sx={{ textAlign: "left" }}>
-                            <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
-                              <li>Encrypt data at rest with <strong>AWS KMS</strong>, annual key rotation.</li>
-                              <li>Secure data in transit with <strong>TLS 1.3</strong>.</li>
-                              <li>Strict IAM policies enforce <strong>least privilege access</strong>.</li>
-                              <li><strong>MFA required</strong> for human access, key rotation every 90 days.</li>
-                            </ul>
-                          </Box>
-                        </Box>
-                      </Grid>
+                          subgraph Visualization[Visualization Layer]
+                              PowerBI[Power BI]
+                              Grafana[Azure Managed Grafana]
+                          end
+                      end
 
-                      {/* Maintainability Requirements */}
-                      <Grid item xs={12} md={6}>
-                        <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
-                          <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
-                            ⚙️ Maintainability Requirements
-                          </Typography>
-                          <Box sx={{ textAlign: "left" }}>
-                            <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
-                              <li>Infrastructure as code via <strong>AWS CDK/CloudFormation</strong>.</li>
-                              <li>Automated deployment pipelines with <strong>rollback</strong> capabilities.</li>
-                              <li>Real-time monitoring via <strong>AWS X-Ray</strong> and <strong>CloudWatch Dashboards</strong>.</li>
-                              <li>Logs retained for <strong>90 days</strong> with real-time alerting.</li>
-                            </ul>
-                          </Box>
-                        </Box>
-                      </Grid>
+                      %% External Connections
+                      Sensors --> IoTHub
+                      ExtApps --> EventHub
                       
-                    </Grid>
-                  </Box>
+                      %% Ingestion Layer Connections
+                      IoTHub --> EventHub
+                      IoTHub --> EventHNS
+                      
+                      %% Processing Layer Connections
+                      EventHub --> Functions
+                      EventHub --> ASA
+                      EventHNS --> Databricks
+                      
+                      %% Storage Connections
+                      Functions --> DataLake
+                      ASA --> DataLake
+                      Databricks --> DataLake
+                      Functions --> Cosmos
+                      
+                      %% Analytics & Optimization
+                      DataLake --> StreamA
+                      StreamA --> AML
+                      AML --> Synapse
+                      
+                      %% ML Training Flow
+                      DataLake --> DataPrep
+                      DataPrep --> AMLT
+                      DataPrep --> DatabricksML
+                      DataPrep --> VMGPU
+                      
+                      %% Process Optimization
+                      StreamA --> LogicApp
+                      LogicApp --> ADF
+                      
+                      %% Visualization Layer
+                      DataLake --> PowerBI
+                      Cosmos --> PowerBI
+                      SQLDW --> PowerBI
+                      StreamA --> Grafana
+
+                      classDef external fill:#e6e6e6,stroke:#666,stroke-width:2px
+                      classDef azure fill:#0078D4,stroke:#004380,color:white
+                      classDef storage fill:#3F8624,stroke:#232F3E,color:white
+                      classDef compute fill:#D86613,stroke:#232F3E,color:white
+                      classDef analytics fill:#CC2264,stroke:#232F3E,color:white
+                      classDef ml fill:#01A88D,stroke:#232F3E,color:white
+                      
+                      class External,Sensors,ExtApps external
+                      class IoTHub,EventHub,EventHNS,Functions,ASA,Databricks azure
+                      class DataLake,Cosmos,SQLDW storage
+                      class AML,Synapse,StreamA,LogicApp,ADF analytics
+                      class AMLT,DataPrep,DatabricksML,VMGPU ml
+                    
+                    `}
+                  </div>
+                  
+                </Paper>
+              </AccordionDetails>
+            </Accordion>
+
+            {/* GCP Implementation */}
+            <Accordion expanded={subExpanded === 'gcp-core-processing'} onChange={handleSubExpand('gcp-core-processing')} sx={{ mt: 2 }}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="h6" fontWeight="bold">GCP</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Paper sx={{ p: 3, width: '100%' }}>
+                  <div className="mermaid">
+                    {`
+                    flowchart LR
+                      subgraph External[External Systems]
+                          Sensors[fa:fa-sensor IoT Sensors]
+                          ExtApps[fa:fa-cloud External Applications]
+                      end
+
+                      subgraph GCP[Google Cloud Platform]
+                          subgraph Ingestion[Data Ingestion Layer]
+                              direction TB
+                              PubsubIngest[Cloud Pub/Sub MQTT Bridge]
+                              Pubsub[Cloud Pub/Sub]
+                              KStreams[Kafka on GKE]
+                              ApiGW[Cloud API Gateway]
+                          end
+                          
+                          subgraph Processing[Real-time Processing Layer]
+                              direction TB
+                              subgraph Stream["Stream Processing"]
+                                  Functions[Cloud Functions]
+                                  Dataflow[Cloud Dataflow]
+                                  BeamStream[Apache Beam Streaming]
+                              end
+                              
+                              subgraph Analytics["Predictive Analytics"]
+                                  VertexAI[Vertex AI]
+                                  BigQuery[BigQuery ML]
+                              end
+                          end
+
+                          subgraph Security[Security & Device Management]
+                              direction TB
+                              IAM[Cloud IAM]
+                              CloudDM[Cloud Device Manager]
+                              SecretMgr[Secret Manager]
+                          end
+
+                          subgraph Storage[Data Storage Layer]
+                              CloudStorage[(Cloud Storage)]
+                              Firestore[(Firestore)]
+                              BQStorage[(BigQuery Storage)]
+                          end
+
+                          subgraph Optimization[Process Optimization Layer]
+                              direction TB
+                              DataflowJobs[Dataflow Jobs]
+                              Workflows[Cloud Workflows]
+                              Dataprep[Cloud Dataprep]
+                          end
+
+                          subgraph ML[Machine Learning Layer]
+                              direction TB
+                              VertexTrain[Vertex AI Training]
+                              Dataproc[Cloud Dataproc]
+                              MLGPU[Compute Engine GPUs]
+                          end
+
+                          subgraph Visualization[Visualization Layer]
+                              Looker[Looker]
+                              ManagedGrafana[Managed Grafana]
+                          end
+                      end
+
+                      %% External Connections
+                      Sensors --> PubsubIngest
+                      Sensors --> ApiGW
+                      ExtApps --> Pubsub
+                      
+                      %% Security Layer Connections
+                      ApiGW --> IAM
+                      PubsubIngest --> IAM
+                      IAM --> CloudDM
+                      CloudDM --> SecretMgr
+                      
+                      %% Ingestion Layer Connections
+                      PubsubIngest --> Pubsub
+                      ApiGW --> Pubsub
+                      Pubsub --> KStreams
+                      
+                      %% Processing Layer Connections
+                      Pubsub --> Functions
+                      Pubsub --> Dataflow
+                      KStreams --> BeamStream
+                      
+                      %% Storage Connections
+                      Functions --> CloudStorage
+                      Dataflow --> CloudStorage
+                      BeamStream --> CloudStorage
+                      Functions --> Firestore
+                      
+                      %% Analytics & Optimization
+                      CloudStorage --> DataflowJobs
+                      DataflowJobs --> VertexAI
+                      VertexAI --> BigQuery
+                      
+                      %% ML Training Flow
+                      CloudStorage --> Dataprep
+                      Dataprep --> VertexTrain
+                      Dataprep --> Dataproc
+                      Dataprep --> MLGPU
+                      
+                      %% Process Optimization
+                      DataflowJobs --> Workflows
+                      Workflows --> Dataprep
+                      
+                      %% Visualization Layer
+                      CloudStorage --> Looker
+                      Firestore --> Looker
+                      BQStorage --> Looker
+                      DataflowJobs --> ManagedGrafana
+
+                      classDef external fill:#e6e6e6,stroke:#666,stroke-width:2px
+                      classDef gcp fill:#4285F4,stroke:#1A73E8,color:white
+                      classDef storage fill:#3F8624,stroke:#232F3E,color:white
+                      classDef compute fill:#D86613,stroke:#232F3E,color:white
+                      classDef analytics fill:#CC2264,stroke:#232F3E,color:white
+                      classDef ml fill:#01A88D,stroke:#232F3E,color:white
+                      classDef security fill:#F4B400,stroke:#F4B400,color:black
+                      
+                      class External,Sensors,ExtApps external
+                      class PubsubIngest,Pubsub,KStreams,Functions,Dataflow,BeamStream gcp
+                      class CloudStorage,Firestore,BQStorage storage
+                      class VertexAI,BigQuery,DataflowJobs,Workflows,Dataprep analytics
+                      class VertexTrain,Dataproc,MLGPU ml
+                      class IAM,CloudDM,SecretMgr,ApiGW security
+                    
+                    `}
+                  </div>
+                  
                 </Paper>
               </AccordionDetails>
             </Accordion>
@@ -432,7 +601,16 @@ const IoTBasedManufacturingAnalyticsPlatform = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Paper sx={{ p: 3, width: '100%', textAlign: 'center' }}>
-            <ComputeGraphs pipelineName="IoT-Based Manufacturing Platform" />
+            <ComputeGraphs pipelineName="IoT-Based Manufacturing Platform" cloudProvider="AWS"/>
+          </Paper>
+          <Paper sx={{ p: 3, width: '100%', textAlign: 'center' }}>
+            <ComputeGraphs pipelineName="IoT-Based Manufacturing Platform" cloudProvider="Azure"/>
+          </Paper>
+          <Paper sx={{ p: 3, width: '100%', textAlign: 'center' }}>
+            <ComputeGraphs pipelineName="IoT-Based Manufacturing Platform" cloudProvider="GCP"/>
+          </Paper>
+          <Paper sx={{ p: 3, width: '100%', textAlign: 'center' }}>
+            <ComputeGraphs pipelineName="IoT-Based Manufacturing Platform" cloudProvider="Multi-Cloud"/>
           </Paper>
         </AccordionDetails>
       </Accordion>
@@ -440,5 +618,104 @@ const IoTBasedManufacturingAnalyticsPlatform = () => {
   );
 };
 
+const NonFunctionalRequirements = ({ }) => {
+  return (
+    <Box sx={{ mt: 4 }}>
+      <Typography variant="h6" fontWeight="bold" align="center" gutterBottom>
+        🔹 Non-Functional Requirements (NFRs)
+      </Typography>
+
+      <Grid container spacing={3} sx={{ mt: 2 }}>
+
+        {/* Performance Requirements */}
+        <Grid item xs={12} md={6}>
+          <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
+            <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
+              🚀 Performance Requirements
+            </Typography>
+            <Box sx={{ textAlign: "left" }}>
+              <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
+                <li>Process <strong>100,000 IoT messages/sec</strong> with <strong>&lt;2s latency</strong>.</li>
+                <li><strong>Kinesis Data Streams</strong> scale to 2x peak loads.</li>
+                <li><strong>MSK clusters</strong> support <strong>1TB/hour</strong> of incoming data.</li>
+                <li><strong>Lambda</strong> functions complete processing within <strong>500ms (p95)</strong>.</li>
+                <li><strong>EMR streaming</strong> ensures a max <strong>5-minute delay</strong>.</li>
+              </ul>
+            </Box>
+          </Box>
+        </Grid>
+
+        {/* Scalability Requirements */}
+        <Grid item xs={12} md={6}>
+          <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
+            <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
+              📈 Scalability Requirements
+            </Typography>
+            <Box sx={{ textAlign: "left" }}>
+              <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
+                <li>Auto-scale to handle <strong>2x annual growth</strong> in device count.</li>
+                <li><strong>EMR clusters</strong> scale dynamically from <strong>3 to 50 nodes</strong>.</li>
+                <li><strong>S3 Data Lake</strong> supports <strong>5PB+ storage</strong> with efficient querying.</li>
+                <li>Support <strong>50% YoY data growth</strong> with 5-year retention.</li>
+              </ul>
+            </Box>
+          </Box>
+        </Grid>
+
+        {/* Reliability Requirements */}
+        <Grid item xs={12} md={6}>
+          <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
+            <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
+              🛡️ Reliability Requirements
+            </Typography>
+            <Box sx={{ textAlign: "left" }}>
+              <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
+                <li>Maintain <strong>99.95% uptime</strong> with Multi-AZ deployments.</li>
+                <li><strong>RPO: 5 minutes</strong>, <strong>RTO: 30 minutes</strong> for failovers.</li>
+                <li>No single point of failure, automatic failover mechanisms.</li>
+                <li>Data replicated across <strong>3 Availability Zones</strong> for redundancy.</li>
+              </ul>
+            </Box>
+          </Box>
+        </Grid>
+
+        {/* Security Requirements */}
+        <Grid item xs={12} md={6}>
+          <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
+            <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
+              🔒 Security Requirements
+            </Typography>
+            <Box sx={{ textAlign: "left" }}>
+              <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
+                <li>Encrypt data at rest with <strong>AWS KMS</strong>, annual key rotation.</li>
+                <li>Secure data in transit with <strong>TLS 1.3</strong>.</li>
+                <li>Strict IAM policies enforce <strong>least privilege access</strong>.</li>
+                <li><strong>MFA required</strong> for human access, key rotation every 90 days.</li>
+              </ul>
+            </Box>
+          </Box>
+        </Grid>
+
+        {/* Maintainability Requirements */}
+        <Grid item xs={12} md={6}>
+          <Box sx={{ p: 2, border: "1px solid #ddd", borderRadius: "8px", backgroundColor: "#f9f9f9", textAlign: "center" }}>
+            <Typography variant="subtitle1" fontWeight="bold" align="center" gutterBottom>
+              ⚙️ Maintainability Requirements
+            </Typography>
+            <Box sx={{ textAlign: "left" }}>
+              <ul style={{ fontSize: "1rem", margin: 0, paddingLeft: "1rem" }}>
+                <li>Infrastructure as code via <strong>AWS CDK/CloudFormation</strong>.</li>
+                <li>Automated deployment pipelines with <strong>rollback</strong> capabilities.</li>
+                <li>Real-time monitoring via <strong>AWS X-Ray</strong> and <strong>CloudWatch Dashboards</strong>.</li>
+                <li>Logs retained for <strong>90 days</strong> with real-time alerting.</li>
+              </ul>
+            </Box>
+          </Box>
+        </Grid>
+        
+      </Grid>
+    </Box>
+  );
+}
 export default IoTBasedManufacturingAnalyticsPlatform;
 

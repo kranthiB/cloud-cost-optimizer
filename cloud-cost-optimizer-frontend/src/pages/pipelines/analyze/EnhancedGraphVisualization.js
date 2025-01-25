@@ -9,7 +9,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ZoomInIcon from '@mui/icons-material/ZoomOut';
 import ZoomOutIcon from '@mui/icons-material/ZoomIn';
 
-const EnhancedGraphVisualization = ({ graphData }) => {
+const EnhancedGraphVisualization = ({ graphData, cloudProvider }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
@@ -520,7 +520,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
         <Card sx={{ mt: 3 }}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
-              Network Regions
+              Network Regions ({cloudProvider})
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
               {validRegions.map((region) => (
@@ -542,7 +542,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
   return (
     <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
       <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
-        Network Relationship Overview
+        Network Relationship Overview - {cloudProvider}
       </Typography>
       
       <Card elevation={3}>
