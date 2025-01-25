@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Box, Paper, Typography, Grid, Card, CardContent, CircularProgress, Alert, Collapse, IconButton } from '@mui/material';
-import { Info, ExpandMore, ExpandLess } from '@mui/icons-material';
+import { Box, Paper, Typography, Grid, Card, CardContent, CircularProgress, Cloud, CloudQueue, CloudCircle, Alert, Collapse, IconButton } from '@mui/material';
+import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import EnhancedGraphVisualization from './EnhancedGraphVisualization';
 import {
   BarChart, Bar, XAxis, YAxis, LabelList, Cell, LineChart, Line, 
   CartesianGrid, Tooltip, Legend, ResponsiveContainer
-} from 'recharts'
+} from 'recharts';
+import { FaAws } from 'react-icons/fa'; // AWS
+import { FaMicrosoft } from 'react-icons/fa'; // Azure
+import { FaGoogle } from 'react-icons/fa'; // GCP
+import { MdCloudQueue } from 'react-icons/md'; // Multi-Cloud
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
@@ -65,11 +69,27 @@ const ComputeGraphs = ({ pipelineName, cloudProvider }) => {
     setComputeGraphExpanded((prev) => !prev);
   };
   
+  const getCloudIcon = () => {
+    switch (cloudProvider) {
+      case 'AWS':
+        return <FaAws size={24} color="#FF9900" />;
+      case 'Azure':
+        return <FaMicrosoft size={24} color="#0078D4" />;
+      case 'GCP':
+        return <FaGoogle size={24} color="#4285F4" />;
+      case 'Multi-Cloud':
+        return <MdCloudQueue size={28} color="primary.main" />;
+      default:
+        return <MdCloudQueue size={28} color="grey.600" />;
+    }
+  };
+  
 
   return (
     <Box sx={{ width: '100%', mt: 2 }}>
       <Paper elevation={2} sx={{ p: 3 }}>
         <Box display="flex" alignItems="center" gap={1} mb={3}>
+        {getCloudIcon()}
         <Typography 
           variant="h5" 
           sx={{ 
