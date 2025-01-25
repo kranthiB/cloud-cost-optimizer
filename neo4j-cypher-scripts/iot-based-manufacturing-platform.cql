@@ -44,6 +44,7 @@ CREATE (:IoT {
 MATCH 
     (p:Pipelines {
         name: 'IoT-Based Manufacturing Platform', 
+        csp: 'AWS',
         state: 'start'
     }),
     (i:IoT {
@@ -111,6 +112,7 @@ CREATE (:IoT {
 MATCH 
     (p:Pipelines {
         name: 'IoT-Based Manufacturing Platform', 
+        csp: 'AWS',
         state: 'start'
     }),
     (i:IoT {
@@ -177,6 +179,7 @@ CREATE (:IoT {
 MATCH 
     (p:Pipelines {
         name: 'IoT-Based Manufacturing Platform', 
+        csp: 'AWS',
         state: 'start'
     }),
     (i:IoT {
@@ -1329,6 +1332,7 @@ MATCH
     }),
     (p:Pipelines {
         name: 'IoT-Based Manufacturing Platform',
+        csp: 'AWS',
         state: 'end'
     })
 CREATE (d)-[:COST_EFFECTIVE_RATIO {
