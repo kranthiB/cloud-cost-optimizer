@@ -4,6 +4,8 @@ import { Box, Typography, Dialog, DialogTitle, Grid, DialogActions, Button,
 import Graph from 'react-graph-vis';
 import CloseIcon from '@mui/icons-material/Close';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 
 const EnhancedGraphVisualization = ({ graphData }) => {
   const theme = useTheme();
@@ -14,6 +16,63 @@ const EnhancedGraphVisualization = ({ graphData }) => {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [network, setNetwork] = useState(null);
 
+  const handleZoom = (zoomIn) => {
+    if (network) {
+      const currentScale = network.getScale();
+      const scaleFactor = zoomIn ? 1.2 : 0.8;
+      network.moveTo({
+        scale: currentScale * scaleFactor,
+        animation: {
+          duration: 300,
+          easingFunction: 'easeInOutQuad'
+        }
+      });
+    }
+  };
+
+  const ZoomControls = () => (
+    <Box
+      sx={{
+        position: 'absolute',
+        right: { xs: '16px', sm: '24px' },
+        top: '50%',
+        transform: 'translateY(-50%)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1,
+        zIndex: 1,
+      }}
+    >
+      <IconButton
+        onClick={() => handleZoom(true)}
+        sx={{
+          backgroundColor: 'background.paper',
+          boxShadow: 2,
+          '&:hover': {
+            backgroundColor: 'action.hover',
+          },
+        }}
+        aria-label="Zoom in"
+      >
+        <ZoomInIcon />
+      </IconButton>
+      <IconButton
+        onClick={() => handleZoom(false)}
+        sx={{
+          backgroundColor: 'background.paper',
+          boxShadow: 2,
+          '&:hover': {
+            backgroundColor: 'action.hover',
+          },
+        }}
+        aria-label="Zoom out"
+      >
+        <ZoomOutIcon />
+      </IconButton>
+    </Box>
+  );
+
+  // [Previous DetailCard component code remains the same]
   const DetailCard = ({ label, value }) => {
     const theme = useTheme();
   
@@ -122,7 +181,8 @@ const EnhancedGraphVisualization = ({ graphData }) => {
       </Card>
     );
   };
-  
+
+  // [Previous EnhancedDialogContent component code remains the same]
   const EnhancedDialogContent = ({ selectedElement }) => {
     if (!selectedElement) return null;
     
@@ -166,6 +226,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     );
   };
 
+  // [Previous processedData code remains the same]
   const processedData = useMemo(() => {
     if (!graphData?.length) return { nodes: [], edges: [] };
 
@@ -236,6 +297,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     };
   }, [graphData, isMobile, theme]);
 
+  // [Previous options object remains the same]
   const options = {
     nodes: {
       shape: 'dot',
@@ -283,6 +345,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     height: isMobile ? '400px' : isTablet ? '500px' : '600px'
   };
 
+  // [Previous useEffect and events code remains the same]
   useEffect(() => {
     if (network && processedData.edges.length > 0) {
       const animateRequestFlow = () => {
@@ -348,6 +411,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     }
   };
 
+  // [Previous renderDetailsDialog function remains the same]
   const renderDetailsDialog = () => (
     <Dialog
       open={isDetailsOpen}
@@ -380,6 +444,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
     </Dialog>
   );
 
+  // [Previous renderLegend function remains the same]
   const renderLegend = () => {
     if (processedData.regions && processedData.regions.length !== 0) {
       const validRegions = processedData.regions.filter(region => region !== 'Unknown');
@@ -416,7 +481,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
       </Typography>
       
       <Card elevation={3}>
-        <CardContent>
+        <CardContent sx={{ position: 'relative' }}>
           <Graph
             graph={processedData}
             options={options}
@@ -426,6 +491,7 @@ const EnhancedGraphVisualization = ({ graphData }) => {
               network.stabilize();
             }}
           />
+          <ZoomControls />
         </CardContent>
       </Card>
 
