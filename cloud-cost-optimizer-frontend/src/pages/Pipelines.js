@@ -13,7 +13,7 @@ const businessPipelines = [
   },
   {
     "name": "Global Finance Data Processing Platform",
-    "description": "A high-performance financial data processing platform that handles real-time market data, trading analytics, risk management, and compliance, ensuring low-latency and high-reliability data transactions.",
+    "description": "An enterprise-scale financial data processing and analytics ecosystem that orchestrates real-time banking operations, predictive insights, and regulatory compliance through a unified architectural framework.",
     "createdAt": new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
     "path": "/pipelines/global-finance-data-processing-platform",
     "industry": "Banking, Financial Services & Insurance"
