@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Box, Paper, Typography, Grid, Card, CardContent, CircularProgress, Alert } from '@mui/material';
 import { Info } from '@mui/icons-material';
 import EnhancedGraphVisualization from './EnhancedGraphVisualization';
+import {
+  BarChart, Bar, XAxis, YAxis, LabelList,
+  CartesianGrid, Tooltip, Legend, ResponsiveContainer
+} from 'recharts'
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
@@ -152,8 +156,126 @@ const CostComparisonTable = ({ data }) => {
           </Grid>
         ))}
       </Grid>
+      <CostVisualization data={sortedData} />
     </Box>
   );
 };
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658'];
+
+const CostVisualization = ({ data }) => {
+  const transformedData = useMemo(() => {
+    const serviceComparisonData = Object.keys(data[0].costBreakdown).map(service => ({
+      name: service,
+      ...data.reduce((acc, region) => ({
+        ...acc,
+        [region.region]: region.costBreakdown[service]
+      }), {})
+    }));
+
+    const percentageDifferences = data.map(region => ({
+      name: region.region,
+      value: ((region.totalCost - data[0].totalCost) / data[0].totalCost * 100).toFixed(1),
+      actualCost: region.totalCost
+    }));
+
+    return { serviceComparisonData, percentageDifferences };
+  }, [data]);
+
+  const regions = data.map(item => item.region);
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <Card sx={{ p: 1, backgroundColor: 'rgba(255, 255, 255, 0.9)' }}>
+          <Typography variant="subtitle2">{label}</Typography>
+          <Typography variant="body2" color="text.secondary">
+            Cost Difference: +{payload[0].value}%
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Total Cost: ${Number(payload[0].payload.actualCost).toLocaleString()}
+          </Typography>
+        </Card>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <Grid container spacing={3} sx={{ mt: 2 }}>
+      <Grid item xs={12}>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Service Cost Comparison by Region
+            </Typography>
+            <Box sx={{ width: '100%', height: { xs: 300, sm: 400, md: 500 } }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={transformedData.serviceComparisonData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  {regions.map((region, index) => (
+                    <Bar
+                      key={region}
+                      dataKey={region}
+                      fill={COLORS[index % COLORS.length]}
+                      name={region}
+                    />
+                  ))}
+                </BarChart>
+              </ResponsiveContainer>
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Cost Difference from Best Option (%)
+            </Typography>
+            <Box sx={{ width: '100%', height: { xs: 250, sm: 300, md: 400 } }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart 
+                  data={transformedData.percentageDifferences.slice(1)}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.3} />
+                  <XAxis 
+                    dataKey="name" 
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis 
+                    axisLine={false}
+                    tickLine={false}
+                    tickFormatter={(value) => `${value}%`}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Bar 
+                    dataKey="value" 
+                    fill="#0099FE"
+                    radius={[4, 4, 0, 0]}
+                  >
+                    <LabelList 
+                      dataKey="value" 
+                      position="top" 
+                      formatter={(value) => `+${value}%`}
+                      style={{ fill: '#666', fontSize: '12px' }}
+                    />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
+  );
+};
+
 
 export default ComputeGraphs;
