@@ -215,94 +215,81 @@ const EcommercePersonalizationPlatform = () => {
                   <div className="mermaid">
                     {`
                     flowchart TD
-                      subgraph UserLayer[User Interaction Layer]
-                          CF[CloudFront]
-                          ALB[Application Load Balancer]
-                          R53[Route 53]
+                      subgraph CustomerInteraction[Customer Journey Layer]
+                          style CustomerInteraction fill:#F5F5F5,stroke:#2C3E50
+                          UT[Pinpoint & Analytics]
+                          SR[CloudSearch & Kendra]
+                          CA[API Gateway]
+                          EP[EventBridge]
+                          CE[Step Functions]
                       end
 
-                      subgraph WebTier[Web & API Layer]
-                          ECS[ECS Fargate Cluster]
-                          API[API Gateway]
-                          EKS[EKS Cluster]
+                      subgraph IntelligenceEngine[Intelligence Engine]
+                          style IntelligenceEngine fill:#E3F2FD,stroke:#1565C0
+                          RR[Personalize]
+                          ML[SageMaker]
+                          DP[Dynamic Pricing Engine]
+                          AB[CloudWatch Evidently]
                       end
 
-                      subgraph ProcessingLayer[Event Processing Layer]
-                          KIN[Kinesis Data Streams]
-                          KF[Kinesis Firehose]
-                          MSK[Amazon MSK]
+                      subgraph DataFoundation[Data Foundation]
+                          style DataFoundation fill:#FFF3E0,stroke:#E65100
+                          UP[(DynamoDB - Profiles)]
+                          PC[(Aurora - Products)]
+                          AS[(Redshift - Analytics)]
+                          FS[(Feature Store)]
                       end
 
-                      subgraph ComputeLayer[Computation Layer]
-                          SAG[SageMaker]
-                          EMR[EMR Cluster]
-                          LAM[Lambda Functions]
-                          PS[Personalize Service]
+                      subgraph BusinessServices[Business Services]
+                          style BusinessServices fill:#E8F5E9,stroke:#2E7D32
+                          API[AppSync]
+                          ES[Kinesis]
+                          CI[Integration Services]
+                          AN[QuickSight]
                       end
 
-                      subgraph StorageLayer[Storage Layer]
-                          DDB[(DynamoDB)]
-                          RDS[(Aurora MySQL)]
-                          S3[(S3 Data Lake)]
-                          ES[(OpenSearch)]
-                          RED[(ElastiCache Redis)]
-                      end
+                      %% Customer Journey Flows
+                      UT --> EP
+                      SR --> EP
+                      CA --> EP
+                      EP --> CE
+                      CE --> RR
 
-                      subgraph MonitoringLayer[Monitoring & Management]
-                          CW[CloudWatch]
-                          XR[X-Ray]
-                          CFM[Config]
-                          GD[GuardDuty]
-                      end
+                      %% Intelligence Flows
+                      EP --> ML
+                      EP --> AS
+                      ML --> RR
+                      ML --> DP
+                      FS --> ML
+                      RR --> AB
 
-                      %% Network Flow
-                      R53 --> CF
-                      CF --> ALB
-                      ALB --> ECS
-                      ALB --> EKS
+                      %% Data Flows
+                      UP --> RR
+                      PC --> RR
+                      AS --> ML
+                      AS --> AN
 
-                      %% API Integration
-                      ECS --> API
-                      EKS --> API
-                      API --> LAM
-                      API --> PS
+                      %% Business Service Flows
+                      RR --> API
+                      DP --> API
+                      AB --> AN
+                      CI --> PC
+                      EP --> ES
 
-                      %% Event Processing Flow
-                      ECS --> KIN
-                      KIN --> KF
-                      KF --> S3
-                      MSK --> LAM
+                      %% Real-time Experience Flows
+                      API --> UT
+                      ES --> CE
+                      AN --> AB
 
-                      %% Compute Flow
-                      LAM --> SAG
-                      SAG --> PS
-                      EMR --> S3
-                      PS --> RED
+                      classDef customer fill:#F5F5F5,stroke:#2C3E50,color:#2C3E50
+                      classDef intelligence fill:#E3F2FD,stroke:#1565C0,color:#1565C0
+                      classDef data fill:#FFF3E0,stroke:#E65100,color:#E65100
+                      classDef business fill:#E8F5E9,stroke:#2E7D32,color:#2E7D32
 
-                      %% Storage Access
-                      LAM --> DDB
-                      ECS --> RDS
-                      SAG --> S3
-                      PS --> ES
-                      LAM --> RED
-
-                      %% Monitoring Flow
-                      CW --> ECS
-                      CW --> EKS
-                      XR --> API
-                      CFM --> ECS
-                      GD --> KIN
-
-                      classDef userLayer fill:#FF9900,stroke:#232F3E,color:#232F3E
-                      classDef webTier fill:#FF9900,stroke:#232F3E,color:#232F3E
-                      classDef processing fill:#FF9900,stroke:#232F3E,color:#232F3E
-                      classDef compute fill:#FF9900,stroke:#232F3E,color:#232F3E
-                      classDef storage fill:#3B48CC,stroke:#232F3E,color:#fff
-                      classDef monitoring fill:#CC2264,stroke:#232F3E,color:#fff
-
-                      class UserLayer,WebTier,ProcessingLayer,ComputeLayer userLayer
-                      class StorageLayer storage
-                      class MonitoringLayer monitoring
+                      class UT,SR,CA,EP,CE customer
+                      class RR,ML,DP,AB intelligence
+                      class UP,PC,AS,FS data
+                      class API,ES,CI,AN business
                     `}
                   </div>
                 </Paper>
@@ -319,94 +306,81 @@ const EcommercePersonalizationPlatform = () => {
                   <div className="mermaid">
                     {`
                     flowchart TD
-                      subgraph FrontEnd[Front End Layer]
-                          AFD[Azure Front Door]
-                          CDN[Azure CDN]
-                          TM[Traffic Manager]
+                      subgraph CustomerInteraction[Customer Journey Layer]
+                          style CustomerInteraction fill:#F5F5F5,stroke:#2C3E50
+                          UT[Application Insights]
+                          SR[Cognitive Search]
+                          CA[API Management]
+                          EP[Event Grid]
+                          CE[Logic Apps]
                       end
 
-                      subgraph AppLayer[Application Layer]
-                          AKS[AKS Cluster]
-                          ACA[Container Apps]
-                          APIM[API Management]
+                      subgraph IntelligenceEngine[Intelligence Engine]
+                          style IntelligenceEngine fill:#E3F2FD,stroke:#1565C0
+                          RR[Personalizer]
+                          ML[Machine Learning]
+                          DP[Azure Functions]
+                          AB[A/B Testing Service]
                       end
 
-                      subgraph EventLayer[Event Processing]
-                          EH[Event Hubs]
-                          ASA[Stream Analytics]
-                          SF[Service Fabric]
+                      subgraph DataFoundation[Data Foundation]
+                          style DataFoundation fill:#FFF3E0,stroke:#E65100
+                          UP[(Cosmos DB - Profiles)]
+                          PC[(SQL Database - Products)]
+                          AS[(Synapse Analytics)]
+                          FS[(Feature Store)]
                       end
 
-                      subgraph CompLayer[Compute & ML Layer]
-                          AML[Azure Machine Learning]
-                          Databricks[Databricks]
-                          Functions[Azure Functions]
-                          PS[Personalizer Service]
+                      subgraph BusinessServices[Business Services]
+                          style BusinessServices fill:#E8F5E9,stroke:#2E7D32
+                          API[API Management]
+                          ES[Event Hubs]
+                          CI[Logic Apps]
+                          AN[Power BI]
                       end
 
-                      subgraph DataLayer[Data Layer]
-                          COSMOS[(Cosmos DB)]
-                          SQLDB[(Azure SQL DB)]
-                          ADLS[(Data Lake Storage)]
-                          Redis[(Azure Cache Redis)]
-                          Search[(Cognitive Search)]
-                      end
+                      %% Customer Journey Flows
+                      UT --> EP
+                      SR --> EP
+                      CA --> EP
+                      EP --> CE
+                      CE --> RR
 
-                      subgraph MonitorLayer[Monitoring & Security]
-                          Monitor[Azure Monitor]
-                          Insights[Application Insights]
-                          Sentinel[Azure Sentinel]
-                          KeyVault[Key Vault]
-                      end
+                      %% Intelligence Flows
+                      EP --> ML
+                      EP --> AS
+                      ML --> RR
+                      ML --> DP
+                      FS --> ML
+                      RR --> AB
 
-                      %% Network Routing
-                      TM --> AFD
-                      AFD --> CDN
-                      CDN --> AKS
-                      CDN --> ACA
+                      %% Data Flows
+                      UP --> RR
+                      PC --> RR
+                      AS --> ML
+                      AS --> AN
 
-                      %% Application Flow
-                      AKS --> APIM
-                      ACA --> APIM
-                      APIM --> Functions
-                      APIM --> PS
+                      %% Business Service Flows
+                      RR --> API
+                      DP --> API
+                      AB --> AN
+                      CI --> PC
+                      EP --> ES
 
-                      %% Event Processing
-                      ACA --> EH
-                      EH --> ASA
-                      ASA --> ADLS
-                      SF --> Functions
+                      %% Real-time Experience Flows
+                      API --> UT
+                      ES --> CE
+                      AN --> AB
 
-                      %% Compute & ML Flow
-                      Functions --> AML
-                      AML --> PS
-                      Databricks --> ADLS
-                      PS --> Redis
+                      classDef customer fill:#F5F5F5,stroke:#2C3E50,color:#2C3E50
+                      classDef intelligence fill:#E3F2FD,stroke:#1565C0,color:#1565C0
+                      classDef data fill:#FFF3E0,stroke:#E65100,color:#E65100
+                      classDef business fill:#E8F5E9,stroke:#2E7D32,color:#2E7D32
 
-                      %% Data Access
-                      Functions --> COSMOS
-                      AKS --> SQLDB
-                      AML --> ADLS
-                      PS --> Search
-                      Functions --> Redis
-
-                      %% Monitoring Flow
-                      Monitor --> AKS
-                      Monitor --> ACA
-                      Insights --> APIM
-                      Sentinel --> EH
-                      KeyVault --> AKS
-
-                      classDef frontend fill:#0078D4,stroke:#000,color:#fff
-                      classDef app fill:#0078D4,stroke:#000,color:#fff
-                      classDef event fill:#0078D4,stroke:#000,color:#fff
-                      classDef compute fill:#0078D4,stroke:#000,color:#fff
-                      classDef data fill:#459B45,stroke:#000,color:#fff
-                      classDef monitor fill:#CA5010,stroke:#000,color:#fff
-
-                      class FrontEnd,AppLayer,EventLayer,CompLayer frontend
-                      class DataLayer data
-                      class MonitorLayer monitor
+                      class UT,SR,CA,EP,CE customer
+                      class RR,ML,DP,AB intelligence
+                      class UP,PC,AS,FS data
+                      class API,ES,CI,AN business
                     
                     `}
                   </div>
@@ -425,94 +399,81 @@ const EcommercePersonalizationPlatform = () => {
                   <div className="mermaid">
                     {`
                     flowchart TD
-                      subgraph FrontLayer[Frontend Layer]
-                          GCLB[Cloud Load Balancing]
-                          CDN[Cloud CDN]
-                          DNS[Cloud DNS]
+                      subgraph CustomerInteraction[Customer Journey Layer]
+                          style CustomerInteraction fill:#F5F5F5,stroke:#2C3E50
+                          UT[Analytics & Firebase]
+                          SR[Cloud Search]
+                          CA[API Gateway]
+                          EP[Pub/Sub]
+                          CE[Workflows]
                       end
 
-                      subgraph AppLayer[Application Layer]
-                          GKE[Google Kubernetes Engine]
-                          CloudRun[Cloud Run]
-                          APIGW[API Gateway]
+                      subgraph IntelligenceEngine[Intelligence Engine]
+                          style IntelligenceEngine fill:#E3F2FD,stroke:#1565C0
+                          RR[Recommendations AI]
+                          ML[Vertex AI]
+                          DP[Cloud Functions]
+                          AB[Firebase A/B Testing]
                       end
 
-                      subgraph EventLayer[Event Processing]
-                          Pub[Cloud Pub/Sub]
-                          Dataflow[Cloud Dataflow]
-                          Functions[Cloud Functions]
+                      subgraph DataFoundation[Data Foundation]
+                          style DataFoundation fill:#FFF3E0,stroke:#E65100
+                          UP[(Firestore - Profiles)]
+                          PC[(Cloud SQL - Products)]
+                          AS[(BigQuery)]
+                          FS[(Vertex Feature Store)]
                       end
 
-                      subgraph MLLayer[ML & Analytics Layer]
-                          Vertex[Vertex AI]
-                          Dataproc[Cloud Dataproc]
-                          RecAI[Recommendations AI]
-                          MLOps[Vertex AI Pipelines]
+                      subgraph BusinessServices[Business Services]
+                          style BusinessServices fill:#E8F5E9,stroke:#2E7D32
+                          API[Cloud Endpoints]
+                          ES[Dataflow]
+                          CI[Cloud Functions]
+                          AN[Looker]
                       end
 
-                      subgraph DataLayer[Data Layer]
-                          FireStore[(Cloud Firestore)]
-                          CloudSQL[(Cloud SQL)]
-                          BigQuery[(BigQuery)]
-                          Memstore[(Memorystore)]
-                          Search[(Cloud Search)]
-                      end
+                      %% Customer Journey Flows
+                      UT --> EP
+                      SR --> EP
+                      CA --> EP
+                      EP --> CE
+                      CE --> RR
 
-                      subgraph SecOpsLayer[Security & Operations]
-                          Monitor[Cloud Monitoring]
-                          Trace[Cloud Trace]
-                          Security[Security Command]
-                          SecretMgr[Secret Manager]
-                      end
+                      %% Intelligence Flows
+                      EP --> ML
+                      EP --> AS
+                      ML --> RR
+                      ML --> DP
+                      FS --> ML
+                      RR --> AB
 
-                      %% Network Flow
-                      DNS --> GCLB
-                      GCLB --> CDN
-                      CDN --> GKE
-                      CDN --> CloudRun
+                      %% Data Flows
+                      UP --> RR
+                      PC --> RR
+                      AS --> ML
+                      AS --> AN
 
-                      %% Application Flow
-                      GKE --> APIGW
-                      CloudRun --> APIGW
-                      APIGW --> Functions
-                      APIGW --> RecAI
+                      %% Business Service Flows
+                      RR --> API
+                      DP --> API
+                      AB --> AN
+                      CI --> PC
+                      EP --> ES
 
-                      %% Event Processing
-                      CloudRun --> Pub
-                      Pub --> Dataflow
-                      Dataflow --> BigQuery
-                      Functions --> Vertex
+                      %% Real-time Experience Flows
+                      API --> UT
+                      ES --> CE
+                      AN --> AB
 
-                      %% ML & Analytics Flow
-                      Vertex --> RecAI
-                      Dataproc --> BigQuery
-                      MLOps --> Vertex
-                      RecAI --> Memstore
+                      classDef customer fill:#F5F5F5,stroke:#2C3E50,color:#2C3E50
+                      classDef intelligence fill:#E3F2FD,stroke:#1565C0,color:#1565C0
+                      classDef data fill:#FFF3E0,stroke:#E65100,color:#E65100
+                      classDef business fill:#E8F5E9,stroke:#2E7D32,color:#2E7D32
 
-                      %% Data Access Patterns
-                      Functions --> FireStore
-                      GKE --> CloudSQL
-                      Vertex --> BigQuery
-                      RecAI --> Search
-                      Functions --> Memstore
-
-                      %% Monitoring & Security
-                      Monitor --> GKE
-                      Monitor --> CloudRun
-                      Trace --> APIGW
-                      Security --> Pub
-                      SecretMgr --> GKE
-
-                      classDef frontend fill:#4285F4,stroke:#000,color:#fff
-                      classDef app fill:#4285F4,stroke:#000,color:#fff
-                      classDef event fill:#4285F4,stroke:#000,color:#fff
-                      classDef ml fill:#4285F4,stroke:#000,color:#fff
-                      classDef data fill:#34A853,stroke:#000,color:#fff
-                      classDef ops fill:#EA4335,stroke:#000,color:#fff
-
-                      class FrontLayer,AppLayer,EventLayer,MLLayer frontend
-                      class DataLayer data
-                      class SecOpsLayer ops
+                      class UT,SR,CA,EP,CE customer
+                      class RR,ML,DP,AB intelligence
+                      class UP,PC,AS,FS data
+                      class API,ES,CI,AN business
                     
                     `}
                   </div>
