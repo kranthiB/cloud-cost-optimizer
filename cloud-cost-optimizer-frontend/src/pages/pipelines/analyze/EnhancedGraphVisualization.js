@@ -239,12 +239,8 @@ const EnhancedGraphVisualization = ({ graphData, cloudProvider }) => {
 
     graphData.forEach((path, index) => {
       const { startNode, endNode, relationshipProperties } = path;
-      if (startNode.region) {
-        var startRegion = startNode.region + ' (' + startNode.csp + ')';
-        var endRegion = endNode.region + ' (' + endNode.csp + ')';
-        regions.add(startRegion);
-        regions.add(endRegion);
-      }
+      regions.add(startNode.region || 'Unknown');
+      regions.add(endNode.region || 'Unknown');
 
       const startId = `node-${startNode.name}-${startNode.state || ''}-${startNode.region || ''}`;
       const endId = `node-${endNode.name}-${endNode.state || ''}-${endNode.region || ''}`;
@@ -516,7 +512,7 @@ const EnhancedGraphVisualization = ({ graphData, cloudProvider }) => {
 
   const renderLegend = () => {
     if (processedData.regions && processedData.regions.length !== 0) {
-      const validRegions = processedData.regions.filter(region => !region.includes('undefined'));
+      const validRegions = processedData.regions.filter(region => region !== 'Unknown');
     
       if (validRegions.length === 0) return null;
       
