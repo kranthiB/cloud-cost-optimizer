@@ -1,7 +1,7 @@
 // Create Pipeline
 CREATE (:Pipelines {name: 'IoT-Based Manufacturing Platform', csp: 'Multi-Cloud', state: 'start'});
 
-// Data Ingestion Layer - AWS IoT Core
+// AWS
 // Create IoT Core Node
 CREATE (:IoT {
     // Basic Information
@@ -65,55 +65,6 @@ CREATE (p)-[:COST_EFFECTIVE_RATIO {
     registry_cost: 0.00655,
     rulesEngine_cost: 9.48,
     deviceLocations_cost: 0,
-    
-    // Currency
-    currency: 'USD'
-}]->(i);
-
-
-// Data Ingestion Layer - Azure IoT Hub
-CREATE (:IoT {
-    // Basic Information
-    name: 'IoT Hub',
-    csp: 'Multi-Cloud',
-    pipeline: 'IoT-Based Manufacturing Platform',
-    region: 'Central India',
-    tier: 'Standard',
-    edition: 'S3',
-    noOfHubUnits: 2,
-
-    // Device Configuration
-    noOfDevices: 'Unlimited devices',
-    noOfMessagesPerDay: 300000000,
-    
-    // Device Provisioning Service
-    noOfOperationsInThousands: 1000,
-    
-    // Device Update Configuration
-    edition: 'Not Supported'
-});
-
-// Create Relationship with Cost Details
-MATCH 
-    (p:Pipelines {
-        name: 'IoT-Based Manufacturing Platform', 
-        csp: 'Multi-Cloud',
-        state: 'start'
-    }),
-    (i:IoT {
-        name: 'IoT Hub',
-        csp: 'Multi-Cloud',
-        pipeline: 'IoT-Based Manufacturing Platform',
-        region: 'Central India'
-    })
-CREATE (p)-[:COST_EFFECTIVE_RATIO {
-    // Total Cost
-    cost: 7140.00,
-    
-    // Cost Breakdown
-    upfront_cost: 0.00,
-    deviceProvisioningService_cost: 140,
-    hubUnits_cost: 7000,
     
     // Currency
     currency: 'USD'
@@ -241,86 +192,6 @@ CREATE (mk)-[:COST_EFFECTIVE_RATIO {
     currency: 'USD'
 }]->(mm);
 
-
-// Create Event Hubs
-CREATE (:Messaging {
-    // Basic Information
-    name: 'Event Hubs',
-    csp: 'Multi-Cloud',
-    pipeline: 'IoT-Based Manufacturing Platform',
-    region: 'Central India',
-    tier: 'Premium',
-    processingUnits: 8,
-    extendedRetentionData: 10000,
-    extendedRetentionValue: 'GB'
-});
-
-// Create Relationship with Cost Details
-MATCH 
-    (i:IoT {
-        name: 'IoT Hub',
-        csp: 'Multi-Cloud',
-        pipeline: 'IoT-Based Manufacturing Platform',
-        region: 'Central India'
-    }),
-    (m:Messaging {
-        name: 'Event Hubs',
-        csp: 'Multi-Cloud',
-        pipeline: 'IoT-Based Manufacturing Platform',
-        region: 'Central India'
-    })
-CREATE (i)-[:COST_EFFECTIVE_RATIO {
-    // Total Cost
-    cost: 9797.92,
-    
-    // Cost Breakdown
-    processingUnitsCost: 8397.92,
-    extendedRetentionCost: 1400,
-    
-    // Currency
-    currency: 'USD'
-}]->(m);
-
-
-// Create Stream Analytics
-CREATE (:Analytics {
-    // Basic Information
-    name: 'Stream Analytics',
-    csp: 'Multi-Cloud',
-    pipeline: 'IoT-Based Manufacturing Platform',
-    region: 'Central India',
-    type: 'Standard V2',
-    range: '1 or more Streaming Units',
-    streamingUnits: 50,
-    streamAnalyticsOnIoTEdgeDevices: 999
-});
-
-// Create Relationship with Cost Details
-MATCH 
-    (m:Messaging {
-        name: 'Event Hubs',
-        csp: 'Multi-Cloud',
-        pipeline: 'IoT-Based Manufacturing Platform',
-        region: 'Central India'
-    }),
-    (a:Analytics {
-        name: 'Stream Analytics',
-        csp: 'Multi-Cloud',
-        pipeline: 'IoT-Based Manufacturing Platform',
-        region: 'Central India'
-    })
-CREATE (m)-[:COST_EFFECTIVE_RATIO {
-    // Total Cost
-    cost: 6430.56,
-    
-    // Cost Breakdown
-    streamingCost: 5431.56,
-    streamingCostOnIoTEdge: 999.00,
-    
-    // Currency
-    currency: 'USD'
-}]->(a);
-
 // Create EMR Node
 CREATE (:Analytics {
     // Basic Information
@@ -365,46 +236,6 @@ CREATE (mm)-[:COST_EFFECTIVE_RATIO {
     // Currency
     currency: 'USD'
 }]->(a);
-
-// Create Databricks
-CREATE (:Analytics {
-    // Basic Information
-    name: 'Databricks',
-    csp: 'Multi-Cloud',
-    pipeline: 'IoT-Based Manufacturing Platform',
-    region: 'Central India',
-    workload: 'All-Purpose Compute',
-    tier: 'Premium',
-    instance_series: 'NVads A10 v5-series',
-    instance_type: 'NV36adms A10 v5',
-    instance_cVPUs: 36,
-    instance_RAM: '880 GB',
-    instance_temporaryStorage: '730 GB',
-    virtualMachines: 3,
-    model: 'Pay as you go'
-});
-
-// Create Relationship with Cost Details
-MATCH 
-    (as:Analytics {
-        name: 'Stream Analytics',
-        csp: 'Multi-Cloud',
-        pipeline: 'IoT-Based Manufacturing Platform',
-        region: 'Central India'
-    }),
-    (ad:Analytics {
-        name: 'Databricks',
-        csp: 'Multi-Cloud',
-        pipeline: 'IoT-Based Manufacturing Platform',
-        region: 'Central India'
-    })
-CREATE (as)-[:COST_EFFECTIVE_RATIO {
-    // Total Cost
-    cost: 13858.32,
-
-    // Currency
-    currency: 'USD'
-}]->(ad);
 
 // Create DynamoDB
 CREATE (:Database {
@@ -486,42 +317,6 @@ CREATE (a)-[:COST_EFFECTIVE_RATIO {
     currency: 'USD'
 }]->(d);
 
-// Create Cosmos DB
-CREATE (:Database {
-    // Basic Information
-    name: 'Cosmos DB',
-    csp: 'Multi-Cloud',
-    pipeline: 'IoT-Based Manufacturing Platform',
-    region: 'Central India',
-    apiChoice: 'Azure Cosmos DB for NoSQL (formerly Core)',
-    databaseOperartions: 'Autoscale Provisioned throughput',
-    wirteRegions: 'Multiple Region Write (Multi-Master)',
-    RUPerSecond: 100000,
-    primaryWriteRegion: 'Central India'
-});
-
-// Create Relationship with Cost Details
-MATCH 
-    (a:Analytics {
-        name: 'Databricks',
-        csp: 'Multi-Cloud',
-        pipeline: 'IoT-Based Manufacturing Platform',
-        region: 'Central India'
-    }),
-    (d:Database {
-        name: 'Cosmos DB',
-        csp: 'Multi-Cloud',
-        pipeline: 'IoT-Based Manufacturing Platform',
-        region: 'Central India'
-    })
-CREATE (a)-[:COST_EFFECTIVE_RATIO {
-    // Total Cost
-    cost: 19929.00,
-
-    // Currency
-    currency: 'USD'
-}]->(d);
-
 // Create S3
 CREATE (:Storage {
     // Basic Information
@@ -588,6 +383,262 @@ CREATE (d)-[:COST_EFFECTIVE_RATIO {
     currency: 'USD'
 }]->(s);
 
+// Create Redshift
+CREATE (:Database {
+    // Basic Information
+    name: 'Redshift',
+    csp: 'Multi-Cloud',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'ap-south-1',
+    numberOfNodes: 5,
+    utilizationPercentage: 100,
+    instanceType: 'dc2.8xlarge',
+    pricingModel: 'OnDemand',
+    
+    // Storage Configuration
+    storage_additionalBackup: 10,
+    storage_additionalBackupUnit: 'TB',
+    storage_dataScanned: 10,
+    storage_dataScannedUnit: 'TB',
+    storage_managed: 10,
+    storage_managedUnit: 'TB',
+    storage_dataTransferInto: 10,
+    storage_dataTransferIntoUnit: 'TB'
+
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (s:Storage {
+        name: 'S3',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'ap-south-1'
+    }),
+    (d:Database {
+        name: 'Redshift',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'ap-south-1'
+    })
+CREATE (s)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 23718.90,
+    
+    // Storage Cost
+    storage_instanceCost: 22265.00,
+    storage_backupCost: 256.00,
+    storage_upfrontCost: 0,
+    storage_spectrumCost: 50.00,
+    storage_managedCost: 267.26,
+    storage_dataTransferCost: 880.64,
+    
+    // Currency
+    currency: 'USD'
+}]->(d);
+
+// Azure
+// Data Ingestion Layer - Azure IoT Hub
+CREATE (:IoT {
+    // Basic Information
+    name: 'IoT Hub',
+    csp: 'Multi-Cloud',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'Central India',
+    tier: 'Standard',
+    edition: 'S3',
+    noOfHubUnits: 2,
+
+    // Device Configuration
+    noOfDevices: 'Unlimited devices',
+    noOfMessagesPerDay: 300000000,
+    
+    // Device Provisioning Service
+    noOfOperationsInThousands: 1000,
+    
+    // Device Update Configuration
+    edition: 'Not Supported'
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (p:Pipelines {
+        name: 'IoT-Based Manufacturing Platform', 
+        csp: 'Multi-Cloud',
+        state: 'start'
+    }),
+    (i:IoT {
+        name: 'IoT Hub',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'Central India'
+    })
+CREATE (p)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 7140.00,
+    
+    // Cost Breakdown
+    upfront_cost: 0.00,
+    deviceProvisioningService_cost: 140,
+    hubUnits_cost: 7000,
+    
+    // Currency
+    currency: 'USD'
+}]->(i);
+
+// Create Event Hubs
+CREATE (:Messaging {
+    // Basic Information
+    name: 'Event Hubs',
+    csp: 'Multi-Cloud',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'Central India',
+    tier: 'Premium',
+    processingUnits: 8,
+    extendedRetentionData: 10000,
+    extendedRetentionValue: 'GB'
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (i:IoT {
+        name: 'IoT Hub',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'Central India'
+    }),
+    (m:Messaging {
+        name: 'Event Hubs',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'Central India'
+    })
+CREATE (i)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 9797.92,
+    
+    // Cost Breakdown
+    processingUnitsCost: 8397.92,
+    extendedRetentionCost: 1400,
+    
+    // Currency
+    currency: 'USD'
+}]->(m);
+
+// Create Stream Analytics
+CREATE (:Analytics {
+    // Basic Information
+    name: 'Stream Analytics',
+    csp: 'Multi-Cloud',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'Central India',
+    type: 'Standard V2',
+    range: '1 or more Streaming Units',
+    streamingUnits: 50,
+    streamAnalyticsOnIoTEdgeDevices: 999
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (m:Messaging {
+        name: 'Event Hubs',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'Central India'
+    }),
+    (a:Analytics {
+        name: 'Stream Analytics',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'Central India'
+    })
+CREATE (m)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 6430.56,
+    
+    // Cost Breakdown
+    streamingCost: 5431.56,
+    streamingCostOnIoTEdge: 999.00,
+    
+    // Currency
+    currency: 'USD'
+}]->(a);
+
+// Create Databricks
+CREATE (:Analytics {
+    // Basic Information
+    name: 'Databricks',
+    csp: 'Multi-Cloud',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'Central India',
+    workload: 'All-Purpose Compute',
+    tier: 'Premium',
+    instance_series: 'NVads A10 v5-series',
+    instance_type: 'NV36adms A10 v5',
+    instance_cVPUs: 36,
+    instance_RAM: '880 GB',
+    instance_temporaryStorage: '730 GB',
+    virtualMachines: 3,
+    model: 'Pay as you go'
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (as:Analytics {
+        name: 'Stream Analytics',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'Central India'
+    }),
+    (ad:Analytics {
+        name: 'Databricks',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'Central India'
+    })
+CREATE (as)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 13858.32,
+
+    // Currency
+    currency: 'USD'
+}]->(ad);
+
+// Create Cosmos DB
+CREATE (:Database {
+    // Basic Information
+    name: 'Cosmos DB',
+    csp: 'Multi-Cloud',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'Central India',
+    apiChoice: 'Azure Cosmos DB for NoSQL (formerly Core)',
+    databaseOperartions: 'Autoscale Provisioned throughput',
+    wirteRegions: 'Multiple Region Write (Multi-Master)',
+    RUPerSecond: 100000,
+    primaryWriteRegion: 'Central India'
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (a:Analytics {
+        name: 'Databricks',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'Central India'
+    }),
+    (d:Database {
+        name: 'Cosmos DB',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'Central India'
+    })
+CREATE (a)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 19929.00,
+
+    // Currency
+    currency: 'USD'
+}]->(d);
 
 // Create Blob Storage
 CREATE (:Storage {
@@ -680,59 +731,226 @@ CREATE (s)-[:COST_EFFECTIVE_RATIO {
     currency: 'USD'
 }]->(a);
 
-// Create Redshift
-CREATE (:Database {
+// GCP
+// Create Pub/Sub
+CREATE (:Messaging {
     // Basic Information
-    name: 'Redshift',
+    name: 'Pub/Sub',
     csp: 'Multi-Cloud',
     pipeline: 'IoT-Based Manufacturing Platform',
-    region: 'ap-south-1',
-    numberOfNodes: 5,
-    utilizationPercentage: 100,
-    instanceType: 'dc2.8xlarge',
-    pricingModel: 'OnDemand',
-    
-    // Storage Configuration
-    storage_additionalBackup: 10,
-    storage_additionalBackupUnit: 'TB',
-    storage_dataScanned: 10,
-    storage_dataScannedUnit: 'TB',
-    storage_managed: 10,
-    storage_managedUnit: 'TB',
-    storage_dataTransferInto: 10,
-    storage_dataTransferIntoUnit: 'TB'
-
+    region: 'asia-south1',
+    amountOfPublishedDataDaily: '300 GiB',
+    messageDeliveryType: 'BigQuery',
+    topicRetentionDays: 7,
+    numberOfSubscriptions: 10,
+    numberOfSubscriptionsWithRetainedAcknowledgedMessages: 3,
+    averageRetentionWindowDays: 3,
+    numberOfSnapshotsUsedPerMonth: 1,
+    averageRetentionWindowDaysRetentionWindowDays: 2
 });
 
 // Create Relationship with Cost Details
 MATCH 
-    (s:Storage {
-        name: 'S3',
+    (p:Pipelines {
+        name: 'IoT-Based Manufacturing Platform', 
         csp: 'Multi-Cloud',
-        pipeline: 'IoT-Based Manufacturing Platform',
-        region: 'ap-south-1'
+        state: 'start'
     }),
-    (d:Database {
-        name: 'Redshift',
+    (m:Messaging {
+        name: 'Pub/Sub',
         csp: 'Multi-Cloud',
         pipeline: 'IoT-Based Manufacturing Platform',
-        region: 'ap-south-1'
+        region: 'asia-south1'
     })
-CREATE (s)-[:COST_EFFECTIVE_RATIO {
+CREATE (p)-[:COST_EFFECTIVE_RATIO {
     // Total Cost
-    cost: 23718.90,
-    
-    // Storage Cost
-    storage_instanceCost: 22265.00,
-    storage_backupCost: 256.00,
-    storage_upfrontCost: 0,
-    storage_spectrumCost: 50.00,
-    storage_managedCost: 267.26,
-    storage_dataTransferCost: 880.64,
+    cost: 6110.28,
     
     // Currency
     currency: 'USD'
-}]->(d);
+}]->(m);
+
+// Create Dataflow
+CREATE (:Analytics {
+    // Basic Information
+    name: 'Dataflow',
+    csp: 'Multi-Cloud',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'asia-south1',
+    jobType: 'streaming',
+    numberOfComputeUnits: 200,
+    jobHoursPerMonth: 100,
+    storageAmount: '10 TiB',
+    committedUseDiscountOptions: 'None'
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (m:Messaging {
+        name: 'Pub/Sub',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'asia-south1'
+    }),
+    (a:Analytics {
+        name: 'Dataflow',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'asia-south1'
+    })
+CREATE (m)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 2206.36,
+    
+    // Currency
+    currency: 'USD'
+}]->(a);
+
+// Create BigQuery
+CREATE (:Analytics {
+    // Basic Information
+    name: 'BigQuery',
+    csp: 'Multi-Cloud',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'asia-south1',
+    edition: 'Enterprise',
+    maximumSlots: 'Large (400 slots)',
+    baselineSlots: 100,
+    commitment: 'None',
+    averageUtilizationOfAutoscaleSlots: '50%',
+    activeLogicalStorage: '5 TiB'
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (ad:Analytics {
+        name: 'Dataflow',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'asia-south1'
+    }),
+    (ab:Analytics {
+        name: 'BigQuery',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'asia-south1'
+    })
+CREATE (ad)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 12710.03,
+    
+    // Currency
+    currency: 'USD'
+}]->(ab);
+
+
+// Create DataProc
+CREATE (:Analytics {
+    // Basic Information
+    name: 'DataProc',
+    csp: 'Multi-Cloud',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'asia-south1',
+    usageTume: '24 hours per day',
+    numberOfVCPUs: 60,
+    memeoryPerVCPUs: '64 GiB',
+    suffleStoragePerVCPU: '100 GiB',
+    clusterUtilization: '100 %'
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (ab:Analytics {
+        name: 'BigQuery',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'asia-south1'
+    }),
+    (ad:Analytics {
+        name: 'DataProc',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'asia-south1'
+    })
+CREATE (ab)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 42587.91,
+    
+    // Currency
+    currency: 'USD'
+}]->(ad);
+
+
+// Create Firestore
+CREATE (:Storage {
+    // Basic Information
+    name: 'Firestore',
+    csp: 'Multi-Cloud',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'asia-south1',
+    documentsReadsPerDay: 20000000,
+    documentsWritesPerDay: 30000000,
+    documentsDeletesPerDay: 19999960,
+    totalStoredDataPerDay: '500 GiB'
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (a:Analytics {
+        name: 'DataProc',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'asia-south1'
+    }),
+    (s:Storage {
+        name: 'Firestore',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'asia-south1'
+    })
+CREATE (a)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 1285.57,
+    
+    // Currency
+    currency: 'USD'
+}]->(s);
+
+// Create Cloud Storage
+CREATE (:Storage {
+    // Basic Information
+    name: 'Cloud Storage',
+    csp: 'Multi-Cloud',
+    pipeline: 'IoT-Based Manufacturing Platform',
+    region: 'asia-south1',
+    storageClass: 'Standard',
+    totalAmountOfStorage: '10 TiB',
+    dataTransferWithInGCP: '10 TiB',
+    dataTransferSourceRegion: 'Asia',
+    dataTransferDestinationRegion: 'Asia'
+});
+
+// Create Relationship with Cost Details
+MATCH 
+    (sf:Storage {
+        name: 'Firestore',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'asia-south1'
+    }),
+    (sc:Storage {
+        name: 'Cloud Storage',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'asia-south1'
+    })
+CREATE (sf)-[:COST_EFFECTIVE_RATIO {
+    // Total Cost
+    cost: 1054.72,
+    
+    // Currency
+    currency: 'USD'
+}]->(sc);
 
 // Create End Pipeline Node
 CREATE (:Pipelines {
@@ -772,5 +990,22 @@ MATCH
         state: 'end'
     })
 CREATE (a)-[:COST_EFFECTIVE_RATIO {
+    cost: 0
+}]->(p);
+
+
+MATCH 
+    (s:Storage {
+        name: 'Cloud Storage',
+        csp: 'Multi-Cloud',
+        pipeline: 'IoT-Based Manufacturing Platform',
+        region: 'asia-south1'
+    }),
+    (p:Pipelines {
+        name: 'IoT-Based Manufacturing Platform',
+        csp: 'Multi-Cloud',
+        state: 'end'
+    })
+CREATE (s)-[:COST_EFFECTIVE_RATIO {
     cost: 0
 }]->(p);
