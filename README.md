@@ -224,6 +224,22 @@ Connected Vehicle Analytics Platform
 	GCP
 		Pub Sub -> Dataflow -> BigQuery -> DataProc -> Cloud Storage
 
+Smart Grid Analytics Platform
+	AWS
+		IoT Core -> Kinesis -> EMR -> Aurora -> S3 -> Timeseries
+	Azure
+		IoT Hub -> Event Hubs -> Stream Analytics  -> Cosmos DB ->  Blob Storage -> Postgresql
+	GCP
+		Pub Sub -> Dataflow -> BigQuery -> DataProc -> Big table -> Cloud Storage -> Cloud SQL
+
+Smart City Operations Platform
+	AWS
+		IoT Core -> Kinesis -> EMR -> DynamoDB -> S3 -> RDS
+	Azure
+		IoT Hub -> Event Hubs -> Stream Analytics  -> Cosmos DB ->  Blob Storage -> Azure SQL
+	GCP
+		Pub Sub -> Dataflow -> BigQuery  Firestore -> Cloud Storage -> Cloud SQL
+
 Global Media Streaming Platform
 	AWS
 		Kinesis -> EMR -> DynamoDB -> S3 -> Aurora -> Media Converter
@@ -231,5 +247,13 @@ Global Media Streaming Platform
 		Event Hubs -> Databricks -> Cosmos DB ->  Blob Storage -> SQL DB -> Media Encoder
 	GCP
 		Dataflow ->  BigQuery -> DataProc -> Firestore -> Cloud Storage ->  Media Transcoder
+
+Smart Tourism
+	AWS
+		API Gateway -> ECS Fargate Clusters -> DynamoDB -> Aurora -> Elastic Cache -> Elastic Search -> Event Bridge
+	Azure
+		API Management -> AKS Cluster -> Cosmos DB -> Azure SQL -> Azure Search ->Event Grid
+	GCP
+		APigee -> GKE Cluster -> Fire store -> Cloud SQL -> Memory Store -> Pub/sub
 
 
