@@ -215,3 +215,21 @@ Global Finance Analytics Platform
 		Event Hubs -> Stream Analytics -> Databricks -> Cosmos DB ->  Blob Storage -> Synapse Analytics
 	GCP
 		Pub Sub -> Dataflow -> BigQuery -> DataProc -> Firestore -> Cloud Storage
+
+Connected Vehicle Analytics Platform
+	AWS
+		IoT Core -> Kinesis -> MSK -> EMR -> DynamoDB -> S3
+	Azure
+		IoT Hub -> Event Hubs -> Stream Analytics ->  Cosmos DB ->  Blob Storage -> Synapse Analytics
+	GCP
+		Pub Sub -> Dataflow -> BigQuery -> DataProc -> Cloud Storage
+
+Global Media Streaming Platform
+	AWS
+		Kinesis -> EMR -> DynamoDB -> S3 -> Aurora -> Media Converter
+	Azure
+		Event Hubs -> Databricks -> Cosmos DB ->  Blob Storage -> SQL DB -> Media Encoder
+	GCP
+		Dataflow ->  BigQuery -> DataProc -> Firestore -> Cloud Storage ->  Media Transcoder
+
+
