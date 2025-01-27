@@ -199,3 +199,19 @@ Enjoy using the **Cloud Cost Optimizer**!
 | Backup       | Backup, Disaster Recovery                        | Azure Backup, Site Recovery                   | Backup and DR Service |
 | VDI          | WorkSpaces, AppStream                           | Windows Virtual Desktop                       | Cloud Workstations |
 
+## Graph Setup
+IoT-Based Manufacturing Analytics Platform
+	AWS
+		IoT Core -> Kinesis -> MSK -> EMR -> DynamoDB -> S3 -> Redshift
+	Azure
+		IoT Hub -> Event Hubs -> Stream Analytics -> Databricks -> Cosmos DB ->  Blob Storage -> Synapse Analytics
+	GCP
+		Pub Sub -> Dataflow -> BigQuery -> DataProc -> Firestore -> Cloud Storage
+
+Global Finance Analytics Platform
+	AWS
+		Kinesis -> MSK -> EMR -> DynamoDB -> S3 -> Redshift
+	Azure
+		Event Hubs -> Stream Analytics -> Databricks -> Cosmos DB ->  Blob Storage -> Synapse Analytics
+	GCP
+		Pub Sub -> Dataflow -> BigQuery -> DataProc -> Firestore -> Cloud Storage
